@@ -48,8 +48,8 @@ int mostrarMenuYObtenerOpcion(){
 }
 
 int main() {
-    int op;
-    op = mostrarMenuYObtenerOpcion();
+    // int op=0;
+    int op = mostrarMenuYObtenerOpcion();
     switch (op){
     case 1:
         altaUsuario();
