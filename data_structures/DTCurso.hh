@@ -14,6 +14,7 @@ public:
     string getNombre();
     string getDescripcion();
     Dificultades getDificultad();
+    bool operator==(DTCurso curso);
 };
 
 #endif

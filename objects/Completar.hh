@@ -10,9 +10,8 @@ private:
     set<string> palabrasFaltantes;
 public:
     Completar(string frase, string descripcion, set<string> palabrasFaltantes);
-    void resolver(set<string> palabras);
+    bool resolver(set<string> palabras);
     set<string> getPalabrasFaltantes();
-    void setPalabrasFaltantes(set<string> palabrasFaltantes);
 };
 
 #endif

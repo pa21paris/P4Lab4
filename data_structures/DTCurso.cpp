@@ -17,3 +17,7 @@ string DTCurso::getDescripcion(){
 Dificultades DTCurso::getDificultad(){
     return this->dificultad;
 }
+
+bool DTCurso::operator==(DTCurso curso){
+    return this->nombre == curso.getNombre() && this->descripcion == curso.getDescripcion() && this->dificultad == curso.getDificultad();
+}

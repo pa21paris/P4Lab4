@@ -11,6 +11,7 @@ private:
     set<Idioma*> idiomas;
     set<Curso*> cursosPropuestos;
 public:
+    Profesor(string nickname, string password, string name, string description, string instituto);
     string getInstituto();
     set<string> getNombresIdiomas();
     void agregarCurso(Curso* curso);

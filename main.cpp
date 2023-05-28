@@ -1,4 +1,6 @@
 #include <iostream>
+#include "objects/Ejercicio.hh"
+#include "objects/Traduccion.hh"
 using namespace std;
 
 void altaUsuario(){};

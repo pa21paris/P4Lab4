@@ -11,7 +11,7 @@ private:
 public:
     Traduccion(string frase, string descripcion, string traduccionCorrecta);
     string getTraduccionCorrecta();
-    void setTraduccionCorrecta(string traduccionCorrecta);
+    bool resolver(string traduccion);
 };
 
 #endif

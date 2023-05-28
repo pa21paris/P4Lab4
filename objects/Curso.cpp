@@ -35,14 +35,38 @@ DTCurso Curso::convertirADTCurso(){
     return dtCurso;
 }
 
-DTProgresoPromedioCurso Curso::getDataProgCurso(){
-    // TODO
+int Curso::getTotalInsc(){
+    return this->inscripciones.size();
 }
 
-int Curso::getTotalInsc(){
-    // TODO
+DTProgresoPromedioCurso Curso::getDataProgCurso(){
+    int cantEstudiantes=this->getTotalInsc();
+    int sumaProgresosCurso=0;
+    set<Inscripcion*>::iterator it;
+    for(it = this->inscripciones.begin(); it != this->inscripciones.end(); it++){
+        sumaProgresosCurso += (*it)->getProgreso();
+    }
+    DTProgresoPromedioCurso dtProgresoPromCurso = DTProgresoPromedioCurso(this->convertirADTCurso(), sumaProgresosCurso/cantEstudiantes);
+    return dtProgresoPromCurso;
 }
 
 void Curso::eliminarCurso(){
-    // TODO
+    this->profesorCurso->eliminarCursoProf(this);
+    set<Leccion *>::iterator it;
+    for(it = this->lecciones.begin(); it != this->lecciones.end(); it++){
+        (*it)->eliminarLeccion();
+        delete *it;
+    }
+}
+
+string Curso::getNombre(){
+    return this->nombre;
+}
+
+string Curso::getDescripcion(){
+    return this->descripcion;
+}
+
+Dificultades Curso::getDificultad(){
+    return this->dificultad;
 }

@@ -9,6 +9,9 @@ string Traduccion::getTraduccionCorrecta() {
     return this->traduccionCorrecta;
 }
 
-void Traduccion::setTraduccionCorrecta(string traduccionCorrecta) {
-    this->traduccionCorrecta = traduccionCorrecta;
+bool Traduccion::resolver(string traduccion) {
+    if(traduccion != this->traduccionCorrecta) {
+        return false;
+    }
+    return true;
 }

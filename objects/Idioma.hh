@@ -15,9 +15,9 @@ private:
 public:
     Idioma(string nombre);
     string getNombre();
-    bool verificarSuscripcion(Usuario user);
-    void agregarSuscripcion(Usuario user);
-    void eliminarSuscripcion(Usuario user);
+    bool verificarSuscripcion(Usuario* user);
+    void agregarSuscripcion(Usuario* user);
+    void eliminarSuscripcion(Usuario* user);
     bool enviarNotificacion(DTNotificacion n);
 };
 

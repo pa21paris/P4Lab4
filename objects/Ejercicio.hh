@@ -12,8 +12,6 @@ public:
     Ejercicio(string frase, string descripcion);
     string getFrase();
     string getDescripcion();
-    void setFrase(string frase);
-    void setDescripcion(string descripcion);
 };
 
 #endif

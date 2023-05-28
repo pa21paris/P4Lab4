@@ -12,11 +12,3 @@ string Ejercicio::getFrase() {
 string Ejercicio::getDescripcion() {
     return descripcion;
 }
-
-void Ejercicio::setFrase(string frase) {
-    this->frase = frase;
-}
-
-void Ejercicio::setDescripcion(string descripcion) {
-    this->descripcion = descripcion;
-}

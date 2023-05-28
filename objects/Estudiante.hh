@@ -12,11 +12,12 @@ private:
     Date fNacimiento;
     set<Inscripcion*> inscripciones;
 public:
+    Estudiante(string nickname, string password, string name, string description, string paisRes, Date fNacimiento);
     string getPaisRes();
     Date getFechaNacimiento();
     set<DTProgresoCurso> listarEstadisticas();
     set<DTCurso> getCursosActivos();
-    Inscripcion getInscripcion(DTCurso curso);
+    Inscripcion* getInscripcion(DTCurso curso);
 };
 
 #endif

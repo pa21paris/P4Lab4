@@ -13,9 +13,10 @@ private:
     set<Ejercicio*> ejerciciosPendientes;
     Curso* curso;
 public:
+    Inscripcion(Date fechaInscripcion, Curso* curso);
     float getProgreso();
-    DTProgresoCurso getDataProgresoEstudiante();
     int getTotalEP();
+    DTProgresoCurso getDataProgresoEstudiante();
     DTCurso getDTCurso();
     Ejercicio* obtenerEjercicio(DTEjercicio ejercicio);
     void resolverTraduccion(Ejercicio* ejercicio, string traduccion);
