@@ -5,6 +5,7 @@
 
 class ControladorCurso : public IControladorCurso {
 private:
+    static ControladorCurso* instance;
     set<Curso*> cursos, cursosPrevios;
     set<Leccion*> lecciones;
     ControladorCurso();

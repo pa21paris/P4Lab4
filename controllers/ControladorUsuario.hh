@@ -6,12 +6,13 @@
 
 class ControladorUsuario : public IControladorUsuario {
 private:
+    static ControladorUsuario* instance;
     set<Usuario> usuarios;
     set<Profesor> profesores;
     set<Estudiante> estudiantes;
     ControladorUsuario();
 public:
-    IControladorUsuario* getIntance();
+    static ControladorUsuario* getInstance();
     set<DTEstudiante> listarEstudiantes();
     DTEstadisticasEstudiante listarEstadisticasEstudiante(DTEstudiante estudiante);
     set<DTProgresoCurso> listarEstadisticas();
@@ -27,11 +28,11 @@ public:
     set<DTCurso> listarCursos();
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
     void enviarNotificacion(string nombre, string nombreIdiomas);
-    Profesor obtenerProfesor(string nickname);
+    Profesor* obtenerProfesor(string nickname);
     set<string> getIdiomasProfesor();
     void ingresarSolucionCompletar(set<string> palabras);
     void ingresarSolucionTraduccion(string traduccion);
-    Usuario getUsuario(string nickname);
+    Usuario* getUsuario(string nickname);
 };
 
 #endif

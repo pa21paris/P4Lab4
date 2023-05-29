@@ -5,11 +5,13 @@
 
 class ControladorIdioma : public IControladorIdioma {
 private:
+    static ControladorIdioma* instance;
+    Usuario* user;
     set<Idioma*> idiomas;
     ControladorIdioma();
 public:
-    IControladorIdioma* getInstance();
-    Idioma getIdioma(string nomid);
+    static ControladorIdioma* getInstance();
+    Idioma* getIdioma(string nomId);
     set<string> obtenerSuscripcionesDisponibles(string nickname);
     void agregarSuscripciones(set<string> idiomas);
     set<string> listarIdiomas(string nickname);

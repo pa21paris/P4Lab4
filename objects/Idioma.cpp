@@ -9,7 +9,7 @@ string Idioma::getNombre(){
 }
 
 bool Idioma::verificarSuscripcion(Usuario* user){
-    return this->usuariosSuscriptos.find(user) == this->usuariosSuscriptos.end();
+    return this->usuariosSuscriptos.find(user) != this->usuariosSuscriptos.end();
 }
 
 void Idioma::agregarSuscripcion(Usuario* user){

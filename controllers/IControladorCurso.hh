@@ -6,8 +6,6 @@
 #include "../data_structures/DTCurso.hh"
 
 class IControladorCurso{
-protected:
-    static IControladorCurso* intance;
 public:
     virtual void eliminarCurso()=0;
     virtual set<DTCurso> listarCursos()=0;
@@ -28,7 +26,6 @@ public:
     virtual void ejercicioDeCompletar(string fraseACompletar, set<string> palabrasFaltantes)=0;
     virtual void ejercicioDeTraduccion(string fraseATraducir, string fraseTraducida)=0;
     virtual void altaEjercicio()=0;
-    virtual IControladorCurso* getInstance()=0;
 };
 
 #endif
