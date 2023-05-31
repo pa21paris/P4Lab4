@@ -5,6 +5,9 @@
 Inscripcion::Inscripcion(Date fechaInscripcion, Curso* curso)
     :fechaInscripcion(fechaInscripcion){
     this->curso = curso;
+    this->ejericiosRealizados = 0;
+    this->leccionActual=curso->getLeccionSiguiente(nullptr);
+    this->ejerciciosPendientes=this->leccionActual->getEjercicios();
 }
 
 int Inscripcion::getTotalEP(){
@@ -13,8 +16,7 @@ int Inscripcion::getTotalEP(){
 
 float Inscripcion::getProgreso(){
     int totalEjercicios=this->curso->getTotalE();
-    int ejerciciosPendientes=this->getTotalEP();
-    return (totalEjercicios-ejerciciosPendientes)/totalEjercicios;
+    return this->ejericiosRealizados/totalEjercicios;
 }
 
 DTProgresoCurso Inscripcion::getDataProgresoEstudiante(){
@@ -41,10 +43,17 @@ Ejercicio* Inscripcion::obtenerEjercicio(DTEjercicio ejercicio){
     return nullptr;
 }
 
+void Inscripcion::avanzarLeccion(){
+    this->leccionActual=this->curso->getLeccionSiguiente(this->leccionActual);
+    if(this->leccionActual!=nullptr) this->ejerciciosPendientes=this->leccionActual->getEjercicios();
+}
+
 void Inscripcion::resolverTraduccion(Ejercicio* ejercicio, string traduccion){
     Traduccion* t=(Traduccion*)ejercicio;
     if(t->resolver(traduccion)){
         this->ejerciciosPendientes.erase(ejercicio);
+        this->ejericiosRealizados++;
+        if(this->ejerciciosPendientes.empty()) this->avanzarLeccion();
     }
 }
 
@@ -52,5 +61,7 @@ void Inscripcion::resolverCompletar(Ejercicio* ejercicio, set<string> palabras){
     Completar* c=(Completar*)ejercicio;
     if(c->resolver(palabras)){
         this->ejerciciosPendientes.erase(ejercicio);
+        this->ejericiosRealizados++;
+        if(this->ejerciciosPendientes.empty()) this->avanzarLeccion();
     }
 }

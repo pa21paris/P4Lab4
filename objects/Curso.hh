@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <set>
+#include <list>
 #include "Leccion.hh"
 #include "data_structures/Dificultades.hh"
 #include "data_structures/DTCurso.hh"
@@ -17,12 +18,12 @@ private:
     string nombre, descripcion;
     Dificultades dificultad;
     set<Curso *> cursosPrevios;
-    set<Leccion *> lecciones;
+    list<Leccion *> lecciones;
     Profesor* profesorCurso;
     set<Inscripcion*> inscripciones;
 public:
     Curso(string nombre, string descripcion, Dificultades dificultad);
-    Curso(string nombre, string descripcion, Dificultades dificultad, set<Curso *> cursosPrevios, set<Leccion *> lecciones);
+    Curso(string nombre, string descripcion, Dificultades dificultad, set<Curso *> cursosPrevios, list<Leccion *> lecciones);
     void agregarPrevia(Curso *curso);
     void agregarLeccion(Leccion *leccion);
     int getTotalE();
@@ -33,6 +34,7 @@ public:
     string getNombre();
     string getDescripcion();
     Dificultades getDificultad();
+    Leccion* getLeccionSiguiente(Leccion* leccionActual);
 };
 
 #include "Profesor.hh"

@@ -17,6 +17,7 @@ public:
     int getTotalE();
     void agregarEjercicio(Ejercicio* ejercicio);
     void eliminarLeccion();
+    set<Ejercicio*> getEjercicios();
 };
 
 #endif

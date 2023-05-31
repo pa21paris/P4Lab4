@@ -12,6 +12,9 @@ private:
     Date fechaInscripcion;
     set<Ejercicio*> ejerciciosPendientes;
     Curso* curso;
+    Leccion* leccionActual;
+    int ejericiosRealizados;
+    void avanzarLeccion();
 public:
     Inscripcion(Date fechaInscripcion, Curso* curso);
     float getProgreso();

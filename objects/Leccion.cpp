@@ -27,3 +27,7 @@ string Leccion::getObjetivo(){
 int Leccion::getTotalE(){
     return this->ejercicios.size();
 }
+
+set<Ejercicio*> Leccion::getEjercicios(){
+    return this->ejercicios;
+}
