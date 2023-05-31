@@ -23,7 +23,7 @@ public:
     DTCurso getDTCurso();
     Ejercicio* obtenerEjercicio(DTEjercicio ejercicio);
     void resolverTraduccion(Ejercicio* ejercicio, string traduccion);
-    void resolverCompletar(Ejercicio* ejercicio, set<string> palabras);
+    void resolverCompletar(Ejercicio* ejercicio, list<string> palabras);
 };
 
 #endif

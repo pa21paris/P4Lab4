@@ -7,9 +7,9 @@
 class ControladorUsuario : public IControladorUsuario {
 private:
     static ControladorUsuario* instance;
-    set<Usuario> usuarios;
-    set<Profesor> profesores;
-    set<Estudiante> estudiantes;
+    set<Usuario*> usuarios;
+    set<Profesor*> profesores;
+    set<Estudiante*> estudiantes;
     ControladorUsuario();
 public:
     static ControladorUsuario* getInstance();
@@ -29,7 +29,7 @@ public:
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
     void enviarNotificacion(string nombre, string nombreIdiomas);
     Profesor* obtenerProfesor(string nickname);
-    set<string> getIdiomasProfesor();
+    set<string> getIdiomasProfesor(string nickname);
     void ingresarSolucionCompletar(set<string> palabras);
     void ingresarSolucionTraduccion(string traduccion);
     Usuario* getUsuario(string nickname);

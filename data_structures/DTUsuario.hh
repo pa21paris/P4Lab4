@@ -9,10 +9,10 @@ private:
     string nickname,password,name,description;
 public:
     DTUsuario(string nickname, string password, string name, string description);
-    string getNickname();
-    string getPassword();
-    string getName();
-    string getDescription();
+    string getNickname() const;
+    string getPassword() const;
+    string getName() const;
+    string getDescription() const;
 };
 
 #endif

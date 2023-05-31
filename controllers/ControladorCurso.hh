@@ -8,7 +8,12 @@ private:
     static ControladorCurso* instance;
     set<Curso*> cursos, cursosPrevios;
     set<Leccion*> lecciones;
+    Curso* cursoEnProceso;
+    Profesor* profesorSeleccionado;
+    string idiomaSeleccionado;
+    Leccion* leccionEnCreacion;
     ControladorCurso();
+    Curso* findCursoByDTCurso(DTCurso curso);
 public:
     void eliminarCurso();
     set<DTCurso> listarCursos();
@@ -18,7 +23,7 @@ public:
     void leccionDatos(string tema, string objetivo);
     set<string> idiomasDelDocente();
     void seleccionarCurso(DTCurso curso);
-    void seleccionDeIdioma(string nombreIdiomas);
+    void seleccionDeIdioma(string nombreIdioma);
     set<DTCurso> solicitarCursosHabilitados();
     void agregarCursoPrevio(DTCurso curso);
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);

@@ -57,7 +57,7 @@ void Inscripcion::resolverTraduccion(Ejercicio* ejercicio, string traduccion){
     }
 }
 
-void Inscripcion::resolverCompletar(Ejercicio* ejercicio, set<string> palabras){
+void Inscripcion::resolverCompletar(Ejercicio* ejercicio, list<string> palabras){
     Completar* c=(Completar*)ejercicio;
     if(c->resolver(palabras)){
         this->ejerciciosPendientes.erase(ejercicio);

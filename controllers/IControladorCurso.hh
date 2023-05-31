@@ -15,7 +15,7 @@ public:
     virtual void leccionDatos(string tema, string objetivo)=0;
     virtual set<string> idiomasDelDocente()=0;
     virtual void seleccionarCurso(DTCurso curso)=0;
-    virtual void seleccionDeIdioma(string nombreIdiomas)=0;
+    virtual void seleccionDeIdioma(string nombreIdioma)=0;
     virtual set<DTCurso> solicitarCursosHabilitados()=0;
     virtual void agregarCursoPrevio(DTCurso curso)=0;
     virtual DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso)=0;

@@ -3,15 +3,16 @@
 
 #include "Ejercicio.hh"
 #include <set>
+#include <list>
 using namespace std;
 
 class Completar : public Ejercicio {
 private:
-    set<string> palabrasFaltantes;
+    list<string> palabrasFaltantes;
 public:
-    Completar(string frase, string descripcion, set<string> palabrasFaltantes);
-    bool resolver(set<string> palabras);
-    set<string> getPalabrasFaltantes();
+    Completar(string frase, string descripcion, list<string> palabrasFaltantes);
+    bool resolver(list<string> palabras);
+    list<string> getPalabrasFaltantes();
 };
 
 #endif

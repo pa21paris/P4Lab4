@@ -30,7 +30,7 @@ public:
     virtual DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso)=0;
     virtual void enviarNotificacion(string nombre, string nombreIdiomas)=0;
     virtual Profesor* obtenerProfesor(string nickname)=0;
-    virtual set<string> getIdiomasProfesor()=0;
+    virtual set<string> getIdiomasProfesor(string nickname)=0;
     virtual void ingresarSolucionCompletar(set<string> palabras)=0;
     virtual void ingresarSolucionTraduccion(string traduccion)=0;
     virtual Usuario* getUsuario(string nickname)=0;

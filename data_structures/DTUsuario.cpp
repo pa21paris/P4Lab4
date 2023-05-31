@@ -7,18 +7,18 @@ DTUsuario::DTUsuario(string nickname, string password, string name, string descr
     this->description = description;
 }
 
-string DTUsuario::getNickname() {
+string DTUsuario::getNickname() const{
     return this->nickname;
 }
 
-string DTUsuario::getPassword() {
+string DTUsuario::getPassword() const{
     return this->password;
 }
 
-string DTUsuario::getName() {
+string DTUsuario::getName() const{
     return this->name;
 }
 
-string DTUsuario::getDescription() {
+string DTUsuario::getDescription() const{
     return this->description;
 }
