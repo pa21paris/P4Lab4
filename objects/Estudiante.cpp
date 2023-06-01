@@ -44,3 +44,13 @@ Inscripcion* Estudiante::getInscripcion(DTCurso curso) {
     if(encontrado) return *it;
     return nullptr; 
 }
+
+DTEstudiante Estudiante::getData() {
+    return DTEstudiante(
+        this->getNickname(),
+        this->getPassword(),
+        this->getName(),
+        this->getDescription(), 
+        this->getPaisRes(), 
+        this->getFechaNacimiento());
+}

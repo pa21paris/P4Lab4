@@ -36,7 +36,7 @@ public:
     void ejercicioDeCompletar(list<string> palabrasFaltantes);
     void ejercicioDeTraduccion(string fraseTraducida);
     void altaEjercicio();
-    static IControladorCurso* getInstance();
+    static ControladorCurso* getInstance();
 };
 
 #endif

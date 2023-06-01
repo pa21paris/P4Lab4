@@ -147,7 +147,7 @@ void ControladorCurso::altaEjercicio() {
     this->leccionEnCreacion->agregarEjercicio(this->ejercicioEnCreacion);
 }
 
-IControladorCurso* ControladorCurso::getInstance(){
+ControladorCurso* ControladorCurso::getInstance(){
     if(ControladorCurso::instance==nullptr) ControladorCurso::instance=new ControladorCurso();
-    return instance;
+    return ControladorCurso::instance;
 }

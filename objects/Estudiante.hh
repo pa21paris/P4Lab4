@@ -4,6 +4,7 @@
 #include "Usuario.hh"
 #include "data_structures/Date.hh"
 #include "data_structures/DTProgresoCurso.hh"
+#include "data_structures/DTEstudiante.hh"
 #include "Inscripcion.hh"
 
 class Estudiante : public Usuario{
@@ -18,6 +19,7 @@ public:
     set<DTProgresoCurso> listarEstadisticas();
     set<DTCurso> getCursosActivos();
     Inscripcion* getInscripcion(DTCurso curso);
+    DTEstudiante getData();
 };
 
 #endif

@@ -28,6 +28,7 @@ set<DTNotificacion> Usuario::getNotificaciones() {
     set<Notificacion*>::iterator it;
     for (it = this->notificaciones.begin(); it != this->notificaciones.end(); it++) {
         res.insert((*it)->leerNotificacion(this));
+        this->notificaciones.erase((*it));
     }
     return res;
 }
