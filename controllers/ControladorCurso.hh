@@ -12,8 +12,10 @@ private:
     Profesor* profesorSeleccionado;
     string idiomaSeleccionado;
     Leccion* leccionEnCreacion;
+    Ejercicio* ejercicioEnCreacion;
     ControladorCurso();
     Curso* findCursoByDTCurso(DTCurso curso);
+    void vaciarDatosTemporales();
 public:
     void eliminarCurso();
     set<DTCurso> listarCursos();
@@ -28,13 +30,13 @@ public:
     void agregarCursoPrevio(DTCurso curso);
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
     void altaCurso();
-    TipoEjercicio obtenerTipo(Ejercicio ejercicio);
+    TipoEjercicio obtenerTipo(Ejercicio* ejercicio);
     void altaLeccion();
-    void agregarEjercicio(TipoEjercicio tipoDeEjercicio, string descripcion);
-    void ejercicioDeCompletar(string fraseACompletar, set<string> palabrasFaltantes);
-    void ejercicioDeTraduccion(string fraseATraducir, string fraseTraducida);
+    void agregarEjercicio(string frase, TipoEjercicio tipoDeEjercicio, string descripcion);
+    void ejercicioDeCompletar(list<string> palabrasFaltantes);
+    void ejercicioDeTraduccion(string fraseTraducida);
     void altaEjercicio();
-    IControladorCurso* getInstance();
+    static IControladorCurso* getInstance();
 };
 
 #endif

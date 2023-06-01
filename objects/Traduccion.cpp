@@ -1,7 +1,7 @@
 #include "Traduccion.hh"
 
-Traduccion::Traduccion(string frase, string descripcion, string traduccionCorrecta)
-    : Ejercicio(frase, descripcion) {
+Traduccion::Traduccion(string frase, string descripcion, TipoEjercicio tipoDeEjercicio, string traduccionCorrecta)
+    : Ejercicio(frase, descripcion, tipoDeEjercicio) {
     this->traduccionCorrecta = traduccionCorrecta;
 }
 

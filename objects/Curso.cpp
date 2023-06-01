@@ -83,3 +83,7 @@ Leccion* Curso::getLeccionSiguiente(Leccion* leccionActual){
 
     return *(it++);
 }
+
+void Curso::setProfesorCurso(Profesor* profesor){
+    this->profesorCurso = profesor;
+}

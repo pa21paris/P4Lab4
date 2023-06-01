@@ -20,11 +20,11 @@ public:
     virtual void agregarCursoPrevio(DTCurso curso)=0;
     virtual DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso)=0;
     virtual void altaCurso()=0;
-    virtual TipoEjercicio obtenerTipo(Ejercicio ejercicio)=0;
+    virtual TipoEjercicio obtenerTipo(Ejercicio* ejercicio)=0;
     virtual void altaLeccion()=0;
-    virtual void agregarEjercicio(TipoEjercicio tipoDeEjercicio, string descripcion)=0;
-    virtual void ejercicioDeCompletar(string fraseACompletar, set<string> palabrasFaltantes)=0;
-    virtual void ejercicioDeTraduccion(string fraseATraducir, string fraseTraducida)=0;
+    virtual void agregarEjercicio(string frase, TipoEjercicio tipoDeEjercicio, string descripcion)=0;
+    virtual void ejercicioDeCompletar(list<string> palabrasFaltantes)=0;
+    virtual void ejercicioDeTraduccion(string fraseTraducida)=0;
     virtual void altaEjercicio()=0;
 };
 

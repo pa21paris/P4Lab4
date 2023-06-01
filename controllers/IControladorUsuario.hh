@@ -34,6 +34,7 @@ public:
     virtual void ingresarSolucionCompletar(set<string> palabras)=0;
     virtual void ingresarSolucionTraduccion(string traduccion)=0;
     virtual Usuario* getUsuario(string nickname)=0;
+    virtual void agregarCursoAProfesor(Profesor* p, Curso* c)=0;
 };
 
 #endif

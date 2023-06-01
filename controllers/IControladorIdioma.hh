@@ -10,6 +10,7 @@ public:
     virtual void agregarSuscripciones(set<string> idiomas)=0;
     virtual set<string> listarIdiomas(string nickname)=0;
     virtual void eliminarIdioma(set<string> idiomas)=0;
+    virtual void enviarNotificacion(string nombre, string nombreIdioma)=0;
 };
 
 #endif

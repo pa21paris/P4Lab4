@@ -35,6 +35,7 @@ public:
     string getDescripcion();
     Dificultades getDificultad();
     Leccion* getLeccionSiguiente(Leccion* leccionActual);
+    void setProfesorCurso(Profesor* profesor);
 };
 
 #include "Profesor.hh"

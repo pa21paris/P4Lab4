@@ -58,3 +58,14 @@ void ControladorIdioma::eliminarIdioma(set<string> idiomas) {
         this->getIdioma(*it)->eliminarSuscripcion(this->user);
     }
 }
+
+void ControladorIdioma::enviarNotificacion(string nombre, string nombreIdioma) {
+    set<Idioma*>::iterator it=this->idiomas.begin();
+    while(it!=this->idiomas.end() && (*it)->getNombre()!=nombre){
+        it++;        
+    }
+    if(it!=this->idiomas.end()){
+        DTNotificacion notificacion(nombre, nombreIdioma);
+        (*it)->enviarNotificacion(notificacion);
+    }
+}

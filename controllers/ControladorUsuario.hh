@@ -33,6 +33,7 @@ public:
     void ingresarSolucionCompletar(set<string> palabras);
     void ingresarSolucionTraduccion(string traduccion);
     Usuario* getUsuario(string nickname);
+    void agregarCursoAProfesor(Profesor* p, Curso* c);
 };
 
 #endif

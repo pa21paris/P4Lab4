@@ -10,7 +10,7 @@ class Completar : public Ejercicio {
 private:
     list<string> palabrasFaltantes;
 public:
-    Completar(string frase, string descripcion, list<string> palabrasFaltantes);
+    Completar(string frase, string descripcion, TipoEjercicio tipoDeEjercicio, list<string> palabrasFaltantes);
     bool resolver(list<string> palabras);
     list<string> getPalabrasFaltantes();
 };

@@ -1,7 +1,7 @@
 #include "Completar.hh"
 
-Completar::Completar(string frase, string descripcion, list<string> palabrasFaltantes)
-    : Ejercicio(frase, descripcion) {
+Completar::Completar(string frase, string descripcion, TipoEjercicio tipoDeEjercicio, list<string> palabrasFaltantes)
+    : Ejercicio(frase, descripcion, tipoDeEjercicio) {
     this->palabrasFaltantes = palabrasFaltantes;
 }
 

@@ -1,5 +1,8 @@
 #include "ControladorCurso.hh"
 #include "ControladorUsuario.hh"
+#include "ControladorIdioma.hh"
+#include "../objects/Completar.hh"
+#include "../objects/Traduccion.hh"
 
 ControladorCurso::ControladorCurso() {}
 
@@ -7,6 +10,16 @@ void ControladorCurso::eliminarCurso() {
     if(this->cursoEnProceso != nullptr) this->cursoEnProceso->eliminarCurso();
     delete this->cursoEnProceso;
     this->cursoEnProceso = nullptr;
+}
+
+void ControladorCurso::vaciarDatosTemporales() {
+    this->cursoEnProceso = nullptr;
+    this->profesorSeleccionado = nullptr;
+    this->leccionEnCreacion = nullptr;
+    this->idiomaSeleccionado = "";
+    this->lecciones.clear();
+    this->cursosPrevios.clear();
+    this->ejercicioEnCreacion = nullptr;
 }
 
 Curso* ControladorCurso::findCursoByDTCurso(DTCurso curso) {
@@ -79,4 +92,62 @@ void ControladorCurso::agregarCursoPrevio(DTCurso curso) {
 
 DTProgresoPromedioCurso ControladorCurso::listarEstadisticasCurso(DTCurso curso){
     return this->findCursoByDTCurso(curso)->getDataProgCurso();
+}
+
+void ControladorCurso::altaCurso() {
+    this->cursoEnProceso->setProfesorCurso(this->profesorSeleccionado);
+    set<Curso*>::iterator it;
+    for(it = this->cursosPrevios.begin(); it != this->cursosPrevios.end(); it++) {
+        this->cursoEnProceso->agregarPrevia(*it);
+    }
+    set<Leccion*>::iterator it2;
+    for(it2 = this->lecciones.begin(); it2 != this->lecciones.end(); it2++) {
+        this->cursoEnProceso->agregarLeccion(*it2);
+    }
+    ControladorIdioma* ci=ControladorIdioma::getInstance();
+    ci->enviarNotificacion(this->cursoEnProceso->getNombre(),this->idiomaSeleccionado);
+    ControladorUsuario* cu=ControladorUsuario::getInstance();
+    cu->agregarCursoAProfesor(this->profesorSeleccionado,this->cursoEnProceso);
+    this->vaciarDatosTemporales();
+}
+
+TipoEjercicio ControladorCurso::obtenerTipo(Ejercicio* ejercicio) {
+    return ejercicio->getTipo();
+}
+
+void ControladorCurso::altaLeccion() {
+    this->lecciones.insert(this->leccionEnCreacion);
+}
+
+void ControladorCurso::agregarEjercicio(string frase, TipoEjercicio tipoDeEjercicio, string descripcion) {
+    this->ejercicioEnCreacion = new Ejercicio(frase, descripcion, tipoDeEjercicio);
+}
+
+void ControladorCurso::ejercicioDeCompletar(list<string> palabrasFaltantes) {
+    Completar* c = new Completar(
+        this->ejercicioEnCreacion->getFrase(),
+        this->ejercicioEnCreacion->getDescripcion(),
+        this->ejercicioEnCreacion->getTipo(),
+        palabrasFaltantes);
+    delete this->ejercicioEnCreacion;
+    this->ejercicioEnCreacion = c;
+}
+
+void ControladorCurso::ejercicioDeTraduccion(string fraseTraducida) {
+    Traduccion* t = new Traduccion(
+        this->ejercicioEnCreacion->getFrase(),
+        this->ejercicioEnCreacion->getDescripcion(),
+        this->ejercicioEnCreacion->getTipo(),
+        fraseTraducida);
+    delete this->ejercicioEnCreacion;
+    this->ejercicioEnCreacion = t;
+}
+
+void ControladorCurso::altaEjercicio() {
+    this->leccionEnCreacion->agregarEjercicio(this->ejercicioEnCreacion);
+}
+
+IControladorCurso* ControladorCurso::getInstance(){
+    if(ControladorCurso::instance==nullptr) ControladorCurso::instance=new ControladorCurso();
+    return instance;
 }

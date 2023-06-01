@@ -9,7 +9,7 @@ class Traduccion: public Ejercicio {
 private:
     string traduccionCorrecta;
 public:
-    Traduccion(string frase, string descripcion, string traduccionCorrecta);
+    Traduccion(string frase, string descripcion, TipoEjercicio tipoDeEjercicio, string traduccionCorrecta);
     string getTraduccionCorrecta();
     bool resolver(string traduccion);
 };
