@@ -17,6 +17,7 @@ public:
     set<string> listarIdiomas(string nickname);
     void eliminarIdioma(set<string> idiomas);
     void enviarNotificacion(string nombre, string nombreIdioma);
+    set<string> obtenerIdiomas();
 };
 
 #endif

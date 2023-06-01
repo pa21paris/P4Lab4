@@ -38,3 +38,13 @@ set<DTProgresoPromedioCurso> Profesor::listarEstadisticas(){
 void Profesor::agregarIdiomaProf(Idioma* idiomaProfesor){
     this->idiomas.insert(idiomaProfesor);
 }
+
+DTProfesor Profesor::getData(){
+    return DTProfesor(
+        this->getNickname(),
+        this->getPassword(),
+        this->getName(),
+        this->getDescription(),
+        this->instituto
+    );
+}

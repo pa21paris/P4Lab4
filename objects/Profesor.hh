@@ -4,6 +4,7 @@
 #include "Usuario.hh"
 #include "Curso.hh"
 #include "data_structures/DTProgresoPromedioCurso.hh"
+#include "data_structures/DTProfesor.hh"
 
 class Profesor : public Usuario{
 private:
@@ -18,6 +19,7 @@ public:
     void eliminarCursoProf(Curso* curso);
     set<DTProgresoPromedioCurso> listarEstadisticas();
     void agregarIdiomaProf(Idioma* idiomaProfesor);
+    DTProfesor getData();
 };
 
 #endif

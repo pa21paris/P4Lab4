@@ -1,4 +1,5 @@
 #include "ControladorUsuario.hh"
+#include "ControladorIdioma.hh"
 
 ControladorUsuario* ControladorUsuario::getInstance() {
     if(ControladorUsuario::instance == nullptr) ControladorUsuario::instance=new ControladorUsuario();
@@ -49,4 +50,48 @@ set<DTCurso> ControladorUsuario::listarCursosActivosDeEstudiante(string nickname
         return (*it)->getCursosActivos();
     }
     return set<DTCurso>();
+}
+
+void ControladorUsuario::ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo) {
+    this->usuarioEnProceso=new Usuario(nickname, contraseña, nombre, descripcion);
+    this->tipoUsuarioEnProceso=tipo;
+}
+
+void ControladorUsuario::ingresarDatosEstudiante(string paisRes, Date fechaNacimiento) {
+    Usuario* usuarioEnProceso=this->usuarioEnProceso;
+    this->usuarioEnProceso=new Estudiante(
+        this->usuarioEnProceso->getNickname(), 
+        this->usuarioEnProceso->getPassword(), 
+        this->usuarioEnProceso->getName(), 
+        this->usuarioEnProceso->getDescription(), 
+        paisRes, 
+        fechaNacimiento
+    );
+    delete usuarioEnProceso;
+}
+
+void ControladorUsuario::ingresarInstituto(string instituto) {
+    Usuario* usuarioEnProceso=this->usuarioEnProceso;
+    this->usuarioEnProceso=new Profesor(
+        this->usuarioEnProceso->getNickname(), 
+        this->usuarioEnProceso->getPassword(), 
+        this->usuarioEnProceso->getName(), 
+        this->usuarioEnProceso->getDescription(), 
+        instituto
+    );
+    delete usuarioEnProceso;
+}
+
+set<string> ControladorUsuario::obtenerListaDeIdiomas() {
+    ControladorIdioma* ci=ControladorIdioma::getInstance();
+    return ci->obtenerIdiomas();
+}
+
+set<DTProfesor> ControladorUsuario::listarProfesores() {
+    set<DTProfesor> res;
+    set<Profesor*>::iterator it;
+    for(it=profesores.begin(); it!=profesores.end(); it++) {
+        res.insert((*it)->getData());
+    }
+    return res;
 }

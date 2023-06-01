@@ -10,6 +10,8 @@ private:
     set<Usuario*> usuarios;
     set<Profesor*> profesores;
     set<Estudiante*> estudiantes;
+    Usuario* usuarioEnProceso;
+    TipoUsuario tipoUsuarioEnProceso;
     ControladorUsuario();
 public:
     static ControladorUsuario* getInstance();
@@ -19,7 +21,7 @@ public:
     set<DTNotificacion> obtenerNotificaciones(string nickname);
     set<DTCurso> listarCursosActivosDeEstudiante(string nickname);
     void ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo);
-    void ingresarPaisResidencia(string pais_res);
+    void ingresarDatosEstudiante(string pais_res, Date fechaNacimiento);
     void ingresarInstituto(string instituto);
     set<string> obtenerListaDeIdiomas();
     set<DTProfesor> listarProfesores();

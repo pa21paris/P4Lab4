@@ -5,7 +5,7 @@
 
 class Suscripcion{
 public:
-    virtual void enviarNotificacion(DTNotificacion n)=0;
+    virtual void enviarNotificacion(Notificacion* n)=0;
 };
 
 #endif

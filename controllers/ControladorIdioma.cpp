@@ -69,3 +69,12 @@ void ControladorIdioma::enviarNotificacion(string nombre, string nombreIdioma) {
         (*it)->enviarNotificacion(notificacion);
     }
 }
+
+set<string> ControladorIdioma::obtenerIdiomas() {
+    set<string> res;
+    set<Idioma*>::iterator it;
+    for (it=this->idiomas.begin(); it!=this->idiomas.end(); it++) {
+        res.insert((*it)->getNombre());
+    }
+    return res;
+}

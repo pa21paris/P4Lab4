@@ -20,7 +20,7 @@ public:
     virtual set<DTNotificacion> obtenerNotificaciones(string nickname)=0;
     virtual set<DTCurso> listarCursosActivosDeEstudiante(string nickname)=0;
     virtual void ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo)=0;
-    virtual void ingresarPaisResidencia(string pais_res)=0;
+    virtual void ingresarDatosEstudiante(string pais_res, Date fechaNacimiento)=0;
     virtual void ingresarInstituto(string instituto)=0;
     virtual set<string> obtenerListaDeIdiomas()=0;
     virtual set<DTProfesor> listarProfesores()=0;
