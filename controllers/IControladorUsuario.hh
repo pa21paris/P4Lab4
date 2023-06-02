@@ -36,6 +36,8 @@ public:
     virtual Usuario* getUsuario(string nickname)=0;
     virtual void agregarCursoAProfesor(Profesor* p, Curso* c)=0;
     virtual void hacerEjercicio(DTEjercicio ejercicio)=0;
+    virtual void seleccionIdiomas(set<string> idiomas)=0;
+    virtual void confirmarAltaUsuario()=0;
 };
 
 #endif

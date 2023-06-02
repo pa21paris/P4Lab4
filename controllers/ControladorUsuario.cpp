@@ -167,3 +167,7 @@ void ControladorUsuario::hacerEjercicio(DTEjercicio ejercicio){
     ControladorCurso* cc=ControladorCurso::getInstance();
     this->tipoEjercicioSeleccionado=cc->obtenerTipo(this->ejercicioSeleccionado);
 }
+
+void ControladorUsuario::seleccionIdiomas(set<string> idiomas) {
+    this->idiomasSeleccionados=idiomas;
+}

@@ -1,24 +1,128 @@
 #include <iostream>
-#include "objects/Ejercicio.hh"
-#include "objects/Traduccion.hh"
+#include <optional>
+#include "controllers/Fabrica.hh"
 using namespace std;
 
-void altaUsuario(){};
-void altaIdioma(){};
-void altaCurso(){};
-void eliminarCurso(){};
-void inscripcionCurso(){};
-void sucripcionNotificacion(){};
-void eliminarSuscripciones(){};
-void consultaUsuario(){};
-void consultaIdioma(){};
-void consultaCurso(){};
-void consultaEstadisticas(){};
-void consultaNotificaciones(){};
-void agregarLeccion(){};
-void agregarEjercicio(){};
-void habilitarCurso(){};
-void realizarEjercicio(){};
+DTUsuario pedirDatosUsuario(){
+    string nickname, contraseña, nombre, descripcion;
+    cout << "Ingrese el nickname: ";
+    cin >> nickname;
+    cout << "Ingrese la contraseña: ";
+    cin >> contraseña;
+    cout << "Ingrese el nombre: ";
+    cin >> nombre;
+    cout << "Ingrese la descripcion: ";
+    cin >> descripcion;
+    return DTUsuario(nickname, contraseña, nombre, descripcion);
+}
+
+optional<TipoUsuario> pedirTipoUsuario(){
+    int tipoUsuario;
+    cout << "Tipos de usuario: \n";
+    cout << "1.Estudiante\n";
+    cout << "2.Profesor\n";
+    cout << "Ingrese su opcion: ";
+    cin >> tipoUsuario;
+    if(tipoUsuario!=1 && tipoUsuario!=2){
+        cout << "Tipo de usuario no valido\n\n";
+        return {};
+    }
+    return (TipoUsuario)tipoUsuario;
+}
+
+template <typename T>
+
+set<T> obtenerListaDeSeleccionadosPorIndice(set<int> selecciones, set<T> lista){
+    set<T> res;
+    set<T>::iterator it;
+    int index=0;
+    for(it=lista.begin(); it!=lista.end(); it++){
+        if(selecciones.find(index)!=selecciones.end()){
+            res.insert(*it);
+        }
+        index++;
+    }
+    return res;    
+}
+
+set<string> pedirSeleccionDeListaIdiomas(set<string> listaIdiomas, bool masDeUno){
+    set<int> selecciones;
+    list<string> prueba;
+    cout << "Lista de idiomas:\n";
+    set<string>::iterator it;
+    int index=1;
+    for(it=listaIdiomas.begin(); it!=listaIdiomas.end(); it++){
+        cout << index << ". " << *it << "\n";
+        index++;
+    }
+    if(masDeUno) cout << "0. Salir\n";
+    int opcion;
+    do{
+        cout << "Ingrese su opcion: ";
+        cin >> opcion;
+        if(opcion>0 && opcion<=listaIdiomas.size()){
+            selecciones.insert(opcion-1);
+            cout << "Seleccionado\n";
+        }
+    } while (masDeUno && opcion!=0);
+    return obtenerListaDeSeleccionadosPorIndice(selecciones, listaIdiomas);
+}
+
+void altaUsuario(){
+    IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
+    DTUsuario datosUsuario = pedirDatosUsuario();
+    optional<TipoUsuario> tipoUsuario;
+    do{
+        tipoUsuario = pedirTipoUsuario();
+    } while (!tipoUsuario);
+    controladorUsuario->ingresarDatosUsuario(
+        datosUsuario.getNickname(), datosUsuario.getPassword(), 
+        datosUsuario.getName(), datosUsuario.getDescription(), tipoUsuario.value()
+    );
+    if(tipoUsuario.value()==ESTUDIANTE){
+        string paisRes;
+        cout << "Ingrese el pais de residencia: ";
+        cin >> paisRes;
+        cout << "Ingrese la fecha de nacimiento: ";
+        Date fechaNacimiento=pedirDate();
+        controladorUsuario->ingresarDatosEstudiante(paisRes, fechaNacimiento);
+    }else{
+        string instituto;
+        cout << "Ingrese el instituto: ";
+        cin >> instituto;
+        controladorUsuario->ingresarInstituto(instituto);
+        set<string> idiomas=controladorUsuario->obtenerListaDeIdiomas();
+        set<string> seleccionados=pedirSeleccionDeListaIdiomas(idiomas, true);
+        controladorUsuario->seleccionIdiomas(seleccionados);
+    }
+    controladorUsuario->confirmarAltaUsuario();
+}
+void altaIdioma(){}
+void altaCurso(){}
+void eliminarCurso(){}
+void inscripcionCurso(){}
+void sucripcionNotificacion(){}
+void eliminarSuscripciones(){}
+void consultaUsuario(){}
+void consultaIdioma(){}
+void consultaCurso(){}
+void consultaEstadisticas(){}
+void consultaNotificaciones(){}
+void agregarLeccion(){}
+void agregarEjercicio(){}
+void habilitarCurso(){}
+void realizarEjercicio(){}
+
+Date pedirDate(){
+    int dia, mes, anio;
+    cout << "Ingrese el dia: ";
+    cin >> dia;
+    cout << "Ingrese el mes: ";
+    cin >> mes;
+    cout << "Ingrese el anio: ";
+    cin >> anio;
+    return Date(dia, mes, anio);
+}
 
 int mostrarMenuYObtenerOpcion(){
     cout << "Seleccione una opción:\n";
@@ -50,6 +154,7 @@ int mostrarMenuYObtenerOpcion(){
 }
 
 int main() {
+
     // int op=0;
     int op = mostrarMenuYObtenerOpcion();
     switch (op){

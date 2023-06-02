@@ -12,6 +12,7 @@ private:
     set<Estudiante*> estudiantes;
     Usuario* usuarioEnProceso;
     Inscripcion* inscripcionSeleccionada;
+    set<string> idiomasSeleccionados;
     Ejercicio* ejercicioSeleccionado;
     TipoEjercicio tipoEjercicioSeleccionado;
     TipoUsuario tipoUsuarioEnProceso;
@@ -40,6 +41,8 @@ public:
     Usuario* getUsuario(string nickname);
     void agregarCursoAProfesor(Profesor* p, Curso* c);
     void hacerEjercicio(DTEjercicio ejercicio);
+    void seleccionIdiomas(set<string> idiomas);
+    void confirmarAltaUsuario(); // TODO
 };
 
 #endif
