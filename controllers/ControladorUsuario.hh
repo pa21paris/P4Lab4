@@ -11,6 +11,9 @@ private:
     set<Profesor*> profesores;
     set<Estudiante*> estudiantes;
     Usuario* usuarioEnProceso;
+    Inscripcion* inscripcionSeleccionada;
+    Ejercicio* ejercicioSeleccionado;
+    TipoEjercicio tipoEjercicioSeleccionado;
     TipoUsuario tipoUsuarioEnProceso;
     ControladorUsuario();
 public:
@@ -29,13 +32,14 @@ public:
     set<DTEjercicio> verEjerciciosPendientes(DTCurso curso);
     set<DTCurso> listarCursos();
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
-    void enviarNotificacion(string nombre, string nombreIdiomas);
+    void enviarNotificacion(string nombre, string nombreIdiomas); // TODO
     Profesor* obtenerProfesor(string nickname);
     set<string> getIdiomasProfesor(string nickname);
-    void ingresarSolucionCompletar(set<string> palabras);
+    void ingresarSolucionCompletar(list<string> palabras);
     void ingresarSolucionTraduccion(string traduccion);
     Usuario* getUsuario(string nickname);
     void agregarCursoAProfesor(Profesor* p, Curso* c);
+    void hacerEjercicio(DTEjercicio ejercicio);
 };
 
 #endif

@@ -31,10 +31,11 @@ public:
     virtual void enviarNotificacion(string nombre, string nombreIdiomas)=0;
     virtual Profesor* obtenerProfesor(string nickname)=0;
     virtual set<string> getIdiomasProfesor(string nickname)=0;
-    virtual void ingresarSolucionCompletar(set<string> palabras)=0;
+    virtual void ingresarSolucionCompletar(list<string> palabras)=0;
     virtual void ingresarSolucionTraduccion(string traduccion)=0;
     virtual Usuario* getUsuario(string nickname)=0;
     virtual void agregarCursoAProfesor(Profesor* p, Curso* c)=0;
+    virtual void hacerEjercicio(DTEjercicio ejercicio)=0;
 };
 
 #endif

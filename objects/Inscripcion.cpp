@@ -65,3 +65,12 @@ void Inscripcion::resolverCompletar(Ejercicio* ejercicio, list<string> palabras)
         if(this->ejerciciosPendientes.empty()) this->avanzarLeccion();
     }
 }
+
+set<DTEjercicio> Inscripcion::getEjerciciosPendientes(){
+    set<DTEjercicio> ejerciciosPendientes;
+    set<Ejercicio*>::iterator it;
+    for(it=this->ejerciciosPendientes.begin(); it!=this->ejerciciosPendientes.end(); it++){
+        ejerciciosPendientes.insert((*it)->getData());
+    }
+    return ejerciciosPendientes;
+}

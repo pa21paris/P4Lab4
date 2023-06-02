@@ -22,6 +22,7 @@ public:
     DTProgresoCurso getDataProgresoEstudiante();
     DTCurso getDTCurso();
     Ejercicio* obtenerEjercicio(DTEjercicio ejercicio);
+    set<DTEjercicio> getEjerciciosPendientes();
     void resolverTraduccion(Ejercicio* ejercicio, string traduccion);
     void resolverCompletar(Ejercicio* ejercicio, list<string> palabras);
 };

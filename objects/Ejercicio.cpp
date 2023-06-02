@@ -17,3 +17,7 @@ string Ejercicio::getDescripcion() {
 TipoEjercicio Ejercicio::getTipo() {
     return this->tipoDeEjercicio;
 }
+
+DTEjercicio Ejercicio::getData() {
+    return DTEjercicio(this->frase, this->descripcion);
+}

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "../data_structures/TipoEjercicio.hh"
+#include "../data_structures/DTEjercicio.hh"
 using namespace std;
 
 class Ejercicio {
@@ -15,6 +16,7 @@ public:
     string getFrase();
     string getDescripcion();
     TipoEjercicio getTipo();
+    DTEjercicio getData();
 };
 
 #endif
