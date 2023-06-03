@@ -32,7 +32,7 @@ optional<TipoUsuario> pedirTipoUsuario(){
 
 template <typename T>
 
-set<T> obtenerListaDeSeleccionadosPorIndice(set<int> selecciones, set<T> lista){
+set<T> obtenerListaDeSeleccionadosPorIndices(set<int> selecciones, set<T> lista){
     set<T> res;
     set<T>::iterator it;
     int index=0;
@@ -65,7 +65,7 @@ set<string> pedirSeleccionDeListaIdiomas(set<string> listaIdiomas, bool masDeUno
             cout << "Seleccionado\n";
         }
     } while (masDeUno && opcion!=0);
-    return obtenerListaDeSeleccionadosPorIndice(selecciones, listaIdiomas);
+    return obtenerListaDeSeleccionadosPorIndices(selecciones, listaIdiomas);
 }
 
 void altaUsuario(){
@@ -97,7 +97,13 @@ void altaUsuario(){
     }
     controladorUsuario->confirmarAltaUsuario();
 }
-void altaIdioma(){}
+void altaIdioma(){
+    string nombre;
+    cout << "Ingrese el nombre del idioma: ";
+    cin >> nombre;
+    IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
+    controladorIdioma->altaIdioma(nombre);
+}
 void altaCurso(){}
 void eliminarCurso(){}
 void inscripcionCurso(){}

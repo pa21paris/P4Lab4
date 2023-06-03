@@ -60,13 +60,10 @@ void ControladorIdioma::eliminarIdioma(set<string> idiomas) {
 }
 
 void ControladorIdioma::enviarNotificacion(string nombre, string nombreIdioma) {
-    set<Idioma*>::iterator it=this->idiomas.begin();
-    while(it!=this->idiomas.end() && (*it)->getNombre()!=nombre){
-        it++;        
-    }
-    if(it!=this->idiomas.end()){
-        DTNotificacion notificacion(nombre, nombreIdioma);
-        (*it)->enviarNotificacion(notificacion);
+    Idioma* idioma=this->getIdioma(nombreIdioma);
+    if(idioma!=nullptr){
+        Notificacion* notificacion = new Notificacion(nombre, nombreIdioma);
+        idioma->enviarNotificacion(notificacion);
     }
 }
 
@@ -77,4 +74,8 @@ set<string> ControladorIdioma::obtenerIdiomas() {
         res.insert((*it)->getNombre());
     }
     return res;
+}
+
+void ControladorIdioma::altaIdioma(string nombreIdioma) {
+    this->idiomas.insert(new Idioma(nombreIdioma));
 }

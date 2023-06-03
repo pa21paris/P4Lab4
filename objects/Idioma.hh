@@ -18,7 +18,7 @@ public:
     bool verificarSuscripcion(Usuario* user);
     void agregarSuscripcion(Usuario* user);
     void eliminarSuscripcion(Usuario* user);
-    bool enviarNotificacion(DTNotificacion n);
+    bool enviarNotificacion(Notificacion* n);
 };
 
 #include "Usuario.hh"

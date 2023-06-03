@@ -35,4 +35,5 @@ set<DTNotificacion> Usuario::getNotificaciones() {
 
 void Usuario::enviarNotificacion(Notificacion* n) {
     this->notificaciones.insert(n);
+    n->asociarUsuario(this);
 }

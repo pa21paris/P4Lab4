@@ -171,3 +171,18 @@ void ControladorUsuario::hacerEjercicio(DTEjercicio ejercicio){
 void ControladorUsuario::seleccionIdiomas(set<string> idiomas) {
     this->idiomasSeleccionados=idiomas;
 }
+
+void ControladorUsuario::confirmarAltaUsuario() {
+    if(this->tipoUsuarioEnProceso==PROFESOR){
+        ControladorIdioma* ci=ControladorIdioma::getInstance();
+        set<string>::iterator it;
+        for(it=this->idiomasSeleccionados.begin(); it!=this->idiomasSeleccionados.end(); it++) {
+            Idioma* idioma=ci->getIdioma(*it);
+            ((Profesor*)this->usuarioEnProceso)->agregarIdiomaProf(idioma);
+        }
+        this->profesores.insert((Profesor*)this->usuarioEnProceso);
+    }else{
+        this->usuarios.insert((Estudiante*)this->usuarioEnProceso);
+    }
+    this->usuarios.insert(this->usuarioEnProceso);
+}
