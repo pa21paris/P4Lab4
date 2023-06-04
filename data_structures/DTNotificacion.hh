@@ -1,3 +1,6 @@
+#ifndef DTNOTIFICACION_HH
+#define DTNOTIFICACION_HH
+
 #include <iostream>
 using namespace std;
 
@@ -6,6 +9,9 @@ private:
     string nombreIdioma, nombreCurso;
 public:
     DTNotificacion(string nombreIdioma, string nombreCurso);
-    string getNombreIdioma();
-    string getNombreCurso();
+    string getNombreIdioma() const;
+    string getNombreCurso() const;
+    bool operator<(const DTNotificacion& otro) const;
 };
+
+#endif

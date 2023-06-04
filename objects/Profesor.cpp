@@ -12,7 +12,7 @@ string Profesor::getInstituto(){
 set<string> Profesor::getNombresIdiomas(){
     set<string> nombres;
     set<Idioma*>::iterator it;
-    for(it = this->idiomas.begin(); it != this->idiomas.end(); it++){
+    for(it = this->idiomas.begin(); it != this->idiomas.end(); ++it){
         nombres.insert((*it)->getNombre());
     }
     return nombres;
@@ -29,7 +29,7 @@ void Profesor::eliminarCursoProf(Curso* curso){
 set<DTProgresoPromedioCurso> Profesor::listarEstadisticas(){
     set<DTProgresoPromedioCurso> estadisticas;
     set<Curso*>::iterator it;
-    for(it = this->cursosPropuestos.begin(); it != this->cursosPropuestos.end(); it++){
+    for(it = (this->cursosPropuestos.begin()); it != (this->cursosPropuestos.end()); ++it){
         estadisticas.insert((*it)->getDataProgCurso());
     }
     return estadisticas;

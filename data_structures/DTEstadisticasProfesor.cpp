@@ -4,7 +4,11 @@ DTEstadisticasProfesor::DTEstadisticasProfesor(set<DTProgresoPromedioCurso> dato
     this->datosCursosPropuestos = datosCursosPropuestos;
 }
 
-set<DTProgresoPromedioCurso> DTEstadisticasProfesor::getDatosCursosPropuestos() {
+set<DTProgresoPromedioCurso> DTEstadisticasProfesor::getDatosCursosPropuestos() const{
     return datosCursosPropuestos;
+}
+
+bool DTEstadisticasProfesor::operator<(const DTEstadisticasProfesor& otro) const{
+    return (this->datosCursosPropuestos < otro.datosCursosPropuestos);
 }
 

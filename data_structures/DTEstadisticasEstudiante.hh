@@ -1,3 +1,6 @@
+#ifndef DTESTADISTICASESTUDIANTE_HH
+#define DTESTADISTICASESTUDIANTE_HH
+
 #include "DTProgresoCurso.hh"
 #include <set>
 
@@ -6,5 +9,8 @@ private:
     set<DTProgresoCurso> progresoEstudiante;
 public:
     DTEstadisticasEstudiante(set<DTProgresoCurso> progresoEstudiante);
-    set<DTProgresoCurso> getProgresoEstudiante();
+    set<DTProgresoCurso> getProgresoEstudiante() const;
+    bool operator<(const DTEstadisticasEstudiante& otro) const;
 };
+
+#endif

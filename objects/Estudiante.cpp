@@ -16,7 +16,7 @@ Date Estudiante::getFechaNacimiento() {
 set<DTProgresoCurso> Estudiante::listarEstadisticas() {
     set<DTProgresoCurso> estadisticas;
     set<Inscripcion*>::iterator it;
-    for (it = inscripciones.begin(); it != inscripciones.end(); it++) {
+    for (it = inscripciones.begin(); it != inscripciones.end(); ++it) {
         estadisticas.insert((*it)->getDataProgresoEstudiante());
     }
     return estadisticas;
@@ -25,7 +25,7 @@ set<DTProgresoCurso> Estudiante::listarEstadisticas() {
 set<DTCurso> Estudiante::getCursosActivos() {
     set<DTCurso> cursosActivos;
     set<Inscripcion*>::iterator it;
-    for (it = inscripciones.begin(); it != inscripciones.end(); it++) {
+    for (it = inscripciones.begin(); it != inscripciones.end(); ++it) {
         cursosActivos.insert((*it)->getDTCurso());
     }
     return cursosActivos;
@@ -38,7 +38,7 @@ Inscripcion* Estudiante::getInscripcion(DTCurso curso) {
         if ((*it)->getDTCurso() == curso) {
             encontrado = true;
         } else {
-            it++;
+            ++it;
         }
     }
     if(encontrado) return *it;

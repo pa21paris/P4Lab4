@@ -24,7 +24,7 @@ DTProgresoCurso Inscripcion::getDataProgresoEstudiante(){
 }
 
 DTCurso Inscripcion::getDTCurso(){
-    this->curso->convertirADTCurso();
+    return this->curso->convertirADTCurso();
 }
 
 Ejercicio* Inscripcion::obtenerEjercicio(DTEjercicio ejercicio){
@@ -34,7 +34,7 @@ Ejercicio* Inscripcion::obtenerEjercicio(DTEjercicio ejercicio){
         if((*it)->getFrase()==ejercicio.getFrase() && (*it)->getDescripcion()==ejercicio.getDescripcion()){
             encontrado=true;
         }else{
-            it++;
+            ++it;
         }
     }
     if (it!=this->ejerciciosPendientes.end()){
@@ -69,7 +69,7 @@ void Inscripcion::resolverCompletar(Ejercicio* ejercicio, list<string> palabras)
 set<DTEjercicio> Inscripcion::getEjerciciosPendientes(){
     set<DTEjercicio> ejerciciosPendientes;
     set<Ejercicio*>::iterator it;
-    for(it=this->ejerciciosPendientes.begin(); it!=this->ejerciciosPendientes.end(); it++){
+    for(it=this->ejerciciosPendientes.begin(); it!=this->ejerciciosPendientes.end(); ++it){
         ejerciciosPendientes.insert((*it)->getData());
     }
     return ejerciciosPendientes;

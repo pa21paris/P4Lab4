@@ -5,9 +5,9 @@
 #include <set>
 #include <list>
 #include "Leccion.hh"
-#include "data_structures/Dificultades.hh"
-#include "data_structures/DTCurso.hh"
-#include "data_structures/DTProgresoPromedioCurso.hh"
+#include "../data_structures/Dificultades.hh"
+#include "../data_structures/DTCurso.hh"
+#include "../data_structures/DTProgresoPromedioCurso.hh"
 using namespace std;
 
 class Profesor;

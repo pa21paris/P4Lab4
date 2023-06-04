@@ -1,3 +1,6 @@
+#ifndef DTEJERCICIO_HH
+#define DTEJERCICIO_HH
+
 #include <iostream>
 using namespace std;
 
@@ -6,6 +9,9 @@ private:
     string frase, descripcion;
 public:
     DTEjercicio(string frase, string descripcion);
-    string getFrase();
-    string getDescripcion();
+    string getFrase() const;
+    string getDescripcion() const;
+    bool operator<(const DTEjercicio& otro) const;
 };
+
+#endif

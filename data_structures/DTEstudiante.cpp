@@ -5,10 +5,14 @@ DTEstudiante::DTEstudiante(string nickname, string password, string name, string
     this->pais_res = pais_res;
 }
 
-string DTEstudiante::getPais_res() {
+string DTEstudiante::getPais_res() const{
     return this->pais_res;
 }
 
-Date DTEstudiante::getF_nacimiento() {
+Date DTEstudiante::getF_nacimiento() const{
     return this->f_nacimiento;
+}
+
+bool DTEstudiante::operator<(const DTEstudiante& otro) const {
+    return (this->f_nacimiento < otro.f_nacimiento);
 }

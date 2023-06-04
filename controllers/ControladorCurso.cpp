@@ -25,7 +25,7 @@ void ControladorCurso::vaciarDatosTemporales() {
 Curso* ControladorCurso::findCursoByDTCurso(DTCurso curso) {
     set<Curso*>::iterator it=this->cursos.begin();
     while(it!=this->cursos.end() && (*it)->getNombre()!=curso.getNombre()){
-        it++;        
+        ++it;        
     }
     if(it!=this->cursos.end()) return *it;
     return nullptr;
@@ -34,7 +34,7 @@ Curso* ControladorCurso::findCursoByDTCurso(DTCurso curso) {
 set<DTCurso> ControladorCurso::listarCursos() {
     set<DTCurso> res;
     set<Curso*>::iterator it;
-    for(it = this->cursos.begin(); it != this->cursos.end(); it++) {
+    for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
         res.insert((*it)->convertirADTCurso());
     }
     return res;
@@ -45,7 +45,7 @@ set<string> ControladorCurso::obtenerNicksDocentes() {
     ControladorUsuario* cu=ControladorUsuario::getInstance();
     set<DTProfesor> profesores = cu->listarProfesores();
     set<DTProfesor>::iterator it;
-    for(it = profesores.begin(); it != profesores.end(); it++) {
+    for(it = profesores.begin(); it != profesores.end(); ++it) {
         res.insert((*it).getNickname());
     }
     return res;
@@ -80,7 +80,7 @@ void ControladorCurso::seleccionDeIdioma(string nombreIdioma) {
 set<DTCurso> ControladorCurso::solicitarCursosHabilitados() {
     set<DTCurso> res;
     set<Curso*>::iterator it;
-    for(it = this->cursos.begin(); it != this->cursos.end(); it++) {
+    for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
         res.insert((*it)->convertirADTCurso());
     }
     return res;
@@ -97,11 +97,11 @@ DTProgresoPromedioCurso ControladorCurso::listarEstadisticasCurso(DTCurso curso)
 void ControladorCurso::altaCurso() {
     this->cursoEnProceso->setProfesorCurso(this->profesorSeleccionado);
     set<Curso*>::iterator it;
-    for(it = this->cursosPrevios.begin(); it != this->cursosPrevios.end(); it++) {
+    for(it = this->cursosPrevios.begin(); it != this->cursosPrevios.end(); ++it) {
         this->cursoEnProceso->agregarPrevia(*it);
     }
     set<Leccion*>::iterator it2;
-    for(it2 = this->lecciones.begin(); it2 != this->lecciones.end(); it2++) {
+    for(it2 = this->lecciones.begin(); it2 != this->lecciones.end(); ++it2) {
         this->cursoEnProceso->agregarLeccion(*it2);
     }
     ControladorIdioma* ci=ControladorIdioma::getInstance();

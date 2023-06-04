@@ -22,7 +22,7 @@ void Idioma::eliminarSuscripcion(Usuario* user){
 
 bool Idioma::enviarNotificacion(Notificacion* n){
     set<Suscripcion *>::iterator it;
-    for(it = this->usuariosSuscriptos.begin(); it != this->usuariosSuscriptos.end(); it++){
+    for(it = this->usuariosSuscriptos.begin(); it != this->usuariosSuscriptos.end(); ++it){
         (*it)->enviarNotificacion(n);
     }
     return true;

@@ -16,7 +16,6 @@ class IControladorUsuario {
 public:
     virtual set<DTEstudiante> listarEstudiantes()=0;
     virtual DTEstadisticasEstudiante listarEstadisticasEstudiante(DTEstudiante estudiante)=0;
-    virtual set<DTProgresoCurso> listarEstadisticas()=0;
     virtual set<DTNotificacion> obtenerNotificaciones(string nickname)=0;
     virtual set<DTCurso> listarCursosActivosDeEstudiante(string nickname)=0;
     virtual void ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo)=0;

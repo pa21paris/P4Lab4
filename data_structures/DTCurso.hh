@@ -11,10 +11,11 @@ private:
     Dificultades dificultad;
 public:
     DTCurso(string nombre, string descripcion, Dificultades dificultad);
-    string getNombre();
-    string getDescripcion();
-    Dificultades getDificultad();
-    bool operator==(DTCurso curso);
+    string getNombre() const;
+    string getDescripcion() const;
+    Dificultades getDificultad() const;
+    bool operator==(DTCurso curso) const;
+    bool operator<(const DTCurso& otro) const;
 };
 
 #endif

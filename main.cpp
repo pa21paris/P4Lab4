@@ -16,6 +16,17 @@ DTUsuario pedirDatosUsuario(){
     return DTUsuario(nickname, contraseña, nombre, descripcion);
 }
 
+Date pedirDate(){
+    int dia, mes, anio;
+    cout << "Ingrese el dia: ";
+    cin >> dia;
+    cout << "Ingrese el mes: ";
+    cin >> mes;
+    cout << "Ingrese el anio: ";
+    cin >> anio;
+    return Date(dia, mes, anio);
+}
+
 optional<TipoUsuario> pedirTipoUsuario(){
     int tipoUsuario;
     cout << "Tipos de usuario: \n";
@@ -34,9 +45,9 @@ template <typename T>
 
 set<T> obtenerListaDeSeleccionadosPorIndices(set<int> selecciones, set<T> lista){
     set<T> res;
-    set<T>::iterator it;
+    typename set<T>::iterator it;
     int index=0;
-    for(it=lista.begin(); it!=lista.end(); it++){
+    for(it=lista.begin(); it!=lista.end(); ++it){
         if(selecciones.find(index)!=selecciones.end()){
             res.insert(*it);
         }
@@ -51,7 +62,7 @@ set<string> pedirSeleccionDeListaIdiomas(set<string> listaIdiomas, bool masDeUno
     cout << "Lista de idiomas:\n";
     set<string>::iterator it;
     int index=1;
-    for(it=listaIdiomas.begin(); it!=listaIdiomas.end(); it++){
+    for(it=listaIdiomas.begin(); it!=listaIdiomas.end(); ++it){
         cout << index << ". " << *it << "\n";
         index++;
     }
@@ -104,6 +115,7 @@ void altaIdioma(){
     IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
     controladorIdioma->altaIdioma(nombre);
 }
+
 void altaCurso(){}
 void eliminarCurso(){}
 void inscripcionCurso(){}
@@ -118,17 +130,6 @@ void agregarLeccion(){}
 void agregarEjercicio(){}
 void habilitarCurso(){}
 void realizarEjercicio(){}
-
-Date pedirDate(){
-    int dia, mes, anio;
-    cout << "Ingrese el dia: ";
-    cin >> dia;
-    cout << "Ingrese el mes: ";
-    cin >> mes;
-    cout << "Ingrese el anio: ";
-    cin >> anio;
-    return Date(dia, mes, anio);
-}
 
 int mostrarMenuYObtenerOpcion(){
     cout << "Seleccione una opción:\n";
@@ -160,9 +161,8 @@ int mostrarMenuYObtenerOpcion(){
 }
 
 int main() {
-
-    // int op=0;
-    int op = mostrarMenuYObtenerOpcion();
+    int op=0;
+    // int op = mostrarMenuYObtenerOpcion();
     switch (op){
     case 1:
         altaUsuario();

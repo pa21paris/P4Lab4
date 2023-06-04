@@ -17,7 +17,7 @@ bool Completar::resolver(list<string> palabras) {
             return false;
         }
         it1++;
-        it2++;
+        ++it2;
     }
     return true;
 }

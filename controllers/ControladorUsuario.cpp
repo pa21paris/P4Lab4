@@ -10,7 +10,7 @@ ControladorUsuario* ControladorUsuario::getInstance() {
 set<DTEstudiante> ControladorUsuario::listarEstudiantes() {
     set<DTEstudiante> res;
     set<Estudiante*>::iterator it;
-    for(it=estudiantes.begin(); it!=estudiantes.end(); it++) {
+    for(it=estudiantes.begin(); it!=estudiantes.end(); ++it) {
         res.insert((*it)->getData());
     }
     return res;
@@ -19,7 +19,7 @@ set<DTEstudiante> ControladorUsuario::listarEstudiantes() {
 DTEstadisticasEstudiante ControladorUsuario::listarEstadisticasEstudiante(DTEstudiante estudiante) {
     set<Estudiante*>::iterator it=this->estudiantes.begin();
     while(it!=this->estudiantes.end() && (*it)->getNickname()!=estudiante.getNickname()){
-        it++;
+        ++it;
     }
     if(it!=this->estudiantes.end()) {
         return DTEstadisticasEstudiante((*it)->listarEstadisticas());
@@ -27,14 +27,10 @@ DTEstadisticasEstudiante ControladorUsuario::listarEstadisticasEstudiante(DTEstu
     return DTEstadisticasEstudiante(set<DTProgresoCurso>());
 }
 
-set<DTProgresoCurso> ControladorUsuario::listarEstadisticas() {
-    // TODO
-}
-
 set<DTNotificacion> ControladorUsuario::obtenerNotificaciones(string nickname) {
     set<Usuario*>::iterator it=this->usuarios.begin();
     while(it!=this->usuarios.end() && (*it)->getNickname()!=nickname){
-        it++;
+        ++it;
     }
     if(it!=this->usuarios.end()) {
         return (*it)->getNotificaciones();
@@ -45,7 +41,7 @@ set<DTNotificacion> ControladorUsuario::obtenerNotificaciones(string nickname) {
 set<DTCurso> ControladorUsuario::listarCursosActivosDeEstudiante(string nickname) {
     set<Estudiante*>::iterator it=this->estudiantes.begin();
     while(it!=this->estudiantes.end() && (*it)->getNickname()!=nickname){
-        it++;
+        ++it;
     }
     if(it!=this->estudiantes.end()) {
         this->usuarioEnProceso=(*it);
@@ -92,7 +88,7 @@ set<string> ControladorUsuario::obtenerListaDeIdiomas() {
 set<DTProfesor> ControladorUsuario::listarProfesores() {
     set<DTProfesor> res;
     set<Profesor*>::iterator it;
-    for(it=profesores.begin(); it!=profesores.end(); it++) {
+    for(it=(this->profesores.begin()); it!=(this->profesores.end()); ++it) {
         res.insert((*it)->getData());
     }
     return res;
@@ -100,8 +96,8 @@ set<DTProfesor> ControladorUsuario::listarProfesores() {
 
 DTEstadisticasProfesor ControladorUsuario::listarEstadisticasProfesor(DTProfesor profesor) {
     set<Profesor*>::iterator it=this->profesores.begin();
-    while(it!=this->profesores.end() && (*it)->getNickname()!=profesor.getNickname()){
-        it++;
+    while((it!=(this->profesores.end())) && (((*it)->getNickname())!=(profesor.getNickname()))){
+        ++it;
     }
     if(it!=this->profesores.end()) {
         return DTEstadisticasProfesor((*it)->listarEstadisticas());
@@ -127,7 +123,7 @@ DTProgresoPromedioCurso ControladorUsuario::listarEstadisticasCurso(DTCurso curs
 Profesor* ControladorUsuario::obtenerProfesor(string nickname){
     set<Profesor*>::iterator it=this->profesores.begin();
     while(it!=this->profesores.end() && (*it)->getNickname()!=nickname){
-        it++;
+        ++it;
     }
     if(it!=this->profesores.end()) {
         return (*it);
@@ -150,7 +146,7 @@ void ControladorUsuario::ingresarSolucionTraduccion(string traduccion) {
 Usuario* ControladorUsuario::getUsuario(string nickname){
     set<Usuario*>::iterator it=this->usuarios.begin();
     while(it!=this->usuarios.end() && (*it)->getNickname()!=nickname){
-        it++;
+        ++it;
     }
     if(it!=this->usuarios.end()) {
         return (*it);
@@ -176,7 +172,7 @@ void ControladorUsuario::confirmarAltaUsuario() {
     if(this->tipoUsuarioEnProceso==PROFESOR){
         ControladorIdioma* ci=ControladorIdioma::getInstance();
         set<string>::iterator it;
-        for(it=this->idiomasSeleccionados.begin(); it!=this->idiomasSeleccionados.end(); it++) {
+        for(it=this->idiomasSeleccionados.begin(); it!=this->idiomasSeleccionados.end(); ++it) {
             Idioma* idioma=ci->getIdioma(*it);
             ((Profesor*)this->usuarioEnProceso)->agregarIdiomaProf(idioma);
         }

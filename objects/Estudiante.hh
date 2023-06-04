@@ -2,9 +2,9 @@
 #define ESTUDIANTE_HH
 
 #include "Usuario.hh"
-#include "data_structures/Date.hh"
-#include "data_structures/DTProgresoCurso.hh"
-#include "data_structures/DTEstudiante.hh"
+#include "../data_structures/Date.hh"
+#include "../data_structures/DTProgresoCurso.hh"
+#include "../data_structures/DTEstudiante.hh"
 #include "Inscripcion.hh"
 
 class Estudiante : public Usuario{

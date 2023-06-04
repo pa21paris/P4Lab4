@@ -1,6 +1,8 @@
 #ifndef NOTIFICACION_HH
 #define NOTIFICACION_HH
 
+#include "../data_structures/DTNotificacion.hh"
+#include <set>
 #include "Usuario.hh"
 
 class Notificacion{

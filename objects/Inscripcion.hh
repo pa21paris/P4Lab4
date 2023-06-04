@@ -1,9 +1,9 @@
 #ifndef INSCRIPCION_HH
 #define INSCRIPCION_HH
 
-#include "data_structures/Date.hh"
-#include "data_structures/DTProgresoCurso.hh"
-#include "data_structures/DTEjercicio.hh"
+#include "../data_structures/Date.hh"
+#include "../data_structures/DTProgresoCurso.hh"
+#include "../data_structures/DTEjercicio.hh"
 #include "Ejercicio.hh"
 #include "Curso.hh"
 

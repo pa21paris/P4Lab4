@@ -11,7 +11,7 @@ void Leccion::agregarEjercicio(Ejercicio* ejercicio){
 
 void Leccion::eliminarLeccion(){
     set<Ejercicio *>::iterator it;
-    for(it = ejercicios.begin(); it != ejercicios.end(); it++){
+    for(it = ejercicios.begin(); it != ejercicios.end(); ++it){
         delete *it;
     }
 }

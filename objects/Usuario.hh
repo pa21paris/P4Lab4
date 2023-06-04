@@ -4,10 +4,9 @@
 #include <set>
 #include "Suscripcion.hh"
 #include "Idioma.hh"
+#include "../data_structures/DTNotificacion.hh"
 
-class Notificacion;
-
-class Usuario : public Suscripcion {
+class Usuario : public Suscripcion{
 private:
     string nickname, password, name, description;
     set<Notificacion*> notificaciones;
@@ -20,7 +19,5 @@ public:
     void enviarNotificacion(Notificacion* n);
     set<DTNotificacion> getNotificaciones();    
 };
-
-#include "Notificacion.hh"
 
 #endif

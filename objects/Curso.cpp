@@ -25,7 +25,7 @@ void Curso::agregarLeccion(Leccion *leccion){
 int Curso::getTotalE(){
     int total = 0;
     list<Leccion *>::iterator it;
-    for(it = this->lecciones.begin(); it != this->lecciones.end(); it++){
+    for(it = this->lecciones.begin(); it != this->lecciones.end(); ++it){
         total += (*it)->getTotalE();
     }
 }
@@ -43,7 +43,7 @@ DTProgresoPromedioCurso Curso::getDataProgCurso(){
     int cantEstudiantes=this->getTotalInsc();
     int sumaProgresosCurso=0;
     set<Inscripcion*>::iterator it;
-    for(it = this->inscripciones.begin(); it != this->inscripciones.end(); it++){
+    for(it = this->inscripciones.begin(); it != this->inscripciones.end(); ++it){
         sumaProgresosCurso += (*it)->getProgreso();
     }
     DTProgresoPromedioCurso dtProgresoPromCurso = DTProgresoPromedioCurso(this->convertirADTCurso(), sumaProgresosCurso/cantEstudiantes);
@@ -53,7 +53,7 @@ DTProgresoPromedioCurso Curso::getDataProgCurso(){
 void Curso::eliminarCurso(){
     this->profesorCurso->eliminarCursoProf(this);
     list<Leccion *>::iterator it;
-    for(it = this->lecciones.begin(); it != this->lecciones.end(); it++){
+    for(it = this->lecciones.begin(); it != this->lecciones.end(); ++it){
         (*it)->eliminarLeccion();
         delete *it;
     }
@@ -76,12 +76,12 @@ Leccion* Curso::getLeccionSiguiente(Leccion* leccionActual){
 
     list<Leccion *>::iterator it=this->lecciones.begin();
     while(it!=this->lecciones.end() && *it!=leccionActual){
-        it++;
+        ++it;
     }
 
-    if((it++)==this->lecciones.end()) return nullptr;
+    if((++it)==this->lecciones.end()) return nullptr;
 
-    return *(it++);
+    return *(++it);
 }
 
 void Curso::setProfesorCurso(Profesor* profesor){

@@ -1,7 +1,7 @@
 #ifndef ICONTROLADORIDIOMA_HH
 #define ICONTROLADORIDIOMA_HH
 
-#include "objects/Idioma.hh"
+#include "../objects/Idioma.hh"
 
 class IControladorIdioma{
 public:

@@ -1,3 +1,6 @@
+#ifndef DTLECCION_HH
+#define DTLECCION_HH
+
 #include <iostream>
 using namespace std;
 
@@ -6,6 +9,9 @@ private:
     string tema, objetivo;
 public:
     DTLeccion(string tema, string objetivo);
-    string getTema();
-    string getObjetivo();
+    string getTema() const;
+    string getObjetivo() const;
+    bool operator<(const DTLeccion& otro) const;
 };
+
+#endif

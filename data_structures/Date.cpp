@@ -57,3 +57,7 @@ void Date::setAno(int ano){
 string Date::toString(){
     return to_string(this->dia) + "/" + to_string(this->mes) + "/" + to_string(this->ano);
 }
+
+bool Date::operator<(const Date& otro) const{
+    return (this->ano < otro.ano);
+}

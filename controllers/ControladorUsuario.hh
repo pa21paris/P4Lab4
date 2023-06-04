@@ -21,7 +21,6 @@ public:
     static ControladorUsuario* getInstance();
     set<DTEstudiante> listarEstudiantes();
     DTEstadisticasEstudiante listarEstadisticasEstudiante(DTEstudiante estudiante);
-    set<DTProgresoCurso> listarEstadisticas();
     set<DTNotificacion> obtenerNotificaciones(string nickname);
     set<DTCurso> listarCursosActivosDeEstudiante(string nickname);
     void ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo);
@@ -33,7 +32,7 @@ public:
     set<DTEjercicio> verEjerciciosPendientes(DTCurso curso);
     set<DTCurso> listarCursos();
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
-    void enviarNotificacion(string nombre, string nombreIdiomas); // TODO
+    void enviarNotificacion(string nombre, string nombreIdiomas);
     Profesor* obtenerProfesor(string nickname);
     set<string> getIdiomasProfesor(string nickname);
     void ingresarSolucionCompletar(list<string> palabras);
@@ -42,7 +41,7 @@ public:
     void agregarCursoAProfesor(Profesor* p, Curso* c);
     void hacerEjercicio(DTEjercicio ejercicio);
     void seleccionIdiomas(set<string> idiomas);
-    void confirmarAltaUsuario(); // TODO
+    void confirmarAltaUsuario();
 };
 
 #endif

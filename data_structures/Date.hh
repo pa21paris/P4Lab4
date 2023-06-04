@@ -16,6 +16,7 @@ public:
     void setMes(int mes);
     void setAno(int ano);
     string toString();
+    bool operator<(const Date& otro) const;
 };
 
 #endif

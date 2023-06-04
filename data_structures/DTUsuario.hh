@@ -13,6 +13,7 @@ public:
     string getPassword() const;
     string getName() const;
     string getDescription() const;
+    bool operator<(const DTUsuario& otro) const;
 };
 
 #endif

@@ -22,3 +22,7 @@ string DTUsuario::getName() const{
 string DTUsuario::getDescription() const{
     return this->description;
 }
+
+bool DTUsuario::operator<(const DTUsuario& otro) const{
+    return this->nickname < otro.nickname;
+}

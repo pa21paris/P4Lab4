@@ -5,10 +5,14 @@ DTEjercicio::DTEjercicio(string frase, string descripcion) {
     this->descripcion = descripcion;
 }
 
-string DTEjercicio::getFrase() {
+string DTEjercicio::getFrase() const{
     return this->frase;
 }
 
-string DTEjercicio::getDescripcion() {
+string DTEjercicio::getDescripcion() const{
     return this->descripcion;
+}
+
+bool DTEjercicio::operator<(const DTEjercicio& otro) const {
+    return (this->frase < otro.frase);
 }

@@ -5,10 +5,14 @@ DTNotificacion::DTNotificacion(string nombreIdioma, string nombreCurso){
     this->nombreCurso = nombreCurso;
 }
 
-string DTNotificacion::getNombreIdioma(){
+string DTNotificacion::getNombreIdioma() const{
     return this->nombreIdioma;
 }
 
-string DTNotificacion::getNombreCurso(){
+string DTNotificacion::getNombreCurso() const{
     return this->nombreCurso;
+}
+
+bool DTNotificacion::operator<(const DTNotificacion& otro) const{
+    return (this->nombreIdioma < otro.nombreIdioma);
 }
