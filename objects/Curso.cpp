@@ -28,6 +28,7 @@ int Curso::getTotalE(){
     for(it = this->lecciones.begin(); it != this->lecciones.end(); ++it){
         total += (*it)->getTotalE();
     }
+    return total;
 }
 
 DTCurso Curso::convertirADTCurso(){

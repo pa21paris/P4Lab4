@@ -32,7 +32,6 @@ public:
     set<DTEjercicio> verEjerciciosPendientes(DTCurso curso);
     set<DTCurso> listarCursos();
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
-    void enviarNotificacion(string nombre, string nombreIdiomas);
     Profesor* obtenerProfesor(string nickname);
     set<string> getIdiomasProfesor(string nickname);
     void ingresarSolucionCompletar(list<string> palabras);

@@ -2,6 +2,10 @@
 #include "ControladorIdioma.hh"
 #include "ControladorCurso.hh"
 
+ControladorUsuario* ControladorUsuario::instance = nullptr;
+
+ControladorUsuario::ControladorUsuario(){}
+
 ControladorUsuario* ControladorUsuario::getInstance() {
     if(ControladorUsuario::instance == nullptr) ControladorUsuario::instance=new ControladorUsuario();
     return ControladorUsuario::instance;

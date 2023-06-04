@@ -3,7 +3,8 @@
 
 #include "../data_structures/DTNotificacion.hh"
 #include <set>
-#include "Usuario.hh"
+
+class Usuario;
 
 class Notificacion{
 private:
@@ -15,5 +16,7 @@ public:
     void asociarUsuario(Usuario* id);
     DTNotificacion leerNotificacion(Usuario* user);
 };
+
+#include "Usuario.hh"
 
 #endif

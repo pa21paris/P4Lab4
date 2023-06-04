@@ -1,6 +1,10 @@
 #include "ControladorIdioma.hh"
 #include "ControladorUsuario.hh"
 
+ControladorIdioma* ControladorIdioma::instance = nullptr;
+
+ControladorIdioma::ControladorIdioma(){}
+
 ControladorIdioma* ControladorIdioma::getInstance() {
     if(ControladorIdioma::instance == nullptr){
         ControladorIdioma::instance = new ControladorIdioma();

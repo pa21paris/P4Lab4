@@ -27,7 +27,6 @@ public:
     virtual set<DTEjercicio> verEjerciciosPendientes(DTCurso curso)=0;
     virtual set<DTCurso> listarCursos()=0;
     virtual DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso)=0;
-    virtual void enviarNotificacion(string nombre, string nombreIdiomas)=0;
     virtual Profesor* obtenerProfesor(string nickname)=0;
     virtual set<string> getIdiomasProfesor(string nickname)=0;
     virtual void ingresarSolucionCompletar(list<string> palabras)=0;

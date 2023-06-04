@@ -4,6 +4,8 @@
 #include "../objects/Completar.hh"
 #include "../objects/Traduccion.hh"
 
+ControladorCurso* ControladorCurso::instance = nullptr;
+
 ControladorCurso::ControladorCurso() {}
 
 void ControladorCurso::eliminarCurso() {
