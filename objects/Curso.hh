@@ -21,6 +21,7 @@ private:
     list<Leccion *> lecciones;
     Profesor* profesorCurso;
     set<Inscripcion*> inscripciones;
+    bool habilitado;
 public:
     Curso(string nombre, string descripcion, Dificultades dificultad);
     Curso(string nombre, string descripcion, Dificultades dificultad, set<Curso *> cursosPrevios, list<Leccion *> lecciones);
@@ -36,6 +37,8 @@ public:
     Dificultades getDificultad();
     Leccion* getLeccionSiguiente(Leccion* leccionActual);
     void setProfesorCurso(Profesor* profesor);
+    bool estaHabilitado();
+    void habilitar();
 };
 
 #include "Profesor.hh"

@@ -17,7 +17,9 @@ public:
     virtual void seleccionarCurso(DTCurso curso)=0;
     virtual void seleccionDeIdioma(string nombreIdioma)=0;
     virtual set<DTCurso> solicitarCursosHabilitados()=0;
+    virtual set<DTCurso> solicitarCursosNoHabilitados()=0;
     virtual void agregarCursoPrevio(DTCurso curso)=0;
+    virtual void habilitarCurso(DTCurso curso)=0;
     virtual DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso)=0;
     virtual void altaCurso()=0;
     virtual TipoEjercicio obtenerTipo(Ejercicio* ejercicio)=0;

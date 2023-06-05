@@ -83,7 +83,16 @@ set<DTCurso> ControladorCurso::solicitarCursosHabilitados() {
     set<DTCurso> res;
     set<Curso*>::iterator it;
     for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
-        res.insert((*it)->convertirADTCurso());
+        if((*it)->estaHabilitado()) res.insert((*it)->convertirADTCurso());
+    }
+    return res;
+}
+
+set<DTCurso> ControladorCurso::solicitarCursosNoHabilitados() {
+    set<DTCurso> res;
+    set<Curso*>::iterator it;
+    for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
+        if(!(*it)->estaHabilitado()) res.insert((*it)->convertirADTCurso());
     }
     return res;
 }
@@ -152,4 +161,8 @@ void ControladorCurso::altaEjercicio() {
 ControladorCurso* ControladorCurso::getInstance(){
     if(ControladorCurso::instance==nullptr) ControladorCurso::instance=new ControladorCurso();
     return ControladorCurso::instance;
+}
+
+void ControladorCurso::habilitarCurso(DTCurso curso){
+    this->findCursoByDTCurso(curso)->habilitar();
 }

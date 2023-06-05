@@ -19,6 +19,7 @@ public:
     void enviarNotificacion(string nombre, string nombreIdioma);
     set<string> obtenerIdiomas();
     void altaIdioma(string nombreIdioma);
+    set<string> consultarIdiomas();
 };
 
 #endif

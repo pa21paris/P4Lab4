@@ -13,6 +13,7 @@ public:
     virtual void enviarNotificacion(string nombre, string nombreIdioma)=0;
     virtual set<string> obtenerIdiomas()=0;
     virtual void altaIdioma(string nombreIdioma)=0;
+    virtual set<string> consultarIdiomas()=0;
 };
 
 #endif

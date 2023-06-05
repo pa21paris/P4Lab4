@@ -4,6 +4,7 @@ Curso::Curso(string nombre, string descripcion, Dificultades dificultad){
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->dificultad = dificultad;
+    this->habilitado = false;
 }
 
 Curso::Curso(string nombre, string descripcion, Dificultades dificultad, set<Curso *> cursosPrevios, list<Leccion *> lecciones){
@@ -12,6 +13,7 @@ Curso::Curso(string nombre, string descripcion, Dificultades dificultad, set<Cur
     this->dificultad = dificultad;
     this->cursosPrevios = cursosPrevios;
     this->lecciones = lecciones;
+    this->habilitado = false;
 }
 
 void Curso::agregarPrevia(Curso *curso){
@@ -87,4 +89,12 @@ Leccion* Curso::getLeccionSiguiente(Leccion* leccionActual){
 
 void Curso::setProfesorCurso(Profesor* profesor){
     this->profesorCurso = profesor;
+}
+
+bool Curso::estaHabilitado(){
+    return this->habilitado;
+}
+
+void Curso::habilitar(){
+    this->habilitado = true;
 }

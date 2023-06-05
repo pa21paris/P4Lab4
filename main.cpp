@@ -63,7 +63,7 @@ void printSet(set<T> setAImprimir){
     }
 }
 
-set<string> pedirSeleccionDeLista(string nombreSeccion, set<string> lista, bool masDeUno){
+set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, set<string> lista, bool masDeUno){
     set<int> selecciones;
     cout << nombreSeccion << ":\n";
     set<string>::iterator it;
@@ -82,7 +82,29 @@ set<string> pedirSeleccionDeLista(string nombreSeccion, set<string> lista, bool 
             cout << "Seleccionado\n";
         }
     } while (masDeUno && opcion!=0);
-    return obtenerListaDeSeleccionadosPorIndices(selecciones, lista);
+    return selecciones;
+}
+
+set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, set<DTCurso> lista, bool masDeUno){
+    set<int> selecciones;
+    cout << nombreSeccion << ":\n";
+    set<DTCurso>::iterator it;
+    int index=1;
+    for(it=lista.begin(); it!=lista.end(); ++it){
+        cout << index << ". " << (*it).getNombre() << "\n";
+        index++;
+    }
+    if(masDeUno) cout << "0. Salir\n";
+    int opcion;
+    do{
+        cout << "Ingrese su opcion: ";
+        cin >> opcion;
+        if(opcion>0 && opcion<=lista.size()){
+            selecciones.insert(opcion-1);
+            cout << "Seleccionado\n";
+        }
+    } while (masDeUno && opcion!=0);
+    return selecciones;
 }
 
 void altaUsuario(){
@@ -109,8 +131,8 @@ void altaUsuario(){
         cin >> instituto;
         controladorUsuario->ingresarInstituto(instituto);
         set<string> idiomas=controladorUsuario->obtenerListaDeIdiomas();
-        set<string> seleccionados=pedirSeleccionDeLista("Lista de idiomas", idiomas, true);
-        controladorUsuario->seleccionIdiomas(seleccionados);
+        set<int> seleccionados=pedirSeleccionarIndicesDeLista("Lista de idiomas", idiomas, true);
+        controladorUsuario->seleccionIdiomas(obtenerListaDeSeleccionadosPorIndices(seleccionados, idiomas));
     }
     controladorUsuario->confirmarAltaUsuario();
     cout << "Usuario \"" << datosUsuario.getNickname() << "\" agregado\n";
@@ -124,6 +146,13 @@ void altaIdioma(){
     cout << "Idioma \"" << nombre << "\" agregado\n";
 }
 
+void leerNotificaciones(set<DTNotificacion> notificaciones){
+    set<DTNotificacion>::iterator it;
+    for(it=notificaciones.begin(); it!=notificaciones.end(); ++it){
+        cout << "Idioma: " << (*it).getNombreIdioma() << ", Curso: " << (*it).getNombreCurso() << "\n";
+    }
+}
+
 void altaCurso(){}
 void eliminarCurso(){}
 void inscripcionCurso(){}
@@ -132,8 +161,8 @@ void eliminarSuscripciones(){}
 void consultaUsuario(){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();
     set<string> usuarios=cu->consultarNicknameUsuarios();
-    string usuarioSeleccionado=*pedirSeleccionDeLista("Lista de usuarios", usuarios, false).begin();
-    cu->seleccionarUsuario(usuarioSeleccionado);
+    set<int> usuarioSeleccionado=pedirSeleccionarIndicesDeLista("Lista de usuarios", usuarios, false);
+    cu->seleccionarUsuario(*obtenerListaDeSeleccionadosPorIndices(usuarioSeleccionado, usuarios).begin());
     system("clear");
     cout << "Datos del usuario: \n";
     cout << cu->getNombreUsuario() << "\n";
@@ -146,13 +175,35 @@ void consultaUsuario(){
         printSet(cu->getIdiomasUsuario());
     }
 }
-void consultaIdioma(){}
+void consultaIdioma(){
+    IControladorIdioma* ci=Fabrica::getIControladorIdioma();
+    printSet(ci->consultarIdiomas());
+}
 void consultaCurso(){}
 void consultaEstadisticas(){}
-void consultaNotificaciones(){}
+void consultaNotificaciones(){
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();
+    string nickname;
+    cout << "Ingrese el nickname del usuario: ";
+    cin >> nickname;
+    set<DTNotificacion> notificaciones=cu->obtenerNotificaciones(nickname);
+    if(notificaciones.empty()){
+        cout << "No hay notificaciones\n";
+    }else{
+        cout << "Notificaciones del usuario: \n";
+        leerNotificaciones(notificaciones);
+    }
+}
 void agregarLeccion(){}
 void agregarEjercicio(){}
-void habilitarCurso(){}
+void habilitarCurso(){
+    IControladorCurso* cc=Fabrica::getIControladorCurso();
+    set<DTCurso> cursosNoHabilitados=cc->solicitarCursosNoHabilitados();
+    set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Cursos no habilitados", cursosNoHabilitados, false);
+    system("clear");
+    cc->habilitarCurso(*obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursosNoHabilitados).begin());
+    cout << "Curso habilitado\n";
+}
 void realizarEjercicio(){}
 
 int mostrarMenuYObtenerOpcion(){

@@ -83,3 +83,12 @@ set<string> ControladorIdioma::obtenerIdiomas() {
 void ControladorIdioma::altaIdioma(string nombreIdioma) {
     this->idiomas.insert(new Idioma(nombreIdioma));
 }
+
+set<string> ControladorIdioma::consultarIdiomas() {
+    set<string> res;
+    set<Idioma*>::iterator it;
+    for (it=this->idiomas.begin(); it!=this->idiomas.end(); ++it) {
+        res.insert((*it)->getNombre());
+    }
+    return res;
+}

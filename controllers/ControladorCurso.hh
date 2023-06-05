@@ -27,6 +27,7 @@ public:
     void seleccionarCurso(DTCurso curso);
     void seleccionDeIdioma(string nombreIdioma);
     set<DTCurso> solicitarCursosHabilitados();
+    set<DTCurso> solicitarCursosNoHabilitados();
     void agregarCursoPrevio(DTCurso curso);
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
     void altaCurso();
@@ -37,6 +38,7 @@ public:
     void ejercicioDeTraduccion(string fraseTraducida);
     void altaEjercicio();
     static ControladorCurso* getInstance();
+    void habilitarCurso(DTCurso curso);
 };
 
 #endif
