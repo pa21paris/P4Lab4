@@ -38,7 +38,7 @@ optional<TipoUsuario> pedirTipoUsuario(){
         cout << "Tipo de usuario no valido\n\n";
         return {};
     }
-    return (TipoUsuario)tipoUsuario;
+    return (TipoUsuario)(tipoUsuario-1);
 }
 
 template <typename T>
@@ -100,7 +100,7 @@ void altaUsuario(){
         string paisRes;
         cout << "Ingrese el pais de residencia: ";
         cin >> paisRes;
-        cout << "Ingrese la fecha de nacimiento: ";
+        cout << "Ingrese la fecha de nacimiento: \n";
         Date fechaNacimiento=pedirDate();
         controladorUsuario->ingresarDatosEstudiante(paisRes, fechaNacimiento);
     }else{
@@ -113,6 +113,7 @@ void altaUsuario(){
         controladorUsuario->seleccionIdiomas(seleccionados);
     }
     controladorUsuario->confirmarAltaUsuario();
+    cout << "Usuario \"" << datosUsuario.getNickname() << "\" agregado\n";
 }
 void altaIdioma(){
     string nombre;
@@ -120,6 +121,7 @@ void altaIdioma(){
     cin >> nombre;
     IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
     controladorIdioma->altaIdioma(nombre);
+    cout << "Idioma \"" << nombre << "\" agregado\n";
 }
 
 void altaCurso(){}
@@ -132,12 +134,14 @@ void consultaUsuario(){
     set<string> usuarios=cu->consultarNicknameUsuarios();
     string usuarioSeleccionado=*pedirSeleccionDeLista("Lista de usuarios", usuarios, false).begin();
     cu->seleccionarUsuario(usuarioSeleccionado);
-    cout << cu->getNombreUsuario();
-    cout << cu->getDescripcionUsuario();
+    system("clear");
+    cout << "Datos del usuario: \n";
+    cout << cu->getNombreUsuario() << "\n";
+    cout << cu->getDescripcionUsuario() << "\n";
     if(cu->getTipoUsuario()==ESTUDIANTE){
-        cout << cu->getPaisResidenciaUsuario();
+        cout << cu->getPaisResidenciaUsuario() << "\n";
     }else{
-        cout << cu->getInstitutoUsuario();
+        cout << cu->getInstitutoUsuario() << "\n";
         cout << "Idiomas usuario: \n";
         printSet(cu->getIdiomasUsuario());
     }
@@ -181,62 +185,66 @@ int mostrarMenuYObtenerOpcion(){
 }
 
 int main() {
-    int op=0;
-    // int op = mostrarMenuYObtenerOpcion();
-    switch (op){
-    case 1:
-        altaUsuario();
-        break;
-    case 2:
-        altaIdioma();
-        break;
-    case 3:
-        altaCurso();
-        break;
-    case 4:
-        eliminarCurso();
-        break;
-    case 5:
-        inscripcionCurso();
-        break;
-    case 6:
-        sucripcionNotificacion();
-        break;
-    case 7:
-        eliminarSuscripciones();
-        break;
-    case 8:
-        agregarLeccion();
-        break;
-    case 9:
-        agregarEjercicio();
-        break;
-    case 10:
-        habilitarCurso();
-        break;
-    case 11:
-        realizarEjercicio();
-        break;
-    case 12:
-        consultaUsuario();
-        break;
-    case 13:
-        consultaIdioma();
-        break;
-    case 14:
-        consultaCurso();
-        break;
-    case 15:
-        consultaEstadisticas();
-        break;
-    case 16:
-        consultaNotificaciones();
-        break;
-    case 0:
-        cout << "Gracias por usar la aplicación\n";
-        break;
-    default:
-        cout << "Opción no valida\n";
-        break;
-    }
+    int op;
+    // op=0;
+    do{
+        op = mostrarMenuYObtenerOpcion();
+        system("clear");
+        switch (op){
+        case 1:
+            altaUsuario();
+            break;
+        case 2:
+            altaIdioma();
+            break;
+        case 3:
+            altaCurso();
+            break;
+        case 4:
+            eliminarCurso();
+            break;
+        case 5:
+            inscripcionCurso();
+            break;
+        case 6:
+            sucripcionNotificacion();
+            break;
+        case 7:
+            eliminarSuscripciones();
+            break;
+        case 8:
+            agregarLeccion();
+            break;
+        case 9:
+            agregarEjercicio();
+            break;
+        case 10:
+            habilitarCurso();
+            break;
+        case 11:
+            realizarEjercicio();
+            break;
+        case 12:
+            consultaUsuario();
+            break;
+        case 13:
+            consultaIdioma();
+            break;
+        case 14:
+            consultaCurso();
+            break;
+        case 15:
+            consultaEstadisticas();
+            break;
+        case 16:
+            consultaNotificaciones();
+            break;
+        case 0:
+            cout << "Gracias por usar la aplicación\n";
+            break;
+        default:
+            cout << "Opción no valida\n";
+            break;
+        }
+    } while (op!=0);
 }
