@@ -36,6 +36,14 @@ public:
     virtual void hacerEjercicio(DTEjercicio ejercicio)=0;
     virtual void seleccionIdiomas(set<string> idiomas)=0;
     virtual void confirmarAltaUsuario()=0;
+    virtual set<string> consultarNicknameUsuarios()=0;
+    virtual void seleccionarUsuario(string nickname)=0;
+    virtual string getNombreUsuario()=0;
+    virtual string getDescripcionUsuario()=0;
+    virtual string getInstitutoUsuario()=0;
+    virtual set<string> getIdiomasUsuario()=0;
+    virtual string getPaisResidenciaUsuario()=0;
+    virtual TipoUsuario getTipoUsuario()=0;
 };
 
 #endif

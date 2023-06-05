@@ -186,3 +186,61 @@ void ControladorUsuario::confirmarAltaUsuario() {
     }
     this->usuarios.insert(this->usuarioEnProceso);
 }
+
+set<string> ControladorUsuario::consultarNicknameUsuarios(){
+    set<string> res;
+    set<Usuario*>::iterator it;
+    for(it=this->usuarios.begin(); it!=this->usuarios.end(); ++it) {
+        res.insert((*it)->getNickname());
+    }
+    return res;
+}
+
+void ControladorUsuario::seleccionarUsuario(string nickname) {
+    Profesor* p=this->obtenerProfesor(nickname);
+    if(p!=nullptr) {
+        this->usuarioEnProceso=p;
+        this->tipoUsuarioEnProceso=PROFESOR;
+    }else{
+        this->usuarioEnProceso=this->getUsuario(nickname);
+        this->tipoUsuarioEnProceso=ESTUDIANTE;
+    }
+}
+
+string ControladorUsuario::getDescripcionUsuario() {
+    return this->usuarioEnProceso->getDescription();
+}
+
+set<string> ControladorUsuario::getIdiomasUsuario(){
+    set<string> idiomas;
+    if(this->tipoUsuarioEnProceso==PROFESOR){
+        idiomas=((Profesor*)this->usuarioEnProceso)->getNombresIdiomas();
+    }else{
+        idiomas=set<string>();
+    }
+    this->usuarioEnProceso=nullptr;
+    return idiomas;
+}
+
+string ControladorUsuario::getInstitutoUsuario() {
+    string res="";
+    if(this->tipoUsuarioEnProceso==PROFESOR) res=((Profesor*)this->usuarioEnProceso)->getInstituto();
+    return res;
+}
+
+string ControladorUsuario::getNombreUsuario() {
+    return this->usuarioEnProceso->getName();
+}
+
+string ControladorUsuario::getPaisResidenciaUsuario() {
+    string paisResidencia="";
+    if(this->tipoUsuarioEnProceso==ESTUDIANTE){
+        paisResidencia=((Estudiante*)this->usuarioEnProceso)->getPaisRes();
+    }
+    this->usuarioEnProceso=nullptr;
+    return paisResidencia;
+}
+
+TipoUsuario ControladorUsuario::getTipoUsuario() {
+    return this->tipoUsuarioEnProceso;
+}

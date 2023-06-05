@@ -42,7 +42,6 @@ optional<TipoUsuario> pedirTipoUsuario(){
 }
 
 template <typename T>
-
 set<T> obtenerListaDeSeleccionadosPorIndices(set<int> selecciones, set<T> lista){
     set<T> res;
     typename set<T>::iterator it;
@@ -56,13 +55,20 @@ set<T> obtenerListaDeSeleccionadosPorIndices(set<int> selecciones, set<T> lista)
     return res;    
 }
 
-set<string> pedirSeleccionDeListaIdiomas(set<string> listaIdiomas, bool masDeUno){
+template <typename T>
+void printSet(set<T> setAImprimir){
+    typename set<T>::iterator it;
+    for(it=setAImprimir.begin(); it!=setAImprimir.end(); ++it){
+        cout << *it << "\n";
+    }
+}
+
+set<string> pedirSeleccionDeLista(string nombreSeccion, set<string> lista, bool masDeUno){
     set<int> selecciones;
-    list<string> prueba;
-    cout << "Lista de idiomas:\n";
+    cout << nombreSeccion << ":\n";
     set<string>::iterator it;
     int index=1;
-    for(it=listaIdiomas.begin(); it!=listaIdiomas.end(); ++it){
+    for(it=lista.begin(); it!=lista.end(); ++it){
         cout << index << ". " << *it << "\n";
         index++;
     }
@@ -71,12 +77,12 @@ set<string> pedirSeleccionDeListaIdiomas(set<string> listaIdiomas, bool masDeUno
     do{
         cout << "Ingrese su opcion: ";
         cin >> opcion;
-        if(opcion>0 && opcion<=listaIdiomas.size()){
+        if(opcion>0 && opcion<=lista.size()){
             selecciones.insert(opcion-1);
             cout << "Seleccionado\n";
         }
     } while (masDeUno && opcion!=0);
-    return obtenerListaDeSeleccionadosPorIndices(selecciones, listaIdiomas);
+    return obtenerListaDeSeleccionadosPorIndices(selecciones, lista);
 }
 
 void altaUsuario(){
@@ -103,7 +109,7 @@ void altaUsuario(){
         cin >> instituto;
         controladorUsuario->ingresarInstituto(instituto);
         set<string> idiomas=controladorUsuario->obtenerListaDeIdiomas();
-        set<string> seleccionados=pedirSeleccionDeListaIdiomas(idiomas, true);
+        set<string> seleccionados=pedirSeleccionDeLista("Lista de idiomas", idiomas, true);
         controladorUsuario->seleccionIdiomas(seleccionados);
     }
     controladorUsuario->confirmarAltaUsuario();
@@ -121,7 +127,21 @@ void eliminarCurso(){}
 void inscripcionCurso(){}
 void sucripcionNotificacion(){}
 void eliminarSuscripciones(){}
-void consultaUsuario(){}
+void consultaUsuario(){
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();
+    set<string> usuarios=cu->consultarNicknameUsuarios();
+    string usuarioSeleccionado=*pedirSeleccionDeLista("Lista de usuarios", usuarios, false).begin();
+    cu->seleccionarUsuario(usuarioSeleccionado);
+    cout << cu->getNombreUsuario();
+    cout << cu->getDescripcionUsuario();
+    if(cu->getTipoUsuario()==ESTUDIANTE){
+        cout << cu->getPaisResidenciaUsuario();
+    }else{
+        cout << cu->getInstitutoUsuario();
+        cout << "Idiomas usuario: \n";
+        printSet(cu->getIdiomasUsuario());
+    }
+}
 void consultaIdioma(){}
 void consultaCurso(){}
 void consultaEstadisticas(){}

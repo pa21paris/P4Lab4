@@ -41,6 +41,14 @@ public:
     void hacerEjercicio(DTEjercicio ejercicio);
     void seleccionIdiomas(set<string> idiomas);
     void confirmarAltaUsuario();
+    set<string> consultarNicknameUsuarios();
+    void seleccionarUsuario(string nickname);
+    string getNombreUsuario();
+    string getDescripcionUsuario();
+    string getInstitutoUsuario();
+    set<string> getIdiomasUsuario();
+    string getPaisResidenciaUsuario();
+    TipoUsuario getTipoUsuario();
 };
 
 #endif
