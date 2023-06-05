@@ -9,7 +9,10 @@ ControladorCurso* ControladorCurso::instance = nullptr;
 ControladorCurso::ControladorCurso() {}
 
 void ControladorCurso::eliminarCurso() {
-    if(this->cursoEnProceso != nullptr) this->cursoEnProceso->eliminarCurso();
+    if (this->cursoEnProceso != nullptr) {
+        this->cursos.erase(this->cursoEnProceso);
+        this->cursoEnProceso->eliminarCurso();
+    }
     delete this->cursoEnProceso;
     this->cursoEnProceso = nullptr;
 }
@@ -119,6 +122,7 @@ void ControladorCurso::altaCurso() {
     ci->enviarNotificacion(this->cursoEnProceso->getNombre(),this->idiomaSeleccionado);
     ControladorUsuario* cu=ControladorUsuario::getInstance();
     cu->agregarCursoAProfesor(this->profesorSeleccionado,this->cursoEnProceso);
+    this->cursos.insert(this->cursoEnProceso);
     this->vaciarDatosTemporales();
 }
 

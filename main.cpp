@@ -74,14 +74,22 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, set<string> lista,
     }
     if(masDeUno) cout << "0. Salir\n";
     int opcion;
+    bool invalido;
     do{
+        invalido = false;
         cout << "Ingrese su opcion: ";
         cin >> opcion;
         if(opcion>0 && opcion<=lista.size()){
             selecciones.insert(opcion-1);
             cout << "Seleccionado\n";
         }
-    } while (masDeUno && opcion!=0);
+        else {
+            if (opcion != 0 || !masDeUno) {
+                cout << "Opcion invalida.\n";
+                invalido = true;
+            }
+        }
+    } while ((masDeUno && opcion!=0) || invalido);
     return selecciones;
 }
 
@@ -96,14 +104,22 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, set<DTCurso> lista
     }
     if(masDeUno) cout << "0. Salir\n";
     int opcion;
+    bool invalido;
     do{
+        invalido = false;
         cout << "Ingrese su opcion: ";
         cin >> opcion;
         if(opcion>0 && opcion<=lista.size()){
             selecciones.insert(opcion-1);
             cout << "Seleccionado\n";
         }
-    } while (masDeUno && opcion!=0);
+        else {
+            if (opcion != 0 || !masDeUno) {
+                cout << "Opcion invalida.\n";
+                invalido = true;
+            }
+        }
+    } while ((masDeUno && opcion != 0) || invalido);
     return selecciones;
 }
 
@@ -153,8 +169,126 @@ void leerNotificaciones(set<DTNotificacion> notificaciones){
     }
 }
 
-void altaCurso(){}
-void eliminarCurso(){}
+void eliminarCurso() {
+    IControladorCurso* CC = Fabrica::getIControladorCurso();
+    set<DTCurso> ListaCursos = CC->listarCursos();
+    CC->seleccionarCurso(*(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de Cursos", ListaCursos, false), ListaCursos)).begin());
+    CC->eliminarCurso();
+}
+
+
+void altaCurso() {
+    IControladorCurso* CC = Fabrica::getIControladorCurso();
+    set<string> NicksDocentes = CC->obtenerNicksDocentes();
+    set<string> seleccionado = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de docentes", NicksDocentes, false), NicksDocentes);
+    CC->seleccionUsuario(*seleccionado.begin());
+    string Nombre, Descripcion;
+    cout << "Ingrese el nombre: ";
+    cin >> Nombre;
+    cout << "Ingrese la descripcion: ";
+    cin >> Descripcion;
+    int Dificultad;
+    cout << "Dificultades: \n";
+    cout << "1.Principiante\n";
+    cout << "2.Medio\n";
+    cout << "3.Avanzado\n";
+    cout << "Ingrese su opcion: ";
+    cin >> Dificultad;
+    while (Dificultad < 1 && Dificultad > 3) {
+        cout << "Dificultad no valida. Intente de nuevo\n";
+    }
+    CC->datosCurso(Nombre, Descripcion, (Dificultades)Dificultad);
+    set<string> Idiomas = CC->idiomasDelDocente();
+    set<string> seleccionado2 = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de idiomas del docente", Idiomas, false), Idiomas);
+    CC->seleccionDeIdioma(*seleccionado2.begin());
+    int agregarCurso;
+    cout << "Desea agregar cursos previos?\n";
+    cout << "1-Si\n";
+    cout << "-Pon otro numero si No\n";
+    cin >> agregarCurso;
+    set<DTCurso> CursosPreviosDisponibles;
+    if (agregarCurso == 1)
+        CursosPreviosDisponibles = CC->solicitarCursosHabilitados();
+    while (agregarCurso == 1) {
+        DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos habilitados", CursosPreviosDisponibles, false), CursosPreviosDisponibles)).begin();
+        CC->agregarCursoPrevio(select);
+        CursosPreviosDisponibles.erase(select);
+        cout << "Desea agregar mas cursos previos?\n";
+        cout << "1-Si\n";
+        cout << "-Pon otro numero si No\n";
+        cin >> agregarCurso;
+    }
+    int agregarLeccion;
+    cout << "Desea agregar una leccion?\n";
+    cout << "1-Si\n";
+    cout << "-Pon otro numero si No\n";
+    cin >> agregarLeccion;
+    while (agregarLeccion == 1) {
+        string Tema, Objetivo;
+        cout << "Ingrese el tema: ";
+        cin >> Tema;
+        cout << "Ingrese el objetivo: ";
+        cin >> Objetivo;
+        CC->leccionDatos(Tema, Objetivo);
+        CC->altaLeccion();
+        int agregarEjercicio;
+        cout << "Desea agregar un ejercicio?\n";
+        cout << "1-Si\n";
+        cout << "-Pon otro numero si No\n";
+        cin >> agregarEjercicio;
+        while (agregarEjercicio == 1) {
+            int Tipo;
+            cout << "Tipo de ejercicio: \n";
+            cout << "1.Completado\n";
+            cout << "2.Traduccion\n";
+            cout << "Ingrese su opcion: ";
+            cin >> Tipo;
+            while (Tipo < 1 && Tipo > 2) {
+                cout << "Tipo no valido. Intente de nuevo\n";
+            }
+            string Frase;
+            cout << "Ingrese la frase del ejercicio: ";
+            cin >> Frase;
+            string desc;
+            cout << "Ingrese la descripcion: ";
+            cin >> desc;
+            CC->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+            if (Tipo == 1) {
+                list<string> palabras;
+                string temp;
+                int agregarPalabra;
+                do {
+                    cout << "Ingrese palabra faltante: ";
+                    cin >> temp;
+                    palabras.push_back(temp);
+                    cout << "Desea agregar otra palabra?\n";
+                    cout << "1-Si\n";
+                    cout << "-Pon otro numero si No\n";
+                    cin >> agregarPalabra;
+                } while (agregarPalabra == 1);
+                CC->ejercicioDeCompletar(palabras);
+            }
+            else {
+                string FraseTraducida;
+                cout << "Ingrese la Traduccion: ";
+                cin >> FraseTraducida;
+                CC->ejercicioDeTraduccion(FraseTraducida);
+            }
+            CC->altaEjercicio();
+            cout << "Desea agregar otro ejercicio?\n";
+            cout << "1-Si\n";
+            cout << "-Pon otro numero si No\n";
+            cin >> agregarEjercicio;
+        }
+        cout << "Desea agregar otra leccion?\n";
+        cout << "1-Si\n";
+        cout << "-Pon otro numero si No\n";
+        cin >> agregarLeccion;
+    }
+    CC->altaCurso();
+}
+
+
 void inscripcionCurso(){}
 void sucripcionNotificacion(){}
 void eliminarSuscripciones(){}
