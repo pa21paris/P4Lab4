@@ -182,7 +182,7 @@ void ControladorUsuario::confirmarAltaUsuario() {
         }
         this->profesores.insert((Profesor*)this->usuarioEnProceso);
     }else{
-        this->usuarios.insert((Estudiante*)this->usuarioEnProceso);
+        this->estudiantes.insert((Estudiante*)this->usuarioEnProceso);
     }
     this->usuarios.insert(this->usuarioEnProceso);
 }
@@ -248,6 +248,7 @@ TipoUsuario ControladorUsuario::getTipoUsuario() {
 Estudiante* ControladorUsuario::getEstudiante(string nickname){
     set<Estudiante*>::iterator it=this->estudiantes.begin();
     while(it!=this->estudiantes.end() && (*it)->getNickname()!=nickname){
+        cout << (*it)->getDescription();
         ++it;
     }
     if(it!=this->estudiantes.end()) return (*it);

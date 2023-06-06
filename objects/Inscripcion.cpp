@@ -7,7 +7,7 @@ Inscripcion::Inscripcion(Date fechaInscripcion, Curso* curso)
     this->curso = curso;
     this->ejericiosRealizados = 0;
     this->leccionActual=curso->getLeccionSiguiente(nullptr);
-    this->ejerciciosPendientes=this->leccionActual->getEjercicios();
+    if(this->leccionActual!=nullptr) this->ejerciciosPendientes=this->leccionActual->getEjercicios();
     this->curso->addInscripcion(this);
 }
 
