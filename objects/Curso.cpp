@@ -98,3 +98,26 @@ bool Curso::estaHabilitado(){
 void Curso::habilitar(){
     this->habilitado = true;
 }
+
+list<DTLeccion> Curso::getDTLecciones() {
+    list<DTLeccion> ret;
+    list<Leccion*>::iterator it;
+    for (it = this->lecciones.begin(); it != this->lecciones.end(); ++it) {
+        ret.push_back((*it)->getDT());
+    }
+    return ret;
+}
+
+Leccion* Curso::getLeccion(int index) {
+    Leccion* ret;
+    list<Leccion*>::iterator it;
+    int a = 1;
+    for (it = this->lecciones.begin(); it != this->lecciones.end(); ++it) {
+        if (a == index) {
+            ret = *it;
+            break;
+        }
+        a++;
+    }
+    return ret;
+}

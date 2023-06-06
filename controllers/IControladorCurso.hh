@@ -4,6 +4,7 @@
 #include "../objects/Curso.hh"
 #include "../data_structures/TipoEjercicio.hh"
 #include "../data_structures/DTCurso.hh"
+#include "../data_structures/DTLeccion.hh"
 
 class IControladorCurso{
 public:
@@ -28,6 +29,10 @@ public:
     virtual void ejercicioDeCompletar(list<string> palabrasFaltantes)=0;
     virtual void ejercicioDeTraduccion(string fraseTraducida)=0;
     virtual void altaEjercicio()=0;
+    virtual void AgregarLeccion() = 0;
+    virtual list<DTLeccion> listarLeccionesCurso() = 0;
+    virtual void SeleccionarLeccion(int index) = 0;
+    virtual void FinalizarAgregarEjercicio() = 0;
 };
 
 #endif

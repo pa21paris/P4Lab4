@@ -31,3 +31,7 @@ int Leccion::getTotalE(){
 set<Ejercicio*> Leccion::getEjercicios(){
     return this->ejercicios;
 }
+
+DTLeccion Leccion::getDT() {
+    return DTLeccion(this->tema, this->objetivo);
+}

@@ -39,6 +39,10 @@ public:
     void altaEjercicio();
     static ControladorCurso* getInstance();
     void habilitarCurso(DTCurso curso);
+    void AgregarLeccion();
+    list<DTLeccion> listarLeccionesCurso();
+    void SeleccionarLeccion(int index);
+    void FinalizarAgregarEjercicio();
 };
 
 #endif

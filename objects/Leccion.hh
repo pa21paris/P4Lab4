@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Ejercicio.hh"
 #include <set>
+#include "../data_structures/DTLeccion.hh"
 using namespace std;
 
 class Leccion {
@@ -18,6 +19,7 @@ public:
     void agregarEjercicio(Ejercicio* ejercicio);
     void eliminarLeccion();
     set<Ejercicio*> getEjercicios();
+    DTLeccion getDT();
 };
 
 #endif

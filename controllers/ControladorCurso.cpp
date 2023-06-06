@@ -170,3 +170,24 @@ ControladorCurso* ControladorCurso::getInstance(){
 void ControladorCurso::habilitarCurso(DTCurso curso){
     this->findCursoByDTCurso(curso)->habilitar();
 }
+
+void ControladorCurso::AgregarLeccion() {
+    set<Leccion*>::iterator it2;
+    for (it2 = this->lecciones.begin(); it2 != this->lecciones.end(); ++it2) {
+        this->cursoEnProceso->agregarLeccion(*it2);
+    }
+    this->vaciarDatosTemporales();
+}
+
+list<DTLeccion> ControladorCurso::listarLeccionesCurso() {
+    return this->cursoEnProceso->getDTLecciones();
+}
+
+void ControladorCurso::SeleccionarLeccion(int index) {
+    this->leccionEnCreacion = this->cursoEnProceso->getLeccion(index);
+}
+
+void ControladorCurso::FinalizarAgregarEjercicio() {
+    this->altaEjercicio();
+    this->vaciarDatosTemporales();
+}

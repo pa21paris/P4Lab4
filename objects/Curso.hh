@@ -39,6 +39,8 @@ public:
     void setProfesorCurso(Profesor* profesor);
     bool estaHabilitado();
     void habilitar();
+    list<DTLeccion> getDTLecciones();
+    Leccion* getLeccion(int index);
 };
 
 #include "Profesor.hh"

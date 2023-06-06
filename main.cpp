@@ -328,8 +328,139 @@ void consultaNotificaciones(){
         leerNotificaciones(notificaciones);
     }
 }
-void agregarLeccion(){}
-void agregarEjercicio(){}
+void agregarLeccion(){
+    IControladorCurso* CC = Fabrica::getIControladorCurso();
+    set<DTCurso> cnh = CC->solicitarCursosNoHabilitados();
+    DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos no habilitados", cnh, false), cnh)).begin();
+    CC->seleccionarCurso(select);
+    string Tema, Objetivo;
+    cout << "Ingrese el tema: ";
+    cin >> Tema;
+    cout << "Ingrese el objetivo: ";
+    cin >> Objetivo;
+    CC->leccionDatos(Tema, Objetivo);
+    CC->altaLeccion();
+    int agregarEjercicio;
+    cout << "Desea agregar un ejercicio?\n";
+    cout << "1-Si\n";
+    cout << "-Pon otro numero si No\n";
+    cin >> agregarEjercicio;
+    while (agregarEjercicio == 1) {
+        int Tipo;
+        cout << "Tipo de ejercicio: \n";
+        cout << "1.Completado\n";
+        cout << "2.Traduccion\n";
+        cout << "Ingrese su opcion: ";
+        cin >> Tipo;
+        while (Tipo < 1 && Tipo > 2) {
+            cout << "Tipo no valido. Intente de nuevo\n";
+        }
+        string Frase;
+        cout << "Ingrese la frase del ejercicio: ";
+        cin >> Frase;
+        string desc;
+        cout << "Ingrese la descripcion: ";
+        cin >> desc;
+        CC->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+        if (Tipo == 1) {
+            list<string> palabras;
+            string temp;
+            int agregarPalabra;
+            do {
+                cout << "Ingrese palabra faltante: ";
+                cin >> temp;
+                palabras.push_back(temp);
+                cout << "Desea agregar otra palabra?\n";
+                cout << "1-Si\n";
+                cout << "-Pon otro numero si No\n";
+                cin >> agregarPalabra;
+            } while (agregarPalabra == 1);
+            CC->ejercicioDeCompletar(palabras);
+        }
+        else {
+            string FraseTraducida;
+            cout << "Ingrese la Traduccion: ";
+            cin >> FraseTraducida;
+            CC->ejercicioDeTraduccion(FraseTraducida);
+        }
+        CC->altaEjercicio();
+        cout << "Desea agregar otro ejercicio?\n";
+        cout << "1-Si\n";
+        cout << "-Pon otro numero si No\n";
+        cin >> agregarEjercicio;
+    }
+    CC->AgregarLeccion();
+}
+void agregarEjercicio(){
+    IControladorCurso* CC = Fabrica::getIControladorCurso();
+    set<DTCurso> cnh = CC->solicitarCursosNoHabilitados();
+    DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos no habilitados", cnh, false), cnh)).begin();
+    CC->seleccionarCurso(select);
+    list<DTLeccion> lecs = CC->listarLeccionesCurso();
+    //muestro lecciones en pantalla
+    cout << "Lista de lecciones disponibles:\n";
+    list<DTLeccion>::iterator it;
+    int index = 1;
+    for (it = lecs.begin(); it != lecs.end(); ++it) {
+        cout << index << ". " << (*it).getTema() << ", " << (*it).getObjetivo() << "\n";
+        index++;
+    }
+    int opcion;
+    bool invalido;
+    do {
+        invalido = false;
+        cout << "Ingrese su opcion: ";
+        cin >> opcion;
+        if (opcion > 0 && opcion <= lecs.size()) {
+            cout << "Seleccionado\n";
+        }
+        else {
+            cout << "Opcion invalida.\n";
+            invalido = true;
+        }
+    } while (invalido);
+    CC->SeleccionarLeccion(opcion);
+    //termino eleccion de leccion
+    //agrego ejercicio
+    int Tipo;
+    cout << "Tipo de ejercicio: \n";
+    cout << "1.Completado\n";
+    cout << "2.Traduccion\n";
+    cout << "Ingrese su opcion: ";
+    cin >> Tipo;
+    while (Tipo < 1 && Tipo > 2) {
+        cout << "Tipo no valido. Intente de nuevo\n";
+    }
+    string Frase;
+    cout << "Ingrese la frase del ejercicio: ";
+    cin >> Frase;
+    string desc;
+    cout << "Ingrese la descripcion: ";
+    cin >> desc;
+    CC->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+    if (Tipo == 1) {
+        list<string> palabras;
+        string temp;
+        int agregarPalabra;
+        do {
+            cout << "Ingrese palabra faltante: ";
+            cin >> temp;
+            palabras.push_back(temp);
+            cout << "Desea agregar otra palabra?\n";
+            cout << "1-Si\n";
+            cout << "-Pon otro numero si No\n";
+            cin >> agregarPalabra;
+        } while (agregarPalabra == 1);
+        CC->ejercicioDeCompletar(palabras);
+    }
+    else {
+        string FraseTraducida;
+        cout << "Ingrese la Traduccion: ";
+        cin >> FraseTraducida;
+        CC->ejercicioDeTraduccion(FraseTraducida);
+    }
+    CC->FinalizarAgregarEjercicio();
+}
 void habilitarCurso(){
     IControladorCurso* cc=Fabrica::getIControladorCurso();
     set<DTCurso> cursosNoHabilitados=cc->solicitarCursosNoHabilitados();
