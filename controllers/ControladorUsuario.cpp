@@ -244,3 +244,26 @@ string ControladorUsuario::getPaisResidenciaUsuario() {
 TipoUsuario ControladorUsuario::getTipoUsuario() {
     return this->tipoUsuarioEnProceso;
 }
+
+Estudiante* ControladorUsuario::getEstudiante(string nickname){
+    set<Estudiante*>::iterator it=this->estudiantes.begin();
+    while(it!=this->estudiantes.end() && (*it)->getNickname()!=nickname){
+        ++it;
+    }
+    if(it!=this->estudiantes.end()) return (*it);
+
+    return nullptr;
+}
+
+set<DTCurso> ControladorUsuario::listarCursosDisponibles(string nickname){
+    this->usuarioEnProceso=this->getEstudiante(nickname);
+    if(this->usuarioEnProceso==nullptr) return set<DTCurso>();
+    ControladorCurso* cc=ControladorCurso::getInstance();
+    return cc->listarCursosDisponibles((Estudiante*)this->usuarioEnProceso);    
+}
+
+void ControladorUsuario::inscribirseCurso(DTCurso curso){
+    ControladorCurso* cc=ControladorCurso::getInstance();
+    cc->inscribirACurso((Estudiante*)this->usuarioEnProceso, curso);
+    this->usuarioEnProceso=nullptr;
+}

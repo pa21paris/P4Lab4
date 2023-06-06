@@ -33,6 +33,8 @@ public:
     virtual list<DTLeccion> listarLeccionesCurso() = 0;
     virtual void SeleccionarLeccion(int index) = 0;
     virtual void FinalizarAgregarEjercicio() = 0;
+    virtual set<DTCurso> listarCursosDisponibles(Estudiante* estudiante) = 0;
+    virtual void inscribirACurso(Estudiante* estudiante, DTCurso curso) = 0;
 };
 
 #endif

@@ -289,7 +289,17 @@ void altaCurso() {
 }
 
 
-void inscripcionCurso(){}
+void inscripcionCurso(){
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();
+    string nickname;
+    cout << "Ingrese el nickname: ";
+    cin >> nickname;
+    set<DTCurso> cursosDisponibles=cu->listarCursosDisponibles(nickname);
+    set<int> indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos disponibles", cursosDisponibles, false);
+    DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursosDisponibles).begin();
+    cu->inscribirseCurso(cursoSeleccionado);
+    cout << "Inscripto a curso " << cursoSeleccionado.getNombre();
+}
 void sucripcionNotificacion(){}
 void eliminarSuscripciones(){}
 void consultaUsuario(){

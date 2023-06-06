@@ -17,6 +17,7 @@ private:
     TipoEjercicio tipoEjercicioSeleccionado;
     TipoUsuario tipoUsuarioEnProceso;
     ControladorUsuario();
+    Estudiante* getEstudiante(string nickname);
 public:
     static ControladorUsuario* getInstance();
     set<DTEstudiante> listarEstudiantes();
@@ -49,6 +50,8 @@ public:
     set<string> getIdiomasUsuario();
     string getPaisResidenciaUsuario();
     TipoUsuario getTipoUsuario();
+    set<DTCurso> listarCursosDisponibles(string nickname);
+    void inscribirseCurso(DTCurso curso);
 };
 
 #endif

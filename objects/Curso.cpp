@@ -121,3 +121,21 @@ Leccion* Curso::getLeccion(int index) {
     }
     return ret;
 }
+
+bool cumplePrevia(Curso *curso, set<Curso *> cursosCompletos){
+    return cursosCompletos.find(curso) != cursosCompletos.end();
+}
+
+bool Curso::previasCumplidas(set<Curso *> cursosCompletos){
+    if(cursosCompletos.size() != this->cursosPrevios.size()) return false;
+    set<Curso *>::iterator it=this->cursosPrevios.begin();
+    while (it!=this->cursosPrevios.end() && cumplePrevia(*it, cursosCompletos)){
+        ++it;
+    }
+    if(it==this->cursosPrevios.end()) return true;
+    return false;
+}
+
+void Curso::addInscripcion(Inscripcion *inscripcion){
+    this->inscripciones.insert(inscripcion);
+}

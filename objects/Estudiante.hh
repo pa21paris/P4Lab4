@@ -20,6 +20,8 @@ public:
     set<DTCurso> getCursosActivos();
     Inscripcion* getInscripcion(DTCurso curso);
     DTEstudiante getData();
+    set<Curso*> getCursosCompletos();
+    void inscribirseACurso(Curso* curso);
 };
 
 #endif

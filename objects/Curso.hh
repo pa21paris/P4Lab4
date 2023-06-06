@@ -41,6 +41,8 @@ public:
     void habilitar();
     list<DTLeccion> getDTLecciones();
     Leccion* getLeccion(int index);
+    bool previasCumplidas(set<Curso*> cursosCompletos);
+    void addInscripcion(Inscripcion* inscripcion);
 };
 
 #include "Profesor.hh"

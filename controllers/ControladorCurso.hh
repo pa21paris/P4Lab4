@@ -16,6 +16,7 @@ private:
     ControladorCurso();
     Curso* findCursoByDTCurso(DTCurso curso);
     void vaciarDatosTemporales();
+    set<Curso*> getCursosHabilitados();
 public:
     void eliminarCurso();
     set<DTCurso> listarCursos();
@@ -43,6 +44,8 @@ public:
     list<DTLeccion> listarLeccionesCurso();
     void SeleccionarLeccion(int index);
     void FinalizarAgregarEjercicio();
+    set<DTCurso> listarCursosDisponibles(Estudiante* estudiante);
+    void inscribirACurso(Estudiante* estudiante, DTCurso curso);
 };
 
 #endif

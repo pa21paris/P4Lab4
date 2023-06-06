@@ -8,6 +8,7 @@ Inscripcion::Inscripcion(Date fechaInscripcion, Curso* curso)
     this->ejericiosRealizados = 0;
     this->leccionActual=curso->getLeccionSiguiente(nullptr);
     this->ejerciciosPendientes=this->leccionActual->getEjercicios();
+    this->curso->addInscripcion(this);
 }
 
 int Inscripcion::getTotalEP(){
@@ -73,4 +74,8 @@ set<DTEjercicio> Inscripcion::getEjerciciosPendientes(){
         ejerciciosPendientes.insert((*it)->getData());
     }
     return ejerciciosPendientes;
+}
+
+Curso* Inscripcion::getCurso(){
+    return this->curso;
 }

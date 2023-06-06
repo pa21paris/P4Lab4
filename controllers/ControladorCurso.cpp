@@ -91,6 +91,15 @@ set<DTCurso> ControladorCurso::solicitarCursosHabilitados() {
     return res;
 }
 
+set<Curso*> ControladorCurso::getCursosHabilitados() {
+    set<Curso*> res;
+    set<Curso*>::iterator it;
+    for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
+        if((*it)->estaHabilitado()) res.insert((*it));
+    }
+    return res;
+}
+
 set<DTCurso> ControladorCurso::solicitarCursosNoHabilitados() {
     set<DTCurso> res;
     set<Curso*>::iterator it;
@@ -190,4 +199,45 @@ void ControladorCurso::SeleccionarLeccion(int index) {
 void ControladorCurso::FinalizarAgregarEjercicio() {
     this->altaEjercicio();
     this->vaciarDatosTemporales();
+}
+
+template <typename T>
+set<T> setDifference(set<T> a, set<T> b){
+    typename set<T>::iterator it;
+    for(it = a.begin(); it != a.end(); ++it) {
+        if(b.find(*it) != b.end()) {
+            a.erase(*it);
+        }
+    }
+    return a;
+}
+
+set<DTCurso> getSetDTCurso(set<Curso*> cursos){
+    set<DTCurso> res;
+    set<Curso*>::iterator it;
+    for(it = cursos.begin(); it != cursos.end(); ++it) {
+        res.insert((*it)->convertirADTCurso());
+    }
+    return res;
+}
+
+set<Curso*> filtrarPorPrevias(set<Curso*> cursos, set<Curso*> cursosCompletos){
+    set<Curso*> res;
+    set<Curso*>::iterator it;
+    for(it = cursos.begin(); it != cursos.end(); ++it) {
+        if((*it)->previasCumplidas(cursosCompletos)) res.insert(*it);
+    }
+    return res;
+}
+
+set<DTCurso> ControladorCurso::listarCursosDisponibles(Estudiante* estudiante){
+    set<Curso*> cursosCompletos=estudiante->getCursosCompletos();
+    set<Curso*> cursosHabilitados=this->getCursosHabilitados();
+    set<Curso*> cursosNoCompletos=setDifference(cursosHabilitados, cursosCompletos);
+    return getSetDTCurso(filtrarPorPrevias(cursosNoCompletos, cursosCompletos));
+}
+
+void ControladorCurso::inscribirACurso(Estudiante* estudiante, DTCurso curso){
+    Curso* cursoSeleccionado=this->findCursoByDTCurso(curso);
+    estudiante->inscribirseACurso(cursoSeleccionado);
 }

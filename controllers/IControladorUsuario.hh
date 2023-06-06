@@ -44,6 +44,8 @@ public:
     virtual set<string> getIdiomasUsuario()=0;
     virtual string getPaisResidenciaUsuario()=0;
     virtual TipoUsuario getTipoUsuario()=0;
+    virtual set<DTCurso> listarCursosDisponibles(string nickname)=0;
+    virtual void inscribirseCurso(DTCurso curso)=0;
 };
 
 #endif
