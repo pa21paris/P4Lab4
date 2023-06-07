@@ -27,14 +27,14 @@ public:
     void ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo);
     void ingresarDatosEstudiante(string pais_res, Date fechaNacimiento);
     void ingresarInstituto(string instituto);
-    set<string> obtenerListaDeIdiomas();
+    vector<string> obtenerListaDeIdiomas();
     set<DTProfesor> listarProfesores();
     DTEstadisticasProfesor listarEstadisticasProfesor(DTProfesor profesor);
     set<DTEjercicio> verEjerciciosPendientes(DTCurso curso);
-    set<DTCurso> listarCursos();
+    vector<DTCurso> listarCursos();
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
     Profesor* obtenerProfesor(string nickname);
-    set<string> getIdiomasProfesor(string nickname);
+    vector<string> getIdiomasProfesor(string nickname);
     void ingresarSolucionCompletar(list<string> palabras);
     void ingresarSolucionTraduccion(string traduccion);
     Usuario* getUsuario(string nickname);
@@ -42,15 +42,15 @@ public:
     void hacerEjercicio(DTEjercicio ejercicio);
     void seleccionIdiomas(set<string> idiomas);
     void confirmarAltaUsuario();
-    set<string> consultarNicknameUsuarios();
+    vector<string> consultarNicknameUsuarios();
     void seleccionarUsuario(string nickname);
     string getNombreUsuario();
     string getDescripcionUsuario();
     string getInstitutoUsuario();
-    set<string> getIdiomasUsuario();
+    vector<string> getIdiomasUsuario();
     string getPaisResidenciaUsuario();
     TipoUsuario getTipoUsuario();
-    set<DTCurso> listarCursosDisponibles(string nickname);
+    vector<DTCurso> listarCursosDisponibles(string nickname);
     void inscribirseCurso(DTCurso curso);
 };
 

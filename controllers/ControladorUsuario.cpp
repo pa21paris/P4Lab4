@@ -84,7 +84,7 @@ void ControladorUsuario::ingresarInstituto(string instituto) {
     delete usuarioEnProceso;
 }
 
-set<string> ControladorUsuario::obtenerListaDeIdiomas() {
+vector<string> ControladorUsuario::obtenerListaDeIdiomas() {
     ControladorIdioma* ci=ControladorIdioma::getInstance();
     return ci->obtenerIdiomas();
 }
@@ -114,7 +114,7 @@ set<DTEjercicio> ControladorUsuario::verEjerciciosPendientes(DTCurso curso) {
     return this->inscripcionSeleccionada->getEjerciciosPendientes();
 }
 
-set<DTCurso> ControladorUsuario::listarCursos() {
+vector<DTCurso> ControladorUsuario::listarCursos() {
     ControladorCurso* cc=ControladorCurso::getInstance();
     return cc->listarCursos();
 }
@@ -135,7 +135,7 @@ Profesor* ControladorUsuario::obtenerProfesor(string nickname){
     return nullptr;
 }
 
-set<string> ControladorUsuario::getIdiomasProfesor(string nickname) {
+vector<string> ControladorUsuario::getIdiomasProfesor(string nickname) {
     return this->obtenerProfesor(nickname)->getNombresIdiomas();
 }
 
@@ -187,11 +187,11 @@ void ControladorUsuario::confirmarAltaUsuario() {
     this->usuarios.insert(this->usuarioEnProceso);
 }
 
-set<string> ControladorUsuario::consultarNicknameUsuarios(){
-    set<string> res;
+vector<string> ControladorUsuario::consultarNicknameUsuarios(){
+    vector<string> res;
     set<Usuario*>::iterator it;
     for(it=this->usuarios.begin(); it!=this->usuarios.end(); ++it) {
-        res.insert((*it)->getNickname());
+        res.push_back((*it)->getNickname());
     }
     return res;
 }
@@ -211,12 +211,12 @@ string ControladorUsuario::getDescripcionUsuario() {
     return this->usuarioEnProceso->getDescription();
 }
 
-set<string> ControladorUsuario::getIdiomasUsuario(){
-    set<string> idiomas;
+vector<string> ControladorUsuario::getIdiomasUsuario(){
+    vector<string> idiomas;
     if(this->tipoUsuarioEnProceso==PROFESOR){
         idiomas=((Profesor*)this->usuarioEnProceso)->getNombresIdiomas();
     }else{
-        idiomas=set<string>();
+        idiomas=vector<string>();
     }
     this->usuarioEnProceso=nullptr;
     return idiomas;
@@ -256,9 +256,9 @@ Estudiante* ControladorUsuario::getEstudiante(string nickname){
     return nullptr;
 }
 
-set<DTCurso> ControladorUsuario::listarCursosDisponibles(string nickname){
+vector<DTCurso> ControladorUsuario::listarCursosDisponibles(string nickname){
     this->usuarioEnProceso=this->getEstudiante(nickname);
-    if(this->usuarioEnProceso==nullptr) return set<DTCurso>();
+    if(this->usuarioEnProceso==nullptr) return vector<DTCurso>();
     ControladorCurso* cc=ControladorCurso::getInstance();
     return cc->listarCursosDisponibles((Estudiante*)this->usuarioEnProceso);    
 }

@@ -9,11 +9,11 @@ string Profesor::getInstituto(){
     return this->instituto;
 }
 
-set<string> Profesor::getNombresIdiomas(){
-    set<string> nombres;
+vector<string> Profesor::getNombresIdiomas(){
+    vector<string> nombres;
     set<Idioma*>::iterator it;
     for(it = this->idiomas.begin(); it != this->idiomas.end(); ++it){
-        nombres.insert((*it)->getNombre());
+        nombres.push_back((*it)->getNombre());
     }
     return nombres;
 }

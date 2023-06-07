@@ -41,85 +41,71 @@ optional<TipoUsuario> pedirTipoUsuario(){
     return (TipoUsuario)(tipoUsuario-1);
 }
 
+void menuTipoEjercicio(){
+    cout << "Tipo de ejercicio: \n";
+    cout << "1.Completado\n";
+    cout << "2.Traduccion\n";
+    cout << "Ingrese su opcion: ";
+}
+
 template <typename T>
-set<T> obtenerListaDeSeleccionadosPorIndices(set<int> selecciones, set<T> lista){
+set<T> obtenerListaDeSeleccionadosPorIndices(set<int> selecciones, vector<T> lista){
     set<T> res;
-    typename set<T>::iterator it;
-    int index=0;
-    for(it=lista.begin(); it!=lista.end(); ++it){
-        if(selecciones.find(index)!=selecciones.end()){
-            res.insert(*it);
-        }
-        index++;
+    set<int>::iterator it;
+    for(it=selecciones.begin(); it!=selecciones.end(); ++it){
+        res.insert(lista[*it]);
     }
     return res;    
 }
 
 template <typename T>
-void printSet(set<T> setAImprimir){
-    typename set<T>::iterator it;
-    for(it=setAImprimir.begin(); it!=setAImprimir.end(); ++it){
-        cout << *it << "\n";
+void printVector(vector<T> setAImprimir){
+    for(int i=0; i<setAImprimir.size(); i++){
+        cout << setAImprimir[i] << "\n";
     }
 }
 
-set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, set<string> lista, bool masDeUno){
+set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<string> lista, bool masDeUno){
+    const int SALIR = 0;
     set<int> selecciones;
     cout << nombreSeccion << ":\n";
-    set<string>::iterator it;
-    int index=1;
-    for(it=lista.begin(); it!=lista.end(); ++it){
-        cout << index << ". " << *it << "\n";
-        index++;
+    for(int i=0; i<lista.size(); i++){
+        cout << i+1 << ". " << lista[i] << "\n";
     }
     if(masDeUno) cout << "0. Salir\n";
     int opcion;
-    bool invalido;
     do{
-        invalido = false;
         cout << "Ingrese su opcion: ";
         cin >> opcion;
         if(opcion>0 && opcion<=lista.size()){
             selecciones.insert(opcion-1);
             cout << "Seleccionado\n";
+        }else if(opcion!=SALIR){
+            cout << "Opcion invalida.\n";
         }
-        else {
-            if (opcion != 0 || !masDeUno) {
-                cout << "Opcion invalida.\n";
-                invalido = true;
-            }
-        }
-    } while ((masDeUno && opcion!=0) || invalido);
+    } while ((masDeUno && opcion!=SALIR));
     return selecciones;
 }
 
-set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, set<DTCurso> lista, bool masDeUno){
+set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<DTCurso> lista, bool masDeUno){
     set<int> selecciones;
     cout << nombreSeccion << ":\n";
-    set<DTCurso>::iterator it;
-    int index=1;
-    for(it=lista.begin(); it!=lista.end(); ++it){
-        cout << index << ". " << (*it).getNombre() << "\n";
-        index++;
+    for(int i=0; i<lista.size(); i++){
+        cout << i+1 << ". " << lista[i].getNombre() << "\n";
     }
     if(masDeUno) cout << "0. Salir\n";
     int opcion;
-    bool invalido;
     do{
-        invalido = false;
         cout << "Ingrese su opcion: ";
         cin >> opcion;
         if(opcion>0 && opcion<=lista.size()){
             selecciones.insert(opcion-1);
             cout << "Seleccionado\n";
         }
-        else {
-            if (opcion != 0 || !masDeUno) {
-                cout << "Opcion invalida.\n";
-                invalido = true;
-            }
+        else if (opcion != 0) {
+            cout << "Opcion invalida.\n";
         }
-    } while ((masDeUno && opcion != 0) || invalido);
+    } while ((masDeUno && opcion != 0));
     return selecciones;
 }
 
@@ -146,7 +132,7 @@ void altaUsuario(){
         cout << "Ingrese el instituto: ";
         cin >> instituto;
         controladorUsuario->ingresarInstituto(instituto);
-        set<string> idiomas=controladorUsuario->obtenerListaDeIdiomas();
+        vector<string> idiomas=controladorUsuario->obtenerListaDeIdiomas();
         set<int> seleccionados=pedirSeleccionarIndicesDeLista("Lista de idiomas", idiomas, true);
         controladorUsuario->seleccionIdiomas(obtenerListaDeSeleccionadosPorIndices(seleccionados, idiomas));
     }
@@ -165,23 +151,23 @@ void altaIdioma(){
 void leerNotificaciones(set<DTNotificacion> notificaciones){
     set<DTNotificacion>::iterator it;
     for(it=notificaciones.begin(); it!=notificaciones.end(); ++it){
-        cout << "Idioma: " << (*it).getNombreIdioma() << ", Curso: " << (*it).getNombreCurso() << "\n";
+        cout << (*it).to_string() << "\n";
     }
 }
 
 void eliminarCurso() {
-    IControladorCurso* CC = Fabrica::getIControladorCurso();
-    set<DTCurso> ListaCursos = CC->listarCursos();
-    CC->seleccionarCurso(*(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de Cursos", ListaCursos, false), ListaCursos)).begin());
-    CC->eliminarCurso();
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    vector<DTCurso> listaCursos = cc->listarCursos();
+    cc->seleccionarCurso(*(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de Cursos", listaCursos, false), listaCursos)).begin());
+    cc->eliminarCurso();
 }
 
 
 void altaCurso() {
-    IControladorCurso* CC = Fabrica::getIControladorCurso();
-    set<string> NicksDocentes = CC->obtenerNicksDocentes();
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    vector<string> NicksDocentes = cc->obtenerNicksDocentes();
     set<string> seleccionado = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de docentes", NicksDocentes, false), NicksDocentes);
-    CC->seleccionUsuario(*seleccionado.begin());
+    cc->seleccionUsuario(*seleccionado.begin());
     string Nombre, Descripcion;
     cout << "Ingrese el nombre: ";
     cin >> Nombre;
@@ -197,22 +183,23 @@ void altaCurso() {
     while (Dificultad < 1 && Dificultad > 3) {
         cout << "Dificultad no valida. Intente de nuevo\n";
     }
-    CC->datosCurso(Nombre, Descripcion, (Dificultades)Dificultad);
-    set<string> Idiomas = CC->idiomasDelDocente();
+    cc->datosCurso(Nombre, Descripcion, (Dificultades)Dificultad);
+    vector<string> Idiomas = cc->idiomasDelDocente();
     set<string> seleccionado2 = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de idiomas del docente", Idiomas, false), Idiomas);
-    CC->seleccionDeIdioma(*seleccionado2.begin());
+    cc->seleccionDeIdioma(*seleccionado2.begin());
     int agregarCurso;
     cout << "Desea agregar cursos previos?\n";
     cout << "1-Si\n";
     cout << "-Pon otro numero si No\n";
     cin >> agregarCurso;
-    set<DTCurso> CursosPreviosDisponibles;
+    vector<DTCurso> CursosPreviosDisponibles;
     if (agregarCurso == 1)
-        CursosPreviosDisponibles = CC->solicitarCursosHabilitados();
+        CursosPreviosDisponibles = cc->solicitarCursosHabilitados();
     while (agregarCurso == 1) {
-        DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos habilitados", CursosPreviosDisponibles, false), CursosPreviosDisponibles)).begin();
-        CC->agregarCursoPrevio(select);
-        CursosPreviosDisponibles.erase(select);
+        set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos habilitados", CursosPreviosDisponibles, false);
+        DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, CursosPreviosDisponibles)).begin();
+        cc->agregarCursoPrevio(select);
+        CursosPreviosDisponibles.erase(CursosPreviosDisponibles.begin()+(*cursoSeleccionado.begin()));
         cout << "Desea agregar mas cursos previos?\n";
         cout << "1-Si\n";
         cout << "-Pon otro numero si No\n";
@@ -229,8 +216,8 @@ void altaCurso() {
         cin >> Tema;
         cout << "Ingrese el objetivo: ";
         cin >> Objetivo;
-        CC->leccionDatos(Tema, Objetivo);
-        CC->altaLeccion();
+        cc->leccionDatos(Tema, Objetivo);
+        cc->altaLeccion();
         int agregarEjercicio;
         cout << "Desea agregar un ejercicio?\n";
         cout << "1-Si\n";
@@ -238,10 +225,7 @@ void altaCurso() {
         cin >> agregarEjercicio;
         while (agregarEjercicio == 1) {
             int Tipo;
-            cout << "Tipo de ejercicio: \n";
-            cout << "1.Completado\n";
-            cout << "2.Traduccion\n";
-            cout << "Ingrese su opcion: ";
+            menuTipoEjercicio();
             cin >> Tipo;
             while (Tipo < 1 && Tipo > 2) {
                 cout << "Tipo no valido. Intente de nuevo\n";
@@ -252,7 +236,7 @@ void altaCurso() {
             string desc;
             cout << "Ingrese la descripcion: ";
             cin >> desc;
-            CC->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+            cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
             if (Tipo == 1) {
                 list<string> palabras;
                 string temp;
@@ -266,15 +250,15 @@ void altaCurso() {
                     cout << "-Pon otro numero si No\n";
                     cin >> agregarPalabra;
                 } while (agregarPalabra == 1);
-                CC->ejercicioDeCompletar(palabras);
+                cc->ejercicioDeCompletar(palabras);
             }
             else {
                 string FraseTraducida;
                 cout << "Ingrese la Traduccion: ";
                 cin >> FraseTraducida;
-                CC->ejercicioDeTraduccion(FraseTraducida);
+                cc->ejercicioDeTraduccion(FraseTraducida);
             }
-            CC->altaEjercicio();
+            cc->altaEjercicio();
             cout << "Desea agregar otro ejercicio?\n";
             cout << "1-Si\n";
             cout << "-Pon otro numero si No\n";
@@ -285,7 +269,7 @@ void altaCurso() {
         cout << "-Pon otro numero si No\n";
         cin >> agregarLeccion;
     }
-    CC->altaCurso();
+    cc->altaCurso();
 }
 
 
@@ -294,7 +278,7 @@ void inscripcionCurso(){
     string nickname;
     cout << "Ingrese el nickname: ";
     cin >> nickname;
-    set<DTCurso> cursosDisponibles=cu->listarCursosDisponibles(nickname);
+    vector<DTCurso> cursosDisponibles=cu->listarCursosDisponibles(nickname);
     set<int> indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos disponibles", cursosDisponibles, false);
     DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursosDisponibles).begin();
     cu->inscribirseCurso(cursoSeleccionado);
@@ -304,7 +288,7 @@ void sucripcionNotificacion(){}
 void eliminarSuscripciones(){}
 void consultaUsuario(){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();
-    set<string> usuarios=cu->consultarNicknameUsuarios();
+    vector<string> usuarios=cu->consultarNicknameUsuarios();
     set<int> usuarioSeleccionado=pedirSeleccionarIndicesDeLista("Lista de usuarios", usuarios, false);
     cu->seleccionarUsuario(*obtenerListaDeSeleccionadosPorIndices(usuarioSeleccionado, usuarios).begin());
     system("clear");
@@ -316,12 +300,12 @@ void consultaUsuario(){
     }else{
         cout << cu->getInstitutoUsuario() << "\n";
         cout << "Idiomas usuario: \n";
-        printSet(cu->getIdiomasUsuario());
+        printVector(cu->getIdiomasUsuario());
     }
 }
 void consultaIdioma(){
     IControladorIdioma* ci=Fabrica::getIControladorIdioma();
-    printSet(ci->consultarIdiomas());
+    printVector(ci->consultarIdiomas());
 }
 void consultaCurso(){}
 void consultaEstadisticas(){}
@@ -339,17 +323,17 @@ void consultaNotificaciones(){
     }
 }
 void agregarLeccion(){
-    IControladorCurso* CC = Fabrica::getIControladorCurso();
-    set<DTCurso> cnh = CC->solicitarCursosNoHabilitados();
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    vector<DTCurso> cnh = cc->solicitarCursosNoHabilitados();
     DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos no habilitados", cnh, false), cnh)).begin();
-    CC->seleccionarCurso(select);
+    cc->seleccionarCurso(select);
     string Tema, Objetivo;
     cout << "Ingrese el tema: ";
     cin >> Tema;
     cout << "Ingrese el objetivo: ";
     cin >> Objetivo;
-    CC->leccionDatos(Tema, Objetivo);
-    CC->altaLeccion();
+    cc->leccionDatos(Tema, Objetivo);
+    cc->altaLeccion();
     int agregarEjercicio;
     cout << "Desea agregar un ejercicio?\n";
     cout << "1-Si\n";
@@ -357,10 +341,7 @@ void agregarLeccion(){
     cin >> agregarEjercicio;
     while (agregarEjercicio == 1) {
         int Tipo;
-        cout << "Tipo de ejercicio: \n";
-        cout << "1.Completado\n";
-        cout << "2.Traduccion\n";
-        cout << "Ingrese su opcion: ";
+        menuTipoEjercicio();
         cin >> Tipo;
         while (Tipo < 1 && Tipo > 2) {
             cout << "Tipo no valido. Intente de nuevo\n";
@@ -371,7 +352,7 @@ void agregarLeccion(){
         string desc;
         cout << "Ingrese la descripcion: ";
         cin >> desc;
-        CC->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+        cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
         if (Tipo == 1) {
             list<string> palabras;
             string temp;
@@ -385,28 +366,28 @@ void agregarLeccion(){
                 cout << "-Pon otro numero si No\n";
                 cin >> agregarPalabra;
             } while (agregarPalabra == 1);
-            CC->ejercicioDeCompletar(palabras);
+            cc->ejercicioDeCompletar(palabras);
         }
         else {
             string FraseTraducida;
             cout << "Ingrese la Traduccion: ";
             cin >> FraseTraducida;
-            CC->ejercicioDeTraduccion(FraseTraducida);
+            cc->ejercicioDeTraduccion(FraseTraducida);
         }
-        CC->altaEjercicio();
+        cc->altaEjercicio();
         cout << "Desea agregar otro ejercicio?\n";
         cout << "1-Si\n";
         cout << "-Pon otro numero si No\n";
         cin >> agregarEjercicio;
     }
-    CC->AgregarLeccion();
+    cc->AgregarLeccion();
 }
 void agregarEjercicio(){
-    IControladorCurso* CC = Fabrica::getIControladorCurso();
-    set<DTCurso> cnh = CC->solicitarCursosNoHabilitados();
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    vector<DTCurso> cnh = cc->solicitarCursosNoHabilitados();
     DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos no habilitados", cnh, false), cnh)).begin();
-    CC->seleccionarCurso(select);
-    list<DTLeccion> lecs = CC->listarLeccionesCurso();
+    cc->seleccionarCurso(select);
+    list<DTLeccion> lecs = cc->listarLeccionesCurso();
     //muestro lecciones en pantalla
     cout << "Lista de lecciones disponibles:\n";
     list<DTLeccion>::iterator it;
@@ -429,14 +410,11 @@ void agregarEjercicio(){
             invalido = true;
         }
     } while (invalido);
-    CC->SeleccionarLeccion(opcion);
+    cc->SeleccionarLeccion(opcion);
     //termino eleccion de leccion
     //agrego ejercicio
     int Tipo;
-    cout << "Tipo de ejercicio: \n";
-    cout << "1.Completado\n";
-    cout << "2.Traduccion\n";
-    cout << "Ingrese su opcion: ";
+    menuTipoEjercicio();
     cin >> Tipo;
     while (Tipo < 1 && Tipo > 2) {
         cout << "Tipo no valido. Intente de nuevo\n";
@@ -447,7 +425,7 @@ void agregarEjercicio(){
     string desc;
     cout << "Ingrese la descripcion: ";
     cin >> desc;
-    CC->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+    cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
     if (Tipo == 1) {
         list<string> palabras;
         string temp;
@@ -461,19 +439,19 @@ void agregarEjercicio(){
             cout << "-Pon otro numero si No\n";
             cin >> agregarPalabra;
         } while (agregarPalabra == 1);
-        CC->ejercicioDeCompletar(palabras);
+        cc->ejercicioDeCompletar(palabras);
     }
     else {
         string FraseTraducida;
         cout << "Ingrese la Traduccion: ";
         cin >> FraseTraducida;
-        CC->ejercicioDeTraduccion(FraseTraducida);
+        cc->ejercicioDeTraduccion(FraseTraducida);
     }
-    CC->FinalizarAgregarEjercicio();
+    cc->FinalizarAgregarEjercicio();
 }
 void habilitarCurso(){
     IControladorCurso* cc=Fabrica::getIControladorCurso();
-    set<DTCurso> cursosNoHabilitados=cc->solicitarCursosNoHabilitados();
+    vector<DTCurso> cursosNoHabilitados=cc->solicitarCursosNoHabilitados();
     set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Cursos no habilitados", cursosNoHabilitados, false);
     system("clear");
     cc->habilitarCurso(*obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursosNoHabilitados).begin());

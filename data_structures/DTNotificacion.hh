@@ -12,6 +12,7 @@ public:
     string getNombreIdioma() const;
     string getNombreCurso() const;
     bool operator<(const DTNotificacion& otro) const;
+    string to_string() const;
 };
 
 #endif

@@ -71,11 +71,11 @@ void ControladorIdioma::enviarNotificacion(string nombre, string nombreIdioma) {
     }
 }
 
-set<string> ControladorIdioma::obtenerIdiomas() {
-    set<string> res;
+vector<string> ControladorIdioma::obtenerIdiomas() {
+    vector<string> res;
     set<Idioma*>::iterator it;
     for (it=this->idiomas.begin(); it!=this->idiomas.end(); ++it) {
-        res.insert((*it)->getNombre());
+        res.push_back((*it)->getNombre());
     }
     return res;
 }
@@ -84,11 +84,11 @@ void ControladorIdioma::altaIdioma(string nombreIdioma) {
     this->idiomas.insert(new Idioma(nombreIdioma));
 }
 
-set<string> ControladorIdioma::consultarIdiomas() {
-    set<string> res;
+vector<string> ControladorIdioma::consultarIdiomas() {
+    vector<string> res;
     set<Idioma*>::iterator it;
     for (it=this->idiomas.begin(); it!=this->idiomas.end(); ++it) {
-        res.insert((*it)->getNombre());
+        res.push_back((*it)->getNombre());
     }
     return res;
 }

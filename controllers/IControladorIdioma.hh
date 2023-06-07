@@ -2,6 +2,7 @@
 #define ICONTROLADORIDIOMA_HH
 
 #include "../objects/Idioma.hh"
+#include "vector"
 
 class IControladorIdioma{
 public:
@@ -11,9 +12,9 @@ public:
     virtual set<string> listarIdiomas(string nickname)=0;
     virtual void eliminarIdioma(set<string> idiomas)=0;
     virtual void enviarNotificacion(string nombre, string nombreIdioma)=0;
-    virtual set<string> obtenerIdiomas()=0;
+    virtual vector<string> obtenerIdiomas()=0;
     virtual void altaIdioma(string nombreIdioma)=0;
-    virtual set<string> consultarIdiomas()=0;
+    virtual vector<string> consultarIdiomas()=0;
 };
 
 #endif

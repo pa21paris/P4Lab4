@@ -16,3 +16,7 @@ string DTNotificacion::getNombreCurso() const{
 bool DTNotificacion::operator<(const DTNotificacion& otro) const{
     return (this->nombreIdioma < otro.nombreIdioma);
 }
+
+string DTNotificacion::to_string() const{
+    return ("Idioma: " + this->getNombreIdioma() + ", Curso: " + this->getNombreCurso());
+}

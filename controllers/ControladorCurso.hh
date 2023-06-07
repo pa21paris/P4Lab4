@@ -19,16 +19,16 @@ private:
     set<Curso*> getCursosHabilitados();
 public:
     void eliminarCurso();
-    set<DTCurso> listarCursos();
-    set<string> obtenerNicksDocentes();
+    vector<DTCurso> listarCursos();
+    vector<string> obtenerNicksDocentes();
     void seleccionUsuario(string nickname);
     void datosCurso(string nombre, string descripcion, Dificultades dificultad);
     void leccionDatos(string tema, string objetivo);
-    set<string> idiomasDelDocente();
+    vector<string> idiomasDelDocente();
     void seleccionarCurso(DTCurso curso);
     void seleccionDeIdioma(string nombreIdioma);
-    set<DTCurso> solicitarCursosHabilitados();
-    set<DTCurso> solicitarCursosNoHabilitados();
+    vector<DTCurso> solicitarCursosHabilitados();
+    vector<DTCurso> solicitarCursosNoHabilitados();
     void agregarCursoPrevio(DTCurso curso);
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
     void altaCurso();
@@ -44,7 +44,7 @@ public:
     list<DTLeccion> listarLeccionesCurso();
     void SeleccionarLeccion(int index);
     void FinalizarAgregarEjercicio();
-    set<DTCurso> listarCursosDisponibles(Estudiante* estudiante);
+    vector<DTCurso> listarCursosDisponibles(Estudiante* estudiante);
     void inscribirACurso(Estudiante* estudiante, DTCurso curso);
 };
 

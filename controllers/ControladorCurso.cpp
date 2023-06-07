@@ -36,22 +36,22 @@ Curso* ControladorCurso::findCursoByDTCurso(DTCurso curso) {
     return nullptr;
 }
 
-set<DTCurso> ControladorCurso::listarCursos() {
-    set<DTCurso> res;
+vector<DTCurso> ControladorCurso::listarCursos() {
+    vector<DTCurso> res;
     set<Curso*>::iterator it;
     for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
-        res.insert((*it)->convertirADTCurso());
+        res.push_back((*it)->convertirADTCurso());
     }
     return res;
 }
 
-set<string> ControladorCurso::obtenerNicksDocentes() {
-    set<string> res;
+vector<string> ControladorCurso::obtenerNicksDocentes() {
+    vector<string> res;
     ControladorUsuario* cu=ControladorUsuario::getInstance();
     set<DTProfesor> profesores = cu->listarProfesores();
     set<DTProfesor>::iterator it;
     for(it = profesores.begin(); it != profesores.end(); ++it) {
-        res.insert((*it).getNickname());
+        res.push_back((*it).getNickname());
     }
     return res;
 }
@@ -69,7 +69,7 @@ void ControladorCurso::leccionDatos(string tema, string objetivo) {
     this->leccionEnCreacion = new Leccion(tema, objetivo);
 }
 
-set<string> ControladorCurso::idiomasDelDocente() {
+vector<string> ControladorCurso::idiomasDelDocente() {
     ControladorUsuario* cu=ControladorUsuario::getInstance();
     return cu->getIdiomasProfesor(this->profesorSeleccionado->getNickname());
 }
@@ -82,11 +82,11 @@ void ControladorCurso::seleccionDeIdioma(string nombreIdioma) {
     this->idiomaSeleccionado=nombreIdioma;
 }
 
-set<DTCurso> ControladorCurso::solicitarCursosHabilitados() {
-    set<DTCurso> res;
+vector<DTCurso> ControladorCurso::solicitarCursosHabilitados() {
+    vector<DTCurso> res;
     set<Curso*>::iterator it;
     for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
-        if((*it)->estaHabilitado()) res.insert((*it)->convertirADTCurso());
+        if((*it)->estaHabilitado()) res.push_back((*it)->convertirADTCurso());
     }
     return res;
 }
@@ -100,11 +100,11 @@ set<Curso*> ControladorCurso::getCursosHabilitados() {
     return res;
 }
 
-set<DTCurso> ControladorCurso::solicitarCursosNoHabilitados() {
-    set<DTCurso> res;
+vector<DTCurso> ControladorCurso::solicitarCursosNoHabilitados() {
+    vector<DTCurso> res;
     set<Curso*>::iterator it;
     for(it = this->cursos.begin(); it != this->cursos.end(); ++it) {
-        if(!(*it)->estaHabilitado()) res.insert((*it)->convertirADTCurso());
+        if(!(*it)->estaHabilitado()) res.push_back((*it)->convertirADTCurso());
     }
     return res;
 }
@@ -212,11 +212,11 @@ set<T> setDifference(set<T> a, set<T> b){
     return a;
 }
 
-set<DTCurso> getSetDTCurso(set<Curso*> cursos){
-    set<DTCurso> res;
+vector<DTCurso> getVectorDTCurso(set<Curso*> cursos){
+    vector<DTCurso> res;
     set<Curso*>::iterator it;
     for(it = cursos.begin(); it != cursos.end(); ++it) {
-        res.insert((*it)->convertirADTCurso());
+        res.push_back((*it)->convertirADTCurso());
     }
     return res;
 }
@@ -230,11 +230,11 @@ set<Curso*> filtrarPorPrevias(set<Curso*> cursos, set<Curso*> cursosCompletos){
     return res;
 }
 
-set<DTCurso> ControladorCurso::listarCursosDisponibles(Estudiante* estudiante){
+vector<DTCurso> ControladorCurso::listarCursosDisponibles(Estudiante* estudiante){
     set<Curso*> cursosCompletos=estudiante->getCursosCompletos();
     set<Curso*> cursosHabilitados=this->getCursosHabilitados();
     set<Curso*> cursosNoCompletos=setDifference(cursosHabilitados, cursosCompletos);
-    return getSetDTCurso(filtrarPorPrevias(cursosNoCompletos, cursosCompletos));
+    return getVectorDTCurso(filtrarPorPrevias(cursosNoCompletos, cursosCompletos));
 }
 
 void ControladorCurso::inscribirACurso(Estudiante* estudiante, DTCurso curso){
