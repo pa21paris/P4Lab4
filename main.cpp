@@ -162,28 +162,33 @@ void eliminarCurso() {
     cc->eliminarCurso();
 }
 
-
-void altaCurso() {
-    IControladorCurso* cc = Fabrica::getIControladorCurso();
-    vector<string> NicksDocentes = cc->obtenerNicksDocentes();
-    set<string> seleccionado = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de docentes", NicksDocentes, false), NicksDocentes);
-    cc->seleccionUsuario(*seleccionado.begin());
-    string Nombre, Descripcion;
+DTCurso pedirDatosCurso(){
+    string nombre, descripcion;
+    int dificultad;
     cout << "Ingrese el nombre: ";
-    cin >> Nombre;
+    cin >> nombre;
     cout << "Ingrese la descripcion: ";
-    cin >> Descripcion;
-    int Dificultad;
+    cin >> descripcion;
     cout << "Dificultades: \n";
     cout << "1.Principiante\n";
     cout << "2.Medio\n";
     cout << "3.Avanzado\n";
     cout << "Ingrese su opcion: ";
-    cin >> Dificultad;
-    while (Dificultad < 1 && Dificultad > 3) {
+    cin >> dificultad;
+    while (dificultad < 1 && dificultad > 3) {
         cout << "Dificultad no valida. Intente de nuevo\n";
+        cin >> dificultad;
     }
-    cc->datosCurso(Nombre, Descripcion, (Dificultades)Dificultad);
+    return DTCurso(nombre, descripcion, (Dificultades)dificultad);
+}
+
+void altaCurso() {
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    vector<string> nicksDocentes = cc->obtenerNicksDocentes();
+    set<string> seleccionado = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de docentes", nicksDocentes, false), nicksDocentes);
+    cc->seleccionUsuario(*seleccionado.begin());
+    DTCurso datosCurso=pedirDatosCurso();
+    cc->datosCurso(datosCurso.getNombre(), datosCurso.getDescripcion(), datosCurso.getDificultad());
     vector<string> Idiomas = cc->idiomasDelDocente();
     set<string> seleccionado2 = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de idiomas del docente", Idiomas, false), Idiomas);
     cc->seleccionDeIdioma(*seleccionado2.begin());
@@ -192,14 +197,13 @@ void altaCurso() {
     cout << "1-Si\n";
     cout << "-Pon otro numero si No\n";
     cin >> agregarCurso;
-    vector<DTCurso> CursosPreviosDisponibles;
-    if (agregarCurso == 1)
-        CursosPreviosDisponibles = cc->solicitarCursosHabilitados();
+    vector<DTCurso> cursosPreviosDisponibles;
+    if (agregarCurso == 1) cursosPreviosDisponibles = cc->solicitarCursosHabilitados();
     while (agregarCurso == 1) {
-        set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos habilitados", CursosPreviosDisponibles, false);
-        DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, CursosPreviosDisponibles)).begin();
+        set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos habilitados", cursosPreviosDisponibles, false);
+        DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursosPreviosDisponibles)).begin();
         cc->agregarCursoPrevio(select);
-        CursosPreviosDisponibles.erase(CursosPreviosDisponibles.begin()+(*cursoSeleccionado.begin()));
+        cursosPreviosDisponibles.erase(cursosPreviosDisponibles.begin()+(*cursoSeleccionado.begin()));
         cout << "Desea agregar mas cursos previos?\n";
         cout << "1-Si\n";
         cout << "-Pon otro numero si No\n";
@@ -307,7 +311,11 @@ void consultaIdioma(){
     IControladorIdioma* ci=Fabrica::getIControladorIdioma();
     printVector(ci->consultarIdiomas());
 }
-void consultaCurso(){}
+void consultaCurso(){
+    IControladorCurso* cc=Fabrica::getIControladorCurso();
+    vector<DTCurso> cursos=cc->listarCursos();
+    // cc.
+}
 void consultaEstadisticas(){}
 void consultaNotificaciones(){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();

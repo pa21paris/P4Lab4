@@ -5,6 +5,7 @@
 #include "../data_structures/TipoEjercicio.hh"
 #include "../data_structures/DTCurso.hh"
 #include "../data_structures/DTLeccion.hh"
+#include "../data_structures/DTDatosCurso.hh"
 #include "../objects/Estudiante.hh"
 
 class IControladorCurso{
