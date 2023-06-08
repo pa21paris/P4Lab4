@@ -35,17 +35,18 @@ public:
     TipoEjercicio obtenerTipo(Ejercicio* ejercicio);
     void altaLeccion();
     void agregarEjercicio(string frase, TipoEjercicio tipoDeEjercicio, string descripcion);
-    void ejercicioDeCompletar(list<string> palabrasFaltantes);
+    void ejercicioDeCompletar(vector<string> palabrasFaltantes);
     void ejercicioDeTraduccion(string fraseTraducida);
     void altaEjercicio();
     static ControladorCurso* getInstance();
     void habilitarCurso(DTCurso curso);
     void AgregarLeccion();
-    list<DTLeccion> listarLeccionesCurso();
+    set<DTLeccion> listarLeccionesCurso();
     void SeleccionarLeccion(int index);
     void FinalizarAgregarEjercicio();
     vector<DTCurso> listarCursosDisponibles(Estudiante* estudiante);
     void inscribirACurso(Estudiante* estudiante, DTCurso curso);
+    DTDatosCurso getDatosCurso(DTCurso curso);
 };
 
 #endif

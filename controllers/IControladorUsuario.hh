@@ -29,7 +29,7 @@ public:
     virtual DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso)=0;
     virtual Profesor* obtenerProfesor(string nickname)=0;
     virtual vector<string> getIdiomasProfesor(string nickname)=0;
-    virtual void ingresarSolucionCompletar(list<string> palabras)=0;
+    virtual void ingresarSolucionCompletar(vector<string> palabras)=0;
     virtual void ingresarSolucionTraduccion(string traduccion)=0;
     virtual Usuario* getUsuario(string nickname)=0;
     virtual void agregarCursoAProfesor(Profesor* p, Curso* c)=0;

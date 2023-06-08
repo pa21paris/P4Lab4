@@ -28,15 +28,16 @@ public:
     virtual TipoEjercicio obtenerTipo(Ejercicio* ejercicio)=0;
     virtual void altaLeccion()=0;
     virtual void agregarEjercicio(string frase, TipoEjercicio tipoDeEjercicio, string descripcion)=0;
-    virtual void ejercicioDeCompletar(list<string> palabrasFaltantes)=0;
+    virtual void ejercicioDeCompletar(vector<string> palabrasFaltantes)=0;
     virtual void ejercicioDeTraduccion(string fraseTraducida)=0;
     virtual void altaEjercicio()=0;
     virtual void AgregarLeccion() = 0;
-    virtual list<DTLeccion> listarLeccionesCurso() = 0;
+    virtual set<DTLeccion> listarLeccionesCurso() = 0;
     virtual void SeleccionarLeccion(int index) = 0;
     virtual void FinalizarAgregarEjercicio() = 0;
     virtual vector<DTCurso> listarCursosDisponibles(Estudiante* estudiante) = 0;
     virtual void inscribirACurso(Estudiante* estudiante, DTCurso curso) = 0;
+    virtual DTDatosCurso getDatosCurso(DTCurso curso) = 0;
 };
 
 #endif

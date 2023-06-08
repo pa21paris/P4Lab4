@@ -5,13 +5,9 @@
 #include "DTLeccion.hh"
 #include "DTEjercicio.hh"
 #include "DTInscripcion.hh"
+#include "DatosLeccion.hh"
 #include <vector>
 #include <set>
-
-struct DatosLeccion{
-    DTLeccion leccion;
-    vector<DTEjercicio> ejercicios;
-};
 
 class DTDatosCurso{
 private:

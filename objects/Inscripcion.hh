@@ -7,12 +7,15 @@
 #include "Ejercicio.hh"
 #include "Curso.hh"
 
+class Estudiante;
+
 class Inscripcion{
 private:
     Date fechaInscripcion;
     set<Ejercicio*> ejerciciosPendientes;
     Curso* curso;
     Leccion* leccionActual;
+    Estudiante* estudiante;
     int ejericiosRealizados;
     void avanzarLeccion();
 public:
@@ -24,8 +27,11 @@ public:
     Ejercicio* obtenerEjercicio(DTEjercicio ejercicio);
     set<DTEjercicio> getEjerciciosPendientes();
     void resolverTraduccion(Ejercicio* ejercicio, string traduccion);
-    void resolverCompletar(Ejercicio* ejercicio, list<string> palabras);
+    void resolverCompletar(Ejercicio* ejercicio, vector<string> palabras);
     Curso* getCurso();
+    DTInscripcion getData();
 };
+
+#include "Estudiante.hh"
 
 #endif

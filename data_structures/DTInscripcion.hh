@@ -11,6 +11,7 @@ public:
     DTInscripcion(string nombre, Date fechaInscripcion);
     string getNombre();
     Date getFechaInscripcion();
+    bool operator<(const DTInscripcion& otro) const;
 };
 
 #endif

@@ -139,7 +139,7 @@ vector<string> ControladorUsuario::getIdiomasProfesor(string nickname) {
     return this->obtenerProfesor(nickname)->getNombresIdiomas();
 }
 
-void ControladorUsuario::ingresarSolucionCompletar(list<string> palabras) {
+void ControladorUsuario::ingresarSolucionCompletar(vector<string> palabras) {
     this->inscripcionSeleccionada->resolverCompletar(this->ejercicioSeleccionado, palabras);
 }
 

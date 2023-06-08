@@ -242,7 +242,7 @@ void altaCurso() {
             cin >> desc;
             cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
             if (Tipo == 1) {
-                list<string> palabras;
+                vector<string> palabras;
                 string temp;
                 int agregarPalabra;
                 do {
@@ -311,10 +311,50 @@ void consultaIdioma(){
     IControladorIdioma* ci=Fabrica::getIControladorIdioma();
     printVector(ci->consultarIdiomas());
 }
+
+string dificultadToString(Dificultades dificultad){
+    string dificultadesString[3]={"PRINCIPIANTE", "MEDIO", "AVANZADO"};
+    return dificultadesString[dificultad];
+}
+
+void printDatosLeccion(DatosLeccion datosLeccion){
+    cout << "Tema: " << datosLeccion.leccion.getTema() << "\n";
+    cout << "Objetivo: " << datosLeccion.leccion.getObjetivo() << "\n";
+    set<DTEjercicio>::iterator it;
+    for (it = datosLeccion.ejercicios.begin(); it != datosLeccion.ejercicios.end(); it++) {
+        cout << "Problema: " << it->getFrase() << "\n";
+        cout << "Descripcion: " << it->getDescripcion() << "\n";
+    }
+}
+
+void printVectorDatosLeccion(vector<DatosLeccion> lecciones){
+    for (int i = 0; i < lecciones.size(); i++) {
+        cout << "Leccion " << i+1 << ":\n";
+        printDatosLeccion(lecciones[i]);
+    }
+}
+
+void printDatosCurso(DTDatosCurso datosCurso){
+    DTCurso curso=datosCurso.getCurso();
+    cout << "Nombre del curso: " << curso.getNombre() << "\n";
+    cout << "Descripcion: " << curso.getDescripcion() << "\n";
+    cout << "Dificultad: " << dificultadToString(curso.getDificultad()) << "\n";
+    cout << "Idioma: " << datosCurso.getIdioma() << "\n";
+    cout << "Profesor: " << datosCurso.getProfesor() << "\n";
+    cout << "Habilitado: " << datosCurso.getHabilitado() << "\n";
+    printVectorDatosLeccion(datosCurso.getLecciones());
+}
+
 void consultaCurso(){
     IControladorCurso* cc=Fabrica::getIControladorCurso();
     vector<DTCurso> cursos=cc->listarCursos();
-    // cc.
+    set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos", cursos, false);
+    DTCurso curso=*obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursos).begin();
+    DTDatosCurso datosCurso=cc->getDatosCurso(curso);
+    printDatosCurso(datosCurso);
+    string continuar;
+    cout << "Ingrese algun caracter para continuar:";
+    cin >> continuar;
 }
 void consultaEstadisticas(){}
 void consultaNotificaciones(){
@@ -362,7 +402,7 @@ void agregarLeccion(){
         cin >> desc;
         cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
         if (Tipo == 1) {
-            list<string> palabras;
+            vector<string> palabras;
             string temp;
             int agregarPalabra;
             do {
@@ -395,10 +435,10 @@ void agregarEjercicio(){
     vector<DTCurso> cnh = cc->solicitarCursosNoHabilitados();
     DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos no habilitados", cnh, false), cnh)).begin();
     cc->seleccionarCurso(select);
-    list<DTLeccion> lecs = cc->listarLeccionesCurso();
+    set<DTLeccion> lecs = cc->listarLeccionesCurso();
     //muestro lecciones en pantalla
     cout << "Lista de lecciones disponibles:\n";
-    list<DTLeccion>::iterator it;
+    set<DTLeccion>::iterator it;
     int index = 1;
     for (it = lecs.begin(); it != lecs.end(); ++it) {
         cout << index << ". " << (*it).getTema() << ", " << (*it).getObjetivo() << "\n";
@@ -435,7 +475,7 @@ void agregarEjercicio(){
     cin >> desc;
     cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
     if (Tipo == 1) {
-        list<string> palabras;
+        vector<string> palabras;
         string temp;
         int agregarPalabra;
         do {

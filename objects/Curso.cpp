@@ -7,7 +7,7 @@ Curso::Curso(string nombre, string descripcion, Dificultades dificultad){
     this->habilitado = false;
 }
 
-Curso::Curso(string nombre, string descripcion, Dificultades dificultad, set<Curso *> cursosPrevios, list<Leccion *> lecciones){
+Curso::Curso(string nombre, string descripcion, Dificultades dificultad, set<Curso *> cursosPrevios, vector<Leccion *> lecciones){
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->dificultad = dificultad;
@@ -26,9 +26,8 @@ void Curso::agregarLeccion(Leccion *leccion){
 
 int Curso::getTotalE(){
     int total = 0;
-    list<Leccion *>::iterator it;
-    for(it = this->lecciones.begin(); it != this->lecciones.end(); ++it){
-        total += (*it)->getTotalE();
+    for(int i=0; i<this->lecciones.size(); i++){
+        total += this->lecciones[i]->getTotalE();
     }
     return total;
 }
@@ -55,10 +54,9 @@ DTProgresoPromedioCurso Curso::getDataProgCurso(){
 
 void Curso::eliminarCurso(){
     this->profesorCurso->eliminarCursoProf(this);
-    list<Leccion *>::iterator it;
-    for(it = this->lecciones.begin(); it != this->lecciones.end(); ++it){
-        (*it)->eliminarLeccion();
-        delete *it;
+    for(int i=0; i<this->lecciones.size(); i++){
+        this->lecciones[i]->eliminarLeccion();
+        delete this->lecciones[i];
     }
 }
 
@@ -75,16 +73,14 @@ Dificultades Curso::getDificultad(){
 }
 
 Leccion* Curso::getLeccionSiguiente(Leccion* leccionActual){
-    if(leccionActual==nullptr) return this->lecciones.front();
-
-    list<Leccion *>::iterator it=this->lecciones.begin();
-    while(it!=this->lecciones.end() && *it!=leccionActual){
-        ++it;
+    if(this->lecciones.size()==0) return nullptr;
+    if(leccionActual==nullptr) return this->lecciones.front();    
+    int i=0;
+    while(i<this->lecciones.size() && this->lecciones[i]!=leccionActual){
+        i++;
     }
-
-    if((++it)==this->lecciones.end()) return nullptr;
-
-    return *(++it);
+    if(i==this->lecciones.size()-1) return nullptr;
+    return this->lecciones[i+1];
 }
 
 void Curso::setProfesorCurso(Profesor* profesor){
@@ -99,27 +95,16 @@ void Curso::habilitar(){
     this->habilitado = true;
 }
 
-list<DTLeccion> Curso::getDTLecciones() {
-    list<DTLeccion> ret;
-    list<Leccion*>::iterator it;
-    for (it = this->lecciones.begin(); it != this->lecciones.end(); ++it) {
-        ret.push_back((*it)->getDT());
+set<DTLeccion> Curso::getDTLecciones() {
+    set<DTLeccion> ret;
+    for (int i=0; i<this->lecciones.size(); i++) {
+        ret.insert((this->lecciones[i])->getDT());
     }
     return ret;
 }
 
 Leccion* Curso::getLeccion(int index) {
-    Leccion* ret;
-    list<Leccion*>::iterator it;
-    int a = 1;
-    for (it = this->lecciones.begin(); it != this->lecciones.end(); ++it) {
-        if (a == index) {
-            ret = *it;
-            break;
-        }
-        a++;
-    }
-    return ret;
+    return this->lecciones[index-1];
 }
 
 bool cumplePrevia(Curso *curso, set<Curso *> cursosCompletos){
@@ -138,4 +123,34 @@ bool Curso::previasCumplidas(set<Curso *> cursosCompletos){
 
 void Curso::addInscripcion(Inscripcion *inscripcion){
     this->inscripciones.insert(inscripcion);
+}
+
+void Curso::setIdiomaCurso(Idioma* idioma){
+    this->idioma = idioma;
+}
+
+vector<DatosLeccion> Curso::getDatosLecciones(){
+    vector<DatosLeccion> res;
+    for(int i=0; i<this->lecciones.size(); i++){
+        res.push_back(lecciones[i]->getDatos());
+    }
+    return res;
+}
+
+set<DTInscripcion> Curso::getDTInscripciones(){
+    set<DTInscripcion> res;
+    set<Inscripcion*>::iterator it;
+    for(it = this->inscripciones.begin(); it != this->inscripciones.end(); ++it){
+        res.insert((*it)->getData());
+    }
+    return res;
+}
+
+DTDatosCurso Curso::getDatosCurso(){
+    string idioma=this->idioma->getNombre();
+    string profesor=this->profesorCurso->getName();
+    bool habilitado=this->habilitado;
+    vector<DatosLeccion> lecciones=this->getDatosLecciones();
+    set<DTInscripcion> inscripciones=this->getDTInscripciones();
+    return DTDatosCurso(this->convertirADTCurso(), idioma, profesor, habilitado, lecciones, inscripciones);
 }

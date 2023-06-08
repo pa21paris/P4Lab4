@@ -2,17 +2,16 @@
 #define COMPLETAR_HH
 
 #include "Ejercicio.hh"
-#include <set>
-#include <list>
+#include <vector>
 using namespace std;
 
 class Completar : public Ejercicio {
 private:
-    list<string> palabrasFaltantes;
+    vector<string> palabrasFaltantes;
 public:
-    Completar(string frase, string descripcion, TipoEjercicio tipoDeEjercicio, list<string> palabrasFaltantes);
-    bool resolver(list<string> palabras);
-    list<string> getPalabrasFaltantes();
+    Completar(string frase, string descripcion, TipoEjercicio tipoDeEjercicio, vector<string> palabrasFaltantes);
+    bool resolver(vector<string> palabras);
+    vector<string> getPalabrasFaltantes();
 };
 
 #endif

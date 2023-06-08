@@ -58,7 +58,7 @@ void Inscripcion::resolverTraduccion(Ejercicio* ejercicio, string traduccion){
     }
 }
 
-void Inscripcion::resolverCompletar(Ejercicio* ejercicio, list<string> palabras){
+void Inscripcion::resolverCompletar(Ejercicio* ejercicio, vector<string> palabras){
     Completar* c=(Completar*)ejercicio;
     if(c->resolver(palabras)){
         this->ejerciciosPendientes.erase(ejercicio);
@@ -78,4 +78,8 @@ set<DTEjercicio> Inscripcion::getEjerciciosPendientes(){
 
 Curso* Inscripcion::getCurso(){
     return this->curso;
+}
+
+DTInscripcion Inscripcion::getData(){
+    return DTInscripcion(this->estudiante->getName(), this->fechaInscripcion);
 }

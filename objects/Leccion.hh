@@ -5,12 +5,14 @@
 #include "Ejercicio.hh"
 #include <set>
 #include "../data_structures/DTLeccion.hh"
+#include "../data_structures/DatosLeccion.hh"
 using namespace std;
 
 class Leccion {
 private:
     string tema, objetivo;
     set<Ejercicio*> ejercicios;
+    set<DTEjercicio> getDTEjercicios();
 public:
     Leccion(string tema, string objetivo);
     string getTema();
@@ -20,6 +22,7 @@ public:
     void eliminarLeccion();
     set<Ejercicio*> getEjercicios();
     DTLeccion getDT();
+    DatosLeccion getDatos();
 };
 
 #endif

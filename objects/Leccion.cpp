@@ -32,6 +32,19 @@ set<Ejercicio*> Leccion::getEjercicios(){
     return this->ejercicios;
 }
 
+set<DTEjercicio> Leccion::getDTEjercicios(){
+    set<DTEjercicio> ejercicios;
+    set<Ejercicio*>::iterator it;
+    for(it = this->ejercicios.begin(); it != this->ejercicios.end(); ++it){
+        ejercicios.insert((*it)->getData());
+    }
+    return ejercicios;
+}
+
 DTLeccion Leccion::getDT() {
     return DTLeccion(this->tema, this->objetivo);
+}
+
+DatosLeccion Leccion::getDatos() {
+    return DatosLeccion(this->getDT(), this->getDTEjercicios());
 }

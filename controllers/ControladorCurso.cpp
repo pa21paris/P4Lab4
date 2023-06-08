@@ -118,6 +118,8 @@ DTProgresoPromedioCurso ControladorCurso::listarEstadisticasCurso(DTCurso curso)
 }
 
 void ControladorCurso::altaCurso() {
+    ControladorIdioma* ci=ControladorIdioma::getInstance();
+    this->cursoEnProceso->setIdiomaCurso(ci->getIdioma(this->idiomaSeleccionado));
     this->cursoEnProceso->setProfesorCurso(this->profesorSeleccionado);
     set<Curso*>::iterator it;
     for(it = this->cursosPrevios.begin(); it != this->cursosPrevios.end(); ++it) {
@@ -127,7 +129,6 @@ void ControladorCurso::altaCurso() {
     for(it2 = this->lecciones.begin(); it2 != this->lecciones.end(); ++it2) {
         this->cursoEnProceso->agregarLeccion(*it2);
     }
-    ControladorIdioma* ci=ControladorIdioma::getInstance();
     ci->enviarNotificacion(this->cursoEnProceso->getNombre(),this->idiomaSeleccionado);
     ControladorUsuario* cu=ControladorUsuario::getInstance();
     cu->agregarCursoAProfesor(this->profesorSeleccionado,this->cursoEnProceso);
@@ -147,7 +148,7 @@ void ControladorCurso::agregarEjercicio(string frase, TipoEjercicio tipoDeEjerci
     this->ejercicioEnCreacion = new Ejercicio(frase, descripcion, tipoDeEjercicio);
 }
 
-void ControladorCurso::ejercicioDeCompletar(list<string> palabrasFaltantes) {
+void ControladorCurso::ejercicioDeCompletar(vector<string> palabrasFaltantes) {
     Completar* c = new Completar(
         this->ejercicioEnCreacion->getFrase(),
         this->ejercicioEnCreacion->getDescripcion(),
@@ -188,7 +189,7 @@ void ControladorCurso::AgregarLeccion() {
     this->vaciarDatosTemporales();
 }
 
-list<DTLeccion> ControladorCurso::listarLeccionesCurso() {
+set<DTLeccion> ControladorCurso::listarLeccionesCurso() {
     return this->cursoEnProceso->getDTLecciones();
 }
 
@@ -240,4 +241,8 @@ vector<DTCurso> ControladorCurso::listarCursosDisponibles(Estudiante* estudiante
 void ControladorCurso::inscribirACurso(Estudiante* estudiante, DTCurso curso){
     Curso* cursoSeleccionado=this->findCursoByDTCurso(curso);
     estudiante->inscribirseACurso(cursoSeleccionado);
+}
+
+DTDatosCurso ControladorCurso::getDatosCurso(DTCurso curso){
+    return this->findCursoByDTCurso(curso)->getDatosCurso();
 }

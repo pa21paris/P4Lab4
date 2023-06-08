@@ -11,3 +11,7 @@ string DTInscripcion::getNombre(){
 Date DTInscripcion::getFechaInscripcion(){
     return this->fechaInscripcion;
 }
+
+bool DTInscripcion::operator<(const DTInscripcion& otro) const{
+    return this->fechaInscripcion < otro.fechaInscripcion;
+}
