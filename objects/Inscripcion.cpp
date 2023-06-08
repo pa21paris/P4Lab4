@@ -9,6 +9,7 @@ Inscripcion::Inscripcion(Date fechaInscripcion, Curso* curso)
     this->leccionActual=curso->getLeccionSiguiente(nullptr);
     if(this->leccionActual!=nullptr) this->ejerciciosPendientes=this->leccionActual->getEjercicios();
     this->curso->addInscripcion(this);
+    this->estudiante=nullptr;
 }
 
 int Inscripcion::getTotalEP(){
@@ -82,4 +83,8 @@ Curso* Inscripcion::getCurso(){
 
 DTInscripcion Inscripcion::getData(){
     return DTInscripcion(this->estudiante->getName(), this->fechaInscripcion);
+}
+
+void Inscripcion::setEstudiante(Estudiante* estudiante){
+    if(this->estudiante==nullptr) this->estudiante=estudiante;
 }

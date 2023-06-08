@@ -334,6 +334,13 @@ void printVectorDatosLeccion(vector<DatosLeccion> lecciones){
     }
 }
 
+void printDTInscripciones(set<DTInscripcion> inscripciones){
+    set<DTInscripcion>::iterator it;
+    for (it = inscripciones.begin(); it != inscripciones.end(); it++) {
+        cout << "Inscripcion: " << it->getNombre() << ", fecha de inscripcion: " << it->getFechaInscripcion().toString() << "\n";
+    }
+}
+
 void printDatosCurso(DTDatosCurso datosCurso){
     DTCurso curso=datosCurso.getCurso();
     cout << "Nombre del curso: " << curso.getNombre() << "\n";
@@ -343,6 +350,7 @@ void printDatosCurso(DTDatosCurso datosCurso){
     cout << "Profesor: " << datosCurso.getProfesor() << "\n";
     cout << "Habilitado: " << datosCurso.getHabilitado() << "\n";
     printVectorDatosLeccion(datosCurso.getLecciones());
+    printDTInscripciones(datosCurso.getInscripciones());
 }
 
 void consultaCurso(){

@@ -30,6 +30,7 @@ public:
     void resolverCompletar(Ejercicio* ejercicio, vector<string> palabras);
     Curso* getCurso();
     DTInscripcion getData();
+    void setEstudiante(Estudiante* estudiante);
 };
 
 #include "Estudiante.hh"

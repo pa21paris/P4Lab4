@@ -9,8 +9,8 @@ private:
     Date fechaInscripcion;
 public:
     DTInscripcion(string nombre, Date fechaInscripcion);
-    string getNombre();
-    Date getFechaInscripcion();
+    string getNombre() const;
+    Date getFechaInscripcion() const;
     bool operator<(const DTInscripcion& otro) const;
 };
 

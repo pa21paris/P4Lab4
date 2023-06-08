@@ -75,5 +75,7 @@ Date getCurrentDate(){
 }
 
 void Estudiante::inscribirseACurso(Curso* curso) {
-    this->inscripciones.insert(new Inscripcion(getCurrentDate(), curso));
+    Inscripcion* inscripcion=new Inscripcion(getCurrentDate(), curso);
+    inscripcion->setEstudiante(this);
+    this->inscripciones.insert(inscripcion);
 }

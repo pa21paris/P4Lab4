@@ -4,11 +4,11 @@ DTInscripcion::DTInscripcion(string nombre, Date fechaInscripcion): fechaInscrip
     this->nombre = nombre;
 }
 
-string DTInscripcion::getNombre(){
+string DTInscripcion::getNombre() const{
     return this->nombre;
 }
 
-Date DTInscripcion::getFechaInscripcion(){
+Date DTInscripcion::getFechaInscripcion() const{
     return this->fechaInscripcion;
 }
 
