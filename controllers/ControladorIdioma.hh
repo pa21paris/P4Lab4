@@ -12,7 +12,7 @@ private:
 public:
     static ControladorIdioma* getInstance();
     Idioma* getIdioma(string nomId);
-    set<string> obtenerSuscripcionesDisponibles(string nickname);
+    vector<string> obtenerSuscripcionesDisponibles(string nickname);
     void agregarSuscripciones(set<string> idiomas);
     set<string> listarIdiomas(string nickname);
     void eliminarIdioma(set<string> idiomas);

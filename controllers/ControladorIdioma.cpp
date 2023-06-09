@@ -23,14 +23,15 @@ Idioma* ControladorIdioma::getIdioma(string nomId) {
     return (*it);
 }
 
-set<string> ControladorIdioma::obtenerSuscripcionesDisponibles(string nickname) {
-    set<string> res;
+vector<string> ControladorIdioma::obtenerSuscripcionesDisponibles(string nickname) {
+    vector<string> res;
     ControladorUsuario* cu = ControladorUsuario::getInstance();
     this->user=cu->getUsuario(nickname);
+    if(this->user==nullptr) return res;
     set<Idioma*>::iterator it;
     for (it=this->idiomas.begin(); it!=this->idiomas.end(); ++it) {
         if(!(*it)->verificarSuscripcion(this->user)){
-            res.insert((*it)->getNombre());
+            res.push_back((*it)->getNombre());
         }
     }
     return res;
