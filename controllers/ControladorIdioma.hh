@@ -14,7 +14,7 @@ public:
     Idioma* getIdioma(string nomId);
     vector<string> obtenerSuscripcionesDisponibles(string nickname);
     void agregarSuscripciones(set<string> idiomas);
-    set<string> listarIdiomas(string nickname);
+    vector<string> listarIdiomas(string nickname);
     void eliminarIdioma(set<string> idiomas);
     void enviarNotificacion(string nombre, string nombreIdioma);
     vector<string> obtenerIdiomas();
