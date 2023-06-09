@@ -48,6 +48,7 @@ vector<string> ControladorIdioma::listarIdiomas(string nickname) {
     vector<string> res;
     ControladorUsuario* cu = ControladorUsuario::getInstance();
     this->user=cu->getUsuario(nickname);
+    if(this->user==nullptr) return res;
     set<Idioma*>::iterator it;
     for (it=this->idiomas.begin(); it!=this->idiomas.end(); ++it) {
         if((*it)->verificarSuscripcion(this->user)){
