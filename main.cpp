@@ -334,6 +334,11 @@ void altaCurso() {
     cc->altaCurso();
 }
 
+void createInscription(string nickname, string curso){
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();
+    IControladorCurso* cc=Fabrica::getIControladorCurso();
+    cu->inscribirseCurso(cc->getCurso(curso));
+}
 
 void inscripcionCurso(){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();
@@ -345,6 +350,12 @@ void inscripcionCurso(){
     DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursosDisponibles).begin();
     cu->inscribirseCurso(cursoSeleccionado);
     cout << "Inscripto a curso " << cursoSeleccionado.getNombre();
+}
+
+void createSuscription(string nickname, set<string> idiomas){
+    IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
+    IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
+    controladorIdioma->agregarSuscripciones(idiomas);
 }
 
 void sucripcionNotificacion(){
@@ -596,6 +607,12 @@ void agregarEjercicio(){
     }
     cc->FinalizarAgregarEjercicio();
 }
+
+void habilitarCurso(string curso){
+    IControladorCurso* cc=Fabrica::getIControladorCurso();
+    cc->habilitarCurso(cc->getCurso(curso));
+}
+
 void habilitarCurso(){
     IControladorCurso* cc=Fabrica::getIControladorCurso();
     vector<DTCurso> cursosNoHabilitados=cc->solicitarCursosNoHabilitados();
