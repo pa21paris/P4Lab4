@@ -205,6 +205,105 @@ DTCurso pedirDatosCurso(){
     return DTCurso(nombre, descripcion, (Dificultades)dificultad);
 }
 
+void addEjercicioToLeccion(
+    string curso, int numeroLeccion, TipoEjercicio tipoEjercicio, 
+    string frase, string desc, string traduccion="", vector<string> palabras=vector<string>()){
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    cc->seleccionarCurso(cc->getCurso(curso));
+    cc->SeleccionarLeccion(numeroLeccion);
+    cc->agregarEjercicio(frase, tipoEjercicio, desc);
+    if (tipoEjercicio == COMPLETADO){
+        cc->ejercicioDeCompletar(palabras);
+    }else{
+        cc->ejercicioDeTraduccion(traduccion);
+    }
+    cc->FinalizarAgregarEjercicio();
+}
+
+void addLeccionToCurso(string curso, string tema, string objetivo){
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    cc->seleccionarCurso(cc->getCurso(curso));
+    cc->leccionDatos(tema, objetivo);
+    cc->altaLeccion();
+    cc->agregarLeccion();
+}
+
+void createCurso(string profesor, DTCurso datosCurso, string idioma, set<string> cursosPrevios){
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    cc->seleccionUsuario(profesor);
+    cc->datosCurso(datosCurso.getNombre(), datosCurso.getDescripcion(), datosCurso.getDificultad());
+    cc->seleccionDeIdioma(idioma);
+    set<string>::iterator it;
+    for(it=cursosPrevios.begin(); it!=cursosPrevios.end(); ++it){
+        cc->agregarCursoPrevio(cc->getCurso(*it));
+    }
+    int agregarLeccion;
+    cout << "Desea agregar una leccion?\n";
+    cout << "1-Si\n";
+    cout << "-Pon otro numero si No\n";
+    cin >> agregarLeccion;
+    while (agregarLeccion == 1) {
+        string Tema, Objetivo;
+        cout << "Ingrese el tema: ";
+        cin >> Tema;
+        cout << "Ingrese el objetivo: ";
+        cin >> Objetivo;
+        cc->leccionDatos(Tema, Objetivo);
+        cc->altaLeccion();
+        int agregarEjercicio;
+        cout << "Desea agregar un ejercicio?\n";
+        cout << "1-Si\n";
+        cout << "-Pon otro numero si No\n";
+        cin >> agregarEjercicio;
+        while (agregarEjercicio == 1) {
+            int Tipo;
+            menuTipoEjercicio();
+            cin >> Tipo;
+            while (Tipo < 1 && Tipo > 2) {
+                cout << "Tipo no valido. Intente de nuevo\n";
+            }
+            string Frase;
+            cout << "Ingrese la frase del ejercicio: ";
+            cin >> Frase;
+            string desc;
+            cout << "Ingrese la descripcion: ";
+            cin >> desc;
+            cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+            if (Tipo == 1) {
+                vector<string> palabras;
+                string temp;
+                int agregarPalabra;
+                do {
+                    cout << "Ingrese palabra faltante: ";
+                    cin >> temp;
+                    palabras.push_back(temp);
+                    cout << "Desea agregar otra palabra?\n";
+                    cout << "1-Si\n";
+                    cout << "-Pon otro numero si No\n";
+                    cin >> agregarPalabra;
+                } while (agregarPalabra == 1);
+                cc->ejercicioDeCompletar(palabras);
+            }
+            else {
+                string FraseTraducida;
+                cout << "Ingrese la Traduccion: ";
+                cin >> FraseTraducida;
+                cc->ejercicioDeTraduccion(FraseTraducida);
+            }
+            cc->altaEjercicio();
+            cout << "Desea agregar otro ejercicio?\n";
+            cout << "1-Si\n";
+            cout << "-Pon otro numero si No\n";
+            cin >> agregarEjercicio;
+        }
+        cout << "Desea agregar otra leccion?\n";
+        cout << "1-Si\n";
+        cout << "-Pon otro numero si No\n";
+        cin >> agregarLeccion;
+    }
+    cc->altaCurso();
+}
+
 void altaCurso() {
     IControladorCurso* cc = Fabrica::getIControladorCurso();
     vector<string> nicksDocentes = cc->obtenerNicksDocentes();
@@ -492,7 +591,7 @@ void agregarLeccion(){
         cout << "-Pon otro numero si No\n";
         cin >> agregarEjercicio;
     }
-    cc->AgregarLeccion();
+    cc->agregarLeccion();
 }
 void agregarEjercicio(){
     IControladorCurso* cc = Fabrica::getIControladorCurso();

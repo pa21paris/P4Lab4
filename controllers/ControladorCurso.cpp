@@ -181,7 +181,7 @@ void ControladorCurso::habilitarCurso(DTCurso curso){
     this->findCursoByDTCurso(curso)->habilitar();
 }
 
-void ControladorCurso::AgregarLeccion() {
+void ControladorCurso::agregarLeccion() {
     set<Leccion*>::iterator it2;
     for (it2 = this->lecciones.begin(); it2 != this->lecciones.end(); ++it2) {
         this->cursoEnProceso->agregarLeccion(*it2);
@@ -245,4 +245,15 @@ void ControladorCurso::inscribirACurso(Estudiante* estudiante, DTCurso curso){
 
 DTDatosCurso ControladorCurso::getDatosCurso(DTCurso curso){
     return this->findCursoByDTCurso(curso)->getDatosCurso();
+}
+
+DTCurso ControladorCurso::getCurso(string nombreCurso){
+    set<Curso*>::iterator it=this->cursos.begin();
+    while(it!=this->cursos.end()){
+        if((*it)->getNombre()==nombreCurso){
+            return (*it)->convertirADTCurso();
+        }
+        ++it;
+    }
+    return DTCurso("","",PRINCIPIANTE);
 }

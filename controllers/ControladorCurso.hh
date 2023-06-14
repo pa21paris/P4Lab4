@@ -18,6 +18,7 @@ private:
     void vaciarDatosTemporales();
     set<Curso*> getCursosHabilitados();
 public:
+    DTCurso getCurso(string nombreCurso);
     void eliminarCurso();
     vector<DTCurso> listarCursos();
     vector<string> obtenerNicksDocentes();
@@ -40,7 +41,7 @@ public:
     void altaEjercicio();
     static ControladorCurso* getInstance();
     void habilitarCurso(DTCurso curso);
-    void AgregarLeccion();
+    void agregarLeccion();
     set<DTLeccion> listarLeccionesCurso();
     void SeleccionarLeccion(int index);
     void FinalizarAgregarEjercicio();
