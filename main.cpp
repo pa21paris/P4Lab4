@@ -109,6 +109,24 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<DTCurso> li
     return selecciones;
 }
 
+
+void createUsuario(
+    DTUsuario datosUsuario, TipoUsuario tipoUsuario, string paisRes="", 
+    Date fechaNacimiento=Date(1,1,1), string instituto="", set<string> idiomas=set<string>()){
+    IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
+    controladorUsuario->ingresarDatosUsuario(
+        datosUsuario.getNickname(), datosUsuario.getPassword(), 
+        datosUsuario.getName(), datosUsuario.getDescription(), tipoUsuario
+    );
+    if(tipoUsuario==ESTUDIANTE){
+        controladorUsuario->ingresarDatosEstudiante(paisRes, fechaNacimiento);
+    }else{
+        controladorUsuario->ingresarInstituto(instituto);
+        controladorUsuario->seleccionIdiomas(idiomas);
+    }
+    controladorUsuario->confirmarAltaUsuario();
+}
+
 void altaUsuario(){
     IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
     DTUsuario datosUsuario = pedirDatosUsuario();
@@ -139,12 +157,17 @@ void altaUsuario(){
     controladorUsuario->confirmarAltaUsuario();
     cout << "Usuario \"" << datosUsuario.getNickname() << "\" agregado\n";
 }
+
+void createIdioma(string idioma){
+    IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
+    controladorIdioma->altaIdioma(idioma);
+}
+
 void altaIdioma(){
     string nombre;
     cout << "Ingrese el nombre del idioma: ";
     cin >> nombre;
-    IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
-    controladorIdioma->altaIdioma(nombre);
+    createIdioma(nombre);
     cout << "Idioma \"" << nombre << "\" agregado\n";
 }
 
