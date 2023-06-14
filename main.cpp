@@ -320,7 +320,7 @@ void sucripcionNotificacion(){
     IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
     vector<string> idiomas=controladorIdioma->obtenerSuscripcionesDisponibles(nickname);
     if(idiomas.size()==0){
-        cout<< "No idiomas disponibles para usuario ingresado \n";
+        cout<< "No hay idiomas disponibles para el usuario ingresado. \n";
     }else{
         bool masDeUno = (idiomas.size() > 1) ? true : false;
         set<int> seleccionados = pedirSeleccionarIndicesDeLista("Lista de idiomas a los que no esta suscrito", idiomas, masDeUno); 
@@ -330,25 +330,19 @@ void sucripcionNotificacion(){
 }
 
 void eliminarSuscripciones(){
-    IControladorUsuario* controladorUsuario=Fabrica::getIControladorUsuario();
-    string nickname; 
-    Usuario* user;
-    bool valido = false; 
-    while(!valido){ 
-        cout<< "Ingrese su nickname: \n";
-        cin>> nickname;  
-        user = controladorUsuario->getUsuario(nickname);
-        if(user == nullptr)
-            cout<< "Nickname no valido. \n";
-        else{
-            valido = true; 
-            IControladorIdioma* controladorIdioma=Fabrica::getIControladorIdioma();
-            vector<string> idiomas((controladorIdioma->listarIdiomas(nickname)).begin(), (controladorIdioma->listarIdiomas(nickname)).end());
-            bool masDeUno = (idiomas.size() > 1) ? true : false;
-            set<int> seleccionados = pedirSeleccionarIndicesDeLista("Lista de idiomas a los que esta suscrito", idiomas, masDeUno); 
-            controladorIdioma->eliminarIdioma(obtenerListaDeSeleccionadosPorIndices(seleccionados, idiomas)); 
-            cout<< "Se han eliminado las suscripciones correctamente. \n";
-        }
+    IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
+    string nickname;
+    cout<< "Ingrese su nickname: \n";
+    cin>> nickname;
+    IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
+    vector<string> idiomas = controladorIdioma->listarIdiomas(nickname);
+    if(idiomas.size()==0)
+        cout<< "No hay idiomas disponibles para el usuario ingresado. \n";
+    else{
+        bool masDeUno = (idiomas.size() > 1) ? true : false;
+        set<int> seleccionados = pedirSeleccionarIndicesDeLista("Lista de idiomas a los que esta suscrito", idiomas, masDeUno); 
+        controladorIdioma->eliminarIdioma(obtenerListaDeSeleccionadosPorIndices(seleccionados, idiomas));
+        cout<< "Se han eliminado las suscripciones correctamente. \n";
     }
 }
 
