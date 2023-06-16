@@ -110,20 +110,24 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<DTCurso> li
 }
 
 
-void createUsuario(
-    DTUsuario datosUsuario, TipoUsuario tipoUsuario, string paisRes="", 
-    Date fechaNacimiento=Date(1,1,1), string instituto="", set<string> idiomas=set<string>()){
+void createEstudiante(DTUsuario datosUsuario, string paisRes, Date fechaNacimiento){
     IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
     controladorUsuario->ingresarDatosUsuario(
         datosUsuario.getNickname(), datosUsuario.getPassword(), 
-        datosUsuario.getName(), datosUsuario.getDescription(), tipoUsuario
+        datosUsuario.getName(), datosUsuario.getDescription(), ESTUDIANTE
     );
-    if(tipoUsuario==ESTUDIANTE){
-        controladorUsuario->ingresarDatosEstudiante(paisRes, fechaNacimiento);
-    }else{
-        controladorUsuario->ingresarInstituto(instituto);
-        controladorUsuario->seleccionIdiomas(idiomas);
-    }
+    controladorUsuario->ingresarDatosEstudiante(paisRes, fechaNacimiento);
+    controladorUsuario->confirmarAltaUsuario();
+}
+
+void createProfesor(DTUsuario datosUsuario,string instituto, set<string> idiomas){
+    IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
+    controladorUsuario->ingresarDatosUsuario(
+        datosUsuario.getNickname(), datosUsuario.getPassword(), 
+        datosUsuario.getName(), datosUsuario.getDescription(), PROFESOR
+    );
+    controladorUsuario->ingresarInstituto(instituto);
+    controladorUsuario->seleccionIdiomas(idiomas);
     controladorUsuario->confirmarAltaUsuario();
 }
 
@@ -623,6 +627,103 @@ void habilitarCurso(){
 }
 void realizarEjercicio(){}
 
+void loadIdiomas(){
+    string idiomas[3]={"Ingles", "Aleman", "Portugues"};
+    for(string i: idiomas){
+        createIdioma(i);
+    }
+}
+
+void loadUsuarios(){
+    const int ingles=0;
+    const int aleman=1;
+    const int portugues=2;
+    DTUsuario datosUsuarios[15]={
+        DTUsuario("jpidiom", "asdfg123", "Juan Perez", "Soy un apasionado del aprendizaje de idiomas."),
+        DTUsuario("marsilva", "qwer456", "Maria Silva", "Como amante de los idiomas disfruto explorando nuevas formas de interactuar."),
+        DTUsuario("pero12", "789werty", "Pedro Rodriguez", "Soy un entusiasta del aprendizaje de idiomas."),
+        DTUsuario("laugu", "c1v2b3m4", "Laura Gutierrez", "Estoy fascinada por la forma en que las palabras pueden unir a las personas."),
+        DTUsuario("carlo22", "tyuipz147", "Carlos Lopez", "Emocionado por adquirir fluidez en diferentes lenguas."),
+        DTUsuario("anator", "1qsxc36", "Ana Torres", "Disfruto de la belleza de las diferentes estructuras y sonidos."),
+        DTUsuario("luher24", "t7h8y5u6", "Lucia Hernandez", "Emocionada en la riqueza cultural que cada idioma ofrece."),
+        DTUsuario("dagon", "1w2e3r4t5", "David Gonzalez", "Aprender nuevas lenguas y sumergirme en diferentes culturas."),
+        DTUsuario("carmor", "6yu7i8m9", "Carmen Morales", "El aprendizaje de idiomas y expandir mis habilidades comunicativas en diferentes lenguas."),
+        DTUsuario("jose24", "qwj789p", "Jose Fernandez", "Disfruto del proceso de descubrir nuevas formas de comunicarme."),
+        DTUsuario("langMaster", "P4s512", "Marta Grecia", "Soy una profesora apasionada por los idiomas."),
+        DTUsuario("linguaPro", "Pess23", "Carlos Petro", "Mi objetivo es inspirar a mis estudiantes a explorar nuevas culturas e idiomas."),
+        DTUsuario("talkExpert", "Secret1", "Laura Perez", "Soy una profesora entusiasta del aprendizaje de idiomas."),
+        DTUsuario("lingoSensei", "Secure2", "Franco Lopez", "Apasionada en guiar a mis estudiantes en su viaje por nuevos horizontes idiomaticos."),
+        DTUsuario("wordMaestro", "Passw0", "Ana Morales", "Soy una profesora comprometida en desarrollo de habilidades idiomaticas.")
+    };
+    Date fechasNacimiento[10]={
+        Date(15, 7, 1995), Date(28, 2, 1998), Date(10, 11, 1994), Date(22, 4, 1997), Date(3, 9, 1996),
+        Date(12, 1, 1999), Date(25, 6, 1993), Date(8, 12, 1997), Date(17, 3, 1995), Date(2, 8, 1998)
+    };
+    string paisesResidencia[10]={
+        "Argentina", "Ecuador", "Peru", "Chile", "Uruguay", 
+        "Argentina", "Colombia", "Uruguay", "Chile", "Bolivia"
+    };
+    string institutos[5]={
+        "Instituto de Idiomas Moderno", "Centro Global", "Instituto de Idiomas Vanguardia",
+        "Centro de Idiomas", "Instituto de Idiomas Progreso"
+    };
+    bool idiomasProfesores[5][3]={
+        {true, false, true},
+        {true, true, true},
+        {false, true, false},
+        {false, false, true},
+        {true, false, false}
+    };
+    for(int i=0; i<10; i++){
+        createEstudiante(datosUsuarios[i], paisesResidencia[i], fechasNacimiento[i]);
+    }
+    for(int i=10; i<15; i++){
+        set<string> idiomas;
+        if(idiomasProfesores[i][ingles]) idiomas.insert("Ingles");
+        if(idiomasProfesores[i][aleman]) idiomas.insert("Aleman");
+        if(idiomasProfesores[i][portugues]) idiomas.insert("Portugues");
+        createProfesor(datosUsuarios[i], institutos[i], idiomas);
+    }
+}
+
+void loadCursos(){
+    const int CANTIDAD_CURSOS=6;
+    DTCurso cursos[CANTIDAD_CURSOS]={
+    DTCurso("Ingles para principiantes", "Curso para personas con poco o ningun conocimiento de ingles. Se enfoca en vocabulario basico, gramatica y habilidades de conversacion.", PRINCIPIANTE),
+    DTCurso("Curso de ingles basico", "Construye una base solida en el idioma. Cubre gramatica, vocabulario, comprension auditiva y expresion oral.", PRINCIPIANTE),
+    DTCurso("Ingles intermedio: mejora tu nivel", "Para estudiantes con conocimientos basicos de ingles que desean avanzar en su habilidad comunicativa. Se centra en la fluidez oral, lectura comprensiva y escritura.", MEDIO),
+    DTCurso("Curso avanzado de ingles", "Dirigido a personas con un nivel intermedio-alto que desean perfeccionar sus habilidades en todos los aspectos del idioma. Incluye gramatica avanzada, vocabulario y comprension escrita y auditiva.", AVANZADO),
+    DTCurso("Portugues intermedio", "Curso para aquellos que tienen conocimientos basicos de portugues y desean mejorar su nivel. Incluye practica de lectura, escritura y comprension auditiva.", MEDIO),
+    DTCurso("Portugues avanzado", "Curso avanzado para personas con un nivel intermedio-alto de portugues que desean perfeccionar su fluidez y dominio del idioma. Se trabaja en la gramatica avanzada y la expresion oral.", AVANZADO)
+    };
+    string profesorCursos[CANTIDAD_CURSOS]={
+        "langMaster", "langMaster", "linguaPro", "linguaPro", "linguaPro", "lingoSensei"
+    };
+    string idiomaCursos[CANTIDAD_CURSOS]={
+        "Ingles", "Ingles", "Ingles", "Ingles", "Portugues", "Portugues"
+    };
+    set<string> previasCursos[CANTIDAD_CURSOS]={
+        set<string>(), 
+        set<string>(), 
+        set<string>{cursos[0].getNombre()}, 
+        set<string>{cursos[0].getNombre(), cursos[2].getNombre()}, 
+        set<string>(), 
+        set<string>{cursos[4].getNombre()}
+    };
+    for(int i=0; i<CANTIDAD_CURSOS; i++){
+        createCurso(profesorCursos[i], cursos[i], idiomaCursos[i], previasCursos[i]);
+    }
+}
+
+void cargarDatosDePrueba(){
+    bool cursoHabilitado[6]={
+        true, false, true, true, true, false
+    };
+    loadIdiomas();
+    loadUsuarios();
+    loadCursos();
+}
+
 int mostrarMenuYObtenerOpcion(){
     cout << "Seleccione una opción:\n";
     cout << "Grupo altas y bajas:\n";
@@ -645,6 +746,7 @@ int mostrarMenuYObtenerOpcion(){
     cout << "   15.Consultar estadisticas\n";
     cout << "   16.Consulta de notificaciones\n";
     cout << "Otras:\n";
+    cout << "   17.Cargar datos de prueba\n";
     cout << "   0.Salir\n";
     cout << "Seleccione el caso de uso a ejecutar: ";
     int opcion;
@@ -706,6 +808,9 @@ int main() {
             break;
         case 16:
             consultaNotificaciones();
+            break;
+        case 17:
+            cargarDatosDePrueba();
             break;
         case 0:
             cout << "Gracias por usar la aplicación\n";
