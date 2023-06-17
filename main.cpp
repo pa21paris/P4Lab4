@@ -22,8 +22,9 @@ DTUsuario pedirDatosUsuario(){
     cin >> contraseña;
     cout << "Ingrese el nombre: ";
     cin >> nombre;
-    cout << "Ingrese la descripcion: ";
-    cin >> descripcion;
+    cout << "Ingrese la descripción: ";
+    cin.ignore();
+    getline(cin, descripcion);
     return DTUsuario(nickname, contraseña, nombre, descripcion);
 }
 
@@ -204,9 +205,11 @@ DTCurso pedirDatosCurso(){
     string nombre, descripcion;
     int dificultad;
     cout << "Ingrese el nombre: ";
-    cin >> nombre;
+    cin.ignore();
+    getline(cin, nombre);
     cout << "Ingrese la descripcion: ";
-    cin >> descripcion;
+    cin.ignore();
+    getline(cin, descripcion);
     cout << "Dificultades: \n";
     cout << "1.Principiante\n";
     cout << "2.Medio\n";
@@ -290,9 +293,11 @@ void altaCurso() {
     while (agregarLeccion == 1) {
         string Tema, Objetivo;
         cout << "Ingrese el tema: ";
-        cin >> Tema;
+        cin.ignore();
+        getline(cin, Tema);
         cout << "Ingrese el objetivo: ";
-        cin >> Objetivo;
+        cin.ignore();
+        getline(cin, Objetivo);
         cc->leccionDatos(Tema, Objetivo);
         cc->altaLeccion();
         int agregarEjercicio;
@@ -309,10 +314,12 @@ void altaCurso() {
             }
             string Frase;
             cout << "Ingrese la frase del ejercicio: ";
-            cin >> Frase;
+            cin.ignore();
+            getline(cin, Frase);
             string desc;
             cout << "Ingrese la descripcion: ";
-            cin >> desc;
+            cin.ignore();
+            getline(cin, desc);
             cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
             if (Tipo == 1) {
                 vector<string> palabras;
@@ -332,7 +339,8 @@ void altaCurso() {
             else {
                 string FraseTraducida;
                 cout << "Ingrese la Traduccion: ";
-                cin >> FraseTraducida;
+                cin.ignore();
+                getline(cin, FraseTraducida); 
                 cc->ejercicioDeTraduccion(FraseTraducida);
             }
             cc->altaEjercicio();
@@ -410,18 +418,23 @@ void eliminarSuscripciones(){
 void consultaUsuario(){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();
     vector<string> usuarios=cu->consultarNicknameUsuarios();
-    set<int> usuarioSeleccionado=pedirSeleccionarIndicesDeLista("Lista de usuarios", usuarios, false);
-    cu->seleccionarUsuario(*obtenerListaDeSeleccionadosPorIndices(usuarioSeleccionado, usuarios).begin());
-    system("clear");
-    cout << "Datos del usuario: \n";
-    cout << cu->getNombreUsuario() << "\n";
-    cout << cu->getDescripcionUsuario() << "\n";
-    if(cu->getTipoUsuario()==ESTUDIANTE){
-        cout << cu->getPaisResidenciaUsuario() << "\n";
-    }else{
-        cout << cu->getInstitutoUsuario() << "\n";
-        cout << "Idiomas usuario: \n";
-        printVector(cu->getIdiomasUsuario());
+    if(usuarios.empty()){
+        cout<< "No hay usuarios registrados. \n"; 
+    }
+    else{ 
+        set<int> usuarioSeleccionado=pedirSeleccionarIndicesDeLista("Lista de usuarios", usuarios, false);
+        cu->seleccionarUsuario(*obtenerListaDeSeleccionadosPorIndices(usuarioSeleccionado, usuarios).begin());
+        system("clear");
+        cout << "Datos del usuario: \n";
+        cout << "Nombre: " << cu->getNombreUsuario() << "\n";
+        cout << "Descripcion: " << cu->getDescripcionUsuario() << "\n";
+        if(cu->getTipoUsuario()==ESTUDIANTE){
+            cout << "Pais de residencia: " << cu->getPaisResidenciaUsuario() << "\n";
+        }else{
+            cout << "Instituto: " << cu->getInstitutoUsuario() << "\n";
+            cout << "Idiomas del usuario: \n";
+            printVector(cu->getIdiomasUsuario());
+        }
     }
 }
 void consultaIdioma(){
@@ -465,7 +478,12 @@ void printDatosCurso(DTDatosCurso datosCurso){
     cout << "Dificultad: " << dificultadToString(curso.getDificultad()) << "\n";
     cout << "Idioma: " << datosCurso.getIdioma() << "\n";
     cout << "Profesor: " << datosCurso.getProfesor() << "\n";
-    cout << "Habilitado: " << datosCurso.getHabilitado() << "\n";
+    if(datosCurso.getHabilitado()){
+        cout << "Habilitado: Si \n"; 
+    }
+    else{
+        cout << "Habilitado: No \n"; 
+    }
     printVectorDatosLeccion(datosCurso.getLecciones());
     printDTInscripciones(datosCurso.getInscripciones());
 }
@@ -473,28 +491,40 @@ void printDatosCurso(DTDatosCurso datosCurso){
 void consultaCurso(){
     IControladorCurso* cc=Fabrica::getIControladorCurso();
     vector<DTCurso> cursos=cc->listarCursos();
-    set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos", cursos, false);
-    DTCurso curso=*obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursos).begin();
-    DTDatosCurso datosCurso=cc->getDatosCurso(curso);
-    printDatosCurso(datosCurso);
-    string continuar;
-    cout << "Ingrese algun caracter para continuar:";
-    cin >> continuar;
+    if(!cursos.empty()){
+        set<int> cursoSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos", cursos, false);
+        DTCurso curso=*obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursos).begin();
+        DTDatosCurso datosCurso=cc->getDatosCurso(curso);
+        printDatosCurso(datosCurso);
+        string continuar;
+        cout << "Ingrese algun caracter para continuar:";
+        cin >> continuar;
+    }
+    else{
+        cout << "No existen cursos registrados. \n"; 
+    }
 }
 void consultaEstadisticas(){}
 void consultaNotificaciones(){
-    IControladorUsuario* cu=Fabrica::getIControladorUsuario();
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();    
+    bool registrado = true;
     string nickname;
+
     cout << "Ingrese el nickname del usuario: ";
     cin >> nickname;
-    set<DTNotificacion> notificaciones=cu->obtenerNotificaciones(nickname);
-    if(notificaciones.empty()){
-        cout << "No hay notificaciones\n";
-    }else{
-        cout << "Notificaciones del usuario: \n";
-        leerNotificaciones(notificaciones);
-    }
+    if(cu->yaRegistrado(nickname)){
+        set<DTNotificacion> notificaciones=cu->obtenerNotificaciones(nickname);
+        if(notificaciones.empty()){
+            cout << "No hay notificaciones\n";
+        }else{
+            cout << "Notificaciones del usuario: \n";
+            leerNotificaciones(notificaciones);
+        }
+    }   
+    else
+        cout<< "Usuario no registrado. \n";
 }
+
 void agregarLeccion(){
     IControladorCurso* cc = Fabrica::getIControladorCurso();
     vector<DTCurso> cnh = cc->solicitarCursosNoHabilitados();
@@ -502,9 +532,11 @@ void agregarLeccion(){
     cc->seleccionarCurso(select);
     string Tema, Objetivo;
     cout << "Ingrese el tema: ";
-    cin >> Tema;
+    cin.ignore();
+    getline(cin, Tema); 
     cout << "Ingrese el objetivo: ";
-    cin >> Objetivo;
+    cin.ignore();
+    getline(cin, Objetivo); 
     cc->leccionDatos(Tema, Objetivo);
     cc->altaLeccion();
     int agregarEjercicio;
@@ -521,10 +553,12 @@ void agregarLeccion(){
         }
         string Frase;
         cout << "Ingrese la frase del ejercicio: ";
-        cin >> Frase;
+        cin.ignore();
+        getline(cin, Frase); 
         string desc;
         cout << "Ingrese la descripcion: ";
-        cin >> desc;
+        cin.ignore();
+        getline(cin, desc); 
         cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
         if (Tipo == 1) {
             vector<string> palabras;
@@ -544,7 +578,8 @@ void agregarLeccion(){
         else {
             string FraseTraducida;
             cout << "Ingrese la Traduccion: ";
-            cin >> FraseTraducida;
+            cin.ignore();
+            getline(cin, FraseTraducida); 
             cc->ejercicioDeTraduccion(FraseTraducida);
         }
         cc->altaEjercicio();
@@ -594,10 +629,12 @@ void agregarEjercicio(){
     }
     string Frase;
     cout << "Ingrese la frase del ejercicio: ";
-    cin >> Frase;
+    cin.ignore();
+    getline(cin, Frase); 
     string desc;
     cout << "Ingrese la descripcion: ";
-    cin >> desc;
+    cin.ignore();
+    getline(cin, desc); 
     cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
     if (Tipo == 1) {
         vector<string> palabras;
@@ -617,7 +654,8 @@ void agregarEjercicio(){
     else {
         string FraseTraducida;
         cout << "Ingrese la Traduccion: ";
-        cin >> FraseTraducida;
+        cin.ignore();
+        getline(cin, FraseTraducida); 
         cc->ejercicioDeTraduccion(FraseTraducida);
     }
     cc->FinalizarAgregarEjercicio();
@@ -688,12 +726,17 @@ void loadUsuarios(){
     for(int i=0; i<10; i++){
         createEstudiante(datosUsuarios[i], paisesResidencia[i], fechasNacimiento[i]);
     }
+    int j = 0; 
     for(int i=10; i<15; i++){
         set<string> idiomas;
-        if(idiomasProfesores[i][ingles]) idiomas.insert("Ingles");
-        if(idiomasProfesores[i][aleman]) idiomas.insert("Aleman");
-        if(idiomasProfesores[i][portugues]) idiomas.insert("Portugues");
-        createProfesor(datosUsuarios[i], institutos[i], idiomas);
+        if(idiomasProfesores[j][ingles]) 
+            idiomas.insert("Ingles");
+        if(idiomasProfesores[j][aleman]) 
+            idiomas.insert("Aleman");
+        if(idiomasProfesores[j][portugues]) 
+            idiomas.insert("Portugues");
+        createProfesor(datosUsuarios[i], institutos[j], idiomas);
+        j++; 
     }
 }
 
@@ -774,6 +817,7 @@ int main() {
         switch (op){
         case 1:
             altaUsuario();
+            cout<< "\n"; 
             break;
         case 2:
             altaIdioma();
@@ -807,18 +851,23 @@ int main() {
             break;
         case 12:
             consultaUsuario();
+            cout<< "\n"; 
             break;
         case 13:
             consultaIdioma();
+            cout<< "\n"; 
             break;
         case 14:
             consultaCurso();
+            cout<< "\n"; 
             break;
         case 15:
             consultaEstadisticas();
+            cout<< "\n"; 
             break;
         case 16:
             consultaNotificaciones();
+            cout<< "\n"; 
             break;
         case 17:
             cargarDatosDePrueba();
