@@ -52,6 +52,7 @@ public:
     TipoUsuario getTipoUsuario();
     vector<DTCurso> listarCursosDisponibles(string nickname);
     void inscribirseCurso(DTCurso curso);
+    bool yaRegistrado(string nickname);
 };
 
 #endif

@@ -38,7 +38,7 @@ public:
     virtual vector<DTCurso> listarCursosDisponibles(Estudiante* estudiante) = 0;
     virtual void inscribirACurso(Estudiante* estudiante, DTCurso curso) = 0;
     virtual DTDatosCurso getDatosCurso(DTCurso curso) = 0;
-    DTCurso getCurso(string nombreCurso);
+    virtual DTCurso getCurso(string nombreCurso) = 0;
 };
 
 #endif

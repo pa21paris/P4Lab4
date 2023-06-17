@@ -5,8 +5,19 @@ using namespace std;
 
 DTUsuario pedirDatosUsuario(){
     string nickname, contraseña, nombre, descripcion;
-    cout << "Ingrese el nickname: ";
-    cin >> nickname;
+    IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
+    
+    bool registrado = true;
+    do{
+        cout << "Ingrese el nickname: ";
+        cin >> nickname;
+        if(controladorUsuario->yaRegistrado(nickname))
+            cout<< "Nickname ya registrado, intente de nuevo. \n";
+        else
+            registrado = false; 
+
+    }while(registrado);
+
     cout << "Ingrese la contraseña: ";
     cin >> contraseña;
     cout << "Ingrese el nombre: ";

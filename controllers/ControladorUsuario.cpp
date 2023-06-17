@@ -268,3 +268,11 @@ void ControladorUsuario::inscribirseCurso(DTCurso curso){
     cc->inscribirACurso((Estudiante*)this->usuarioEnProceso, curso);
     this->usuarioEnProceso=nullptr;
 }
+
+bool ControladorUsuario::yaRegistrado(string nickname){
+    bool res = true; 
+    Usuario* user = this->getUsuario(nickname);  
+    if(user == nullptr)
+        res = false; 
+    return res; 
+}

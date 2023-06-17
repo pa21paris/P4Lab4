@@ -46,6 +46,8 @@ public:
     virtual TipoUsuario getTipoUsuario()=0;
     virtual vector<DTCurso> listarCursosDisponibles(string nickname)=0;
     virtual void inscribirseCurso(DTCurso curso)=0;
+    virtual bool yaRegistrado(string nickname)=0;
+
 };
 
 #endif
