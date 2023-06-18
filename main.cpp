@@ -10,7 +10,7 @@ DTUsuario pedirDatosUsuario(){
     bool registrado = true;
     do{
         cout << "Ingrese el nickname: ";
-        cin >> nickname;
+        getline(cin, nickname);
         if(controladorUsuario->yaRegistrado(nickname))
             cout<< "Nickname ya registrado, intente de nuevo. \n";
         else
@@ -19,11 +19,10 @@ DTUsuario pedirDatosUsuario(){
     }while(registrado);
 
     cout << "Ingrese la contraseña: ";
-    cin >> contraseña;
+    getline(cin, contraseña);
     cout << "Ingrese el nombre: ";
-    cin >> nombre;
+    getline(cin, nombre);
     cout << "Ingrese la descripción: ";
-    cin.ignore();
     getline(cin, descripcion);
     return DTUsuario(nickname, contraseña, nombre, descripcion);
 }
@@ -36,6 +35,7 @@ Date pedirDate(){
     cin >> mes;
     cout << "Ingrese el anio: ";
     cin >> anio;
+    cin.ignore();
     return Date(dia, mes, anio);
 }
 
@@ -50,6 +50,7 @@ optional<TipoUsuario> pedirTipoUsuario(){
         cout << "Tipo de usuario no valido\n\n";
         return {};
     }
+    cin.ignore();
     return (TipoUsuario)(tipoUsuario-1);
 }
 
@@ -96,6 +97,7 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<string> lis
             cout << "Opcion invalida.\n";
         }
     } while ((masDeUno && opcion!=SALIR));
+    cin.ignore();
     return selecciones;
 }
 
@@ -118,6 +120,7 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<DTCurso> li
             cout << "Opcion invalida.\n";
         }
     } while ((masDeUno && opcion != 0));
+    cin.ignore();
     return selecciones;
 }
 
@@ -157,14 +160,14 @@ void altaUsuario(){
     if(tipoUsuario.value()==ESTUDIANTE){
         string paisRes;
         cout << "Ingrese el pais de residencia: ";
-        cin >> paisRes;
+        getline(cin, paisRes);
         cout << "Ingrese la fecha de nacimiento: \n";
         Date fechaNacimiento=pedirDate();
         controladorUsuario->ingresarDatosEstudiante(paisRes, fechaNacimiento);
     }else{
         string instituto;
         cout << "Ingrese el instituto: ";
-        cin >> instituto;
+        getline(cin, instituto);
         controladorUsuario->ingresarInstituto(instituto);
         vector<string> idiomas=controladorUsuario->obtenerListaDeIdiomas();
         set<int> seleccionados=pedirSeleccionarIndicesDeLista("Lista de idiomas", idiomas, true);
@@ -182,7 +185,7 @@ void createIdioma(string idioma){
 void altaIdioma(){
     string nombre;
     cout << "Ingrese el nombre del idioma: ";
-    cin >> nombre;
+    getline(cin, nombre);
     createIdioma(nombre);
     cout << "Idioma \"" << nombre << "\" agregado\n";
 }
@@ -205,10 +208,8 @@ DTCurso pedirDatosCurso(){
     string nombre, descripcion;
     int dificultad;
     cout << "Ingrese el nombre: ";
-    cin.ignore();
     getline(cin, nombre);
     cout << "Ingrese la descripcion: ";
-    cin.ignore();
     getline(cin, descripcion);
     cout << "Dificultades: \n";
     cout << "1.Principiante\n";
@@ -220,6 +221,7 @@ DTCurso pedirDatosCurso(){
         cout << "Dificultad no valida. Intente de nuevo\n";
         cin >> dificultad;
     }
+    cin.ignore();
     return DTCurso(nombre, descripcion, (Dificultades)dificultad);
 }
 
@@ -273,6 +275,7 @@ void altaCurso() {
     cout << "1-Si\n";
     cout << "-Pon otro numero si No\n";
     cin >> agregarCurso;
+    cin.ignore();
     vector<DTCurso> cursosPreviosDisponibles;
     if (agregarCurso == 1) cursosPreviosDisponibles = cc->solicitarCursosHabilitados();
     while (agregarCurso == 1) {
@@ -290,13 +293,12 @@ void altaCurso() {
     cout << "1-Si\n";
     cout << "-Pon otro numero si No\n";
     cin >> agregarLeccion;
+    cin.ignore();
     while (agregarLeccion == 1) {
         string Tema, Objetivo;
         cout << "Ingrese el tema: ";
-        cin.ignore();
         getline(cin, Tema);
         cout << "Ingrese el objetivo: ";
-        cin.ignore();
         getline(cin, Objetivo);
         cc->leccionDatos(Tema, Objetivo);
         cc->altaLeccion();
@@ -309,16 +311,15 @@ void altaCurso() {
             int Tipo;
             menuTipoEjercicio();
             cin >> Tipo;
+            cin.ignore();
             while (Tipo < 1 && Tipo > 2) {
                 cout << "Tipo no valido. Intente de nuevo\n";
             }
             string Frase;
             cout << "Ingrese la frase del ejercicio: ";
-            cin.ignore();
             getline(cin, Frase);
             string desc;
             cout << "Ingrese la descripcion: ";
-            cin.ignore();
             getline(cin, desc);
             cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
             if (Tipo == 1) {
@@ -327,19 +328,19 @@ void altaCurso() {
                 int agregarPalabra;
                 do {
                     cout << "Ingrese palabra faltante: ";
-                    cin >> temp;
+                    getline(cin, temp);
                     palabras.push_back(temp);
                     cout << "Desea agregar otra palabra?\n";
                     cout << "1-Si\n";
                     cout << "-Pon otro numero si No\n";
                     cin >> agregarPalabra;
+                    cin.ignore();
                 } while (agregarPalabra == 1);
                 cc->ejercicioDeCompletar(palabras);
             }
             else {
                 string FraseTraducida;
                 cout << "Ingrese la Traduccion: ";
-                cin.ignore();
                 getline(cin, FraseTraducida); 
                 cc->ejercicioDeTraduccion(FraseTraducida);
             }
@@ -353,6 +354,7 @@ void altaCurso() {
         cout << "1-Si\n";
         cout << "-Pon otro numero si No\n";
         cin >> agregarLeccion;
+        cin.ignore();
     }
     cc->altaCurso();
 }
@@ -367,7 +369,7 @@ void inscripcionCurso(){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();
     string nickname;
     cout << "Ingrese el nickname: ";
-    cin >> nickname;
+    getline(cin, nickname);
     vector<DTCurso> cursosDisponibles=cu->listarCursosDisponibles(nickname);
     set<int> indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos disponibles", cursosDisponibles, false);
     DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursosDisponibles).begin();
@@ -385,7 +387,7 @@ void sucripcionNotificacion(){
     IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
     string nickname;
     cout<< "Ingrese su nickname: \n";
-    cin>> nickname;
+    getline(cin, nickname);
     IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
     vector<string> idiomas=controladorIdioma->obtenerSuscripcionesDisponibles(nickname);
     if(idiomas.size()==0){
@@ -402,7 +404,7 @@ void eliminarSuscripciones(){
     IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
     string nickname;
     cout<< "Ingrese su nickname: \n";
-    cin>> nickname;
+    getline(cin, nickname);
     IControladorIdioma* controladorIdioma = Fabrica::getIControladorIdioma();
     vector<string> idiomas = controladorIdioma->listarIdiomas(nickname);
     if(idiomas.size()==0)
@@ -499,8 +501,8 @@ void consultaCurso(){
         string continuar;
         cout << "Ingrese algun caracter para continuar:";
         cin >> continuar;
-    }
-    else{
+        cin.ignore();
+    }else{
         cout << "No existen cursos registrados. \n"; 
     }
 }
@@ -511,7 +513,7 @@ void consultaNotificaciones(){
     string nickname;
 
     cout << "Ingrese el nickname del usuario: ";
-    cin >> nickname;
+    getline(cin, nickname);
     if(cu->yaRegistrado(nickname)){
         set<DTNotificacion> notificaciones=cu->obtenerNotificaciones(nickname);
         if(notificaciones.empty()){
@@ -532,10 +534,8 @@ void agregarLeccion(){
     cc->seleccionarCurso(select);
     string Tema, Objetivo;
     cout << "Ingrese el tema: ";
-    cin.ignore();
     getline(cin, Tema); 
     cout << "Ingrese el objetivo: ";
-    cin.ignore();
     getline(cin, Objetivo); 
     cc->leccionDatos(Tema, Objetivo);
     cc->altaLeccion();
@@ -548,16 +548,15 @@ void agregarLeccion(){
         int Tipo;
         menuTipoEjercicio();
         cin >> Tipo;
+        cin.ignore();
         while (Tipo < 1 && Tipo > 2) {
             cout << "Tipo no valido. Intente de nuevo\n";
         }
         string Frase;
         cout << "Ingrese la frase del ejercicio: ";
-        cin.ignore();
         getline(cin, Frase); 
         string desc;
         cout << "Ingrese la descripcion: ";
-        cin.ignore();
         getline(cin, desc); 
         cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
         if (Tipo == 1) {
@@ -566,19 +565,19 @@ void agregarLeccion(){
             int agregarPalabra;
             do {
                 cout << "Ingrese palabra faltante: ";
-                cin >> temp;
+                getline(cin, temp);
                 palabras.push_back(temp);
                 cout << "Desea agregar otra palabra?\n";
                 cout << "1-Si\n";
                 cout << "-Pon otro numero si No\n";
                 cin >> agregarPalabra;
+                cin.ignore();
             } while (agregarPalabra == 1);
             cc->ejercicioDeCompletar(palabras);
         }
         else {
             string FraseTraducida;
             cout << "Ingrese la Traduccion: ";
-            cin.ignore();
             getline(cin, FraseTraducida); 
             cc->ejercicioDeTraduccion(FraseTraducida);
         }
@@ -587,6 +586,7 @@ void agregarLeccion(){
         cout << "1-Si\n";
         cout << "-Pon otro numero si No\n";
         cin >> agregarEjercicio;
+        cin.ignore();
     }
     cc->agregarLeccion();
 }
@@ -610,6 +610,7 @@ void agregarEjercicio(){
         invalido = false;
         cout << "Ingrese su opcion: ";
         cin >> opcion;
+        cin.ignore();
         if (opcion > 0 && opcion <= lecs.size()) {
             cout << "Seleccionado\n";
         }
@@ -624,16 +625,15 @@ void agregarEjercicio(){
     int Tipo;
     menuTipoEjercicio();
     cin >> Tipo;
+    cin.ignore();
     while (Tipo < 1 && Tipo > 2) {
         cout << "Tipo no valido. Intente de nuevo\n";
     }
     string Frase;
     cout << "Ingrese la frase del ejercicio: ";
-    cin.ignore();
     getline(cin, Frase); 
     string desc;
     cout << "Ingrese la descripcion: ";
-    cin.ignore();
     getline(cin, desc); 
     cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
     if (Tipo == 1) {
@@ -642,19 +642,19 @@ void agregarEjercicio(){
         int agregarPalabra;
         do {
             cout << "Ingrese palabra faltante: ";
-            cin >> temp;
+            getline(cin, temp);
             palabras.push_back(temp);
             cout << "Desea agregar otra palabra?\n";
             cout << "1-Si\n";
             cout << "-Pon otro numero si No\n";
             cin >> agregarPalabra;
+            cin.ignore();
         } while (agregarPalabra == 1);
         cc->ejercicioDeCompletar(palabras);
     }
     else {
         string FraseTraducida;
         cout << "Ingrese la Traduccion: ";
-        cin.ignore();
         getline(cin, FraseTraducida); 
         cc->ejercicioDeTraduccion(FraseTraducida);
     }
@@ -805,6 +805,7 @@ int mostrarMenuYObtenerOpcion(){
     cout << "Seleccione el caso de uso a ejecutar: ";
     int opcion;
     cin >> opcion;
+    cin.ignore();
     return opcion;
 }
 
