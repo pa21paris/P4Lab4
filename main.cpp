@@ -101,6 +101,18 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<string> lis
     return selecciones;
 }
 
+int menuEstadistica(){	
+    cout << "Seleccione una opción:\n";	
+    cout << "Obtener estadísticas de :\n";	
+    cout << "   1.Estudiante\n";	
+    cout << "   2.Profesor\n";	
+    cout << "   3.Curso\n";	
+    int opcionEst;	
+    cin >> opcionEst;
+    cin.ignore();
+    return opcionEst;	
+}
+
 set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<DTCurso> lista, bool masDeUno){
     set<int> selecciones;
     cout << nombreSeccion << ":\n";
@@ -506,7 +518,46 @@ void consultaCurso(){
         cout << "No existen cursos registrados. \n"; 
     }
 }
-void consultaEstadisticas(){}
+void consultaEstadisticas(){	
+	IControladorUsuario* cu=Fabrica::getIControladorUsuario();	
+    IControladorCurso* cc=Fabrica::getIControladorCurso();
+    set<int> indiceSeleccionado;	
+	int opEst = 0;
+    opEst = menuEstadistica();	
+    system("clear");
+  /*  DTCurso select = *(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de cursos no habilitados", cnh, false), cnh)).begin();	
+    cc->seleccionarCurso(select);*/	
+	switch(opEst){
+	case 1:	{
+		vector<string> est = cu->getNicksEstudiantes();	
+		indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de estudiantes", est, false);	
+		string estSeleccionado =*(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de estudiantes", est, false), est)).begin();	
+       	DTEstadisticasEstudiante ee=cu->listarEstadisticasEstudiante(estSeleccionado);	
+       	break;	
+    }
+    case 2:	{
+	    vector<string> pr = cc->obtenerNicksDocentes();	
+		indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de profesores", pr, false);	
+		string prSeleccionado =*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, pr).begin();	
+      	DTEstadisticasProfesor ep = cu->listarEstadisticasProfesor(prSeleccionado);	
+       	break;
+    }	
+    case 3:	{
+		vector<DTCurso> cursos = cu->listarCursos();	
+		indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos", cursos, false);	
+		DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursos).begin();	
+       	DTProgresoPromedioCurso ec= cu->listarEstadisticasCurso(cursoSeleccionado);	
+       	break;
+    }	
+    case 0:	
+		break;	
+	default:	
+       	cout << "Opción no valida\n";	
+       	break;	
+    }
+}
+
+
 void consultaNotificaciones(){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();    
     bool registrado = true;

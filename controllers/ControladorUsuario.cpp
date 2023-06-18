@@ -20,9 +20,18 @@ set<DTEstudiante> ControladorUsuario::listarEstudiantes() {
     return res;
 }
 
-DTEstadisticasEstudiante ControladorUsuario::listarEstadisticasEstudiante(DTEstudiante estudiante) {
+vector<string> ControladorUsuario::getNicksEstudiantes(){
+    vector<string> res;
+    set<Estudiante*>::iterator it;
+    for(it=estudiantes.begin(); it!=estudiantes.end(); ++it) {
+        res.push_back((*it)->getNickname());
+    }
+    return res;
+}
+
+DTEstadisticasEstudiante ControladorUsuario::listarEstadisticasEstudiante(string estudiante) {
     set<Estudiante*>::iterator it=this->estudiantes.begin();
-    while(it!=this->estudiantes.end() && (*it)->getNickname()!=estudiante.getNickname()){
+    while(it!=this->estudiantes.end() && (*it)->getNickname()!=estudiante){
         ++it;
     }
     if(it!=this->estudiantes.end()) {
@@ -98,9 +107,9 @@ set<DTProfesor> ControladorUsuario::listarProfesores() {
     return res;
 }
 
-DTEstadisticasProfesor ControladorUsuario::listarEstadisticasProfesor(DTProfesor profesor) {
+DTEstadisticasProfesor ControladorUsuario::listarEstadisticasProfesor(string profesor) {
     set<Profesor*>::iterator it=this->profesores.begin();
-    while((it!=(this->profesores.end())) && (((*it)->getNickname())!=(profesor.getNickname()))){
+    while((it!=(this->profesores.end())) && (((*it)->getNickname())!=(profesor))){
         ++it;
     }
     if(it!=this->profesores.end()) {

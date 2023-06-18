@@ -21,7 +21,8 @@ private:
 public:
     static ControladorUsuario* getInstance();
     set<DTEstudiante> listarEstudiantes();
-    DTEstadisticasEstudiante listarEstadisticasEstudiante(DTEstudiante estudiante);
+    vector<string> getNicksEstudiantes();
+    DTEstadisticasEstudiante listarEstadisticasEstudiante(string estudiante);
     set<DTNotificacion> obtenerNotificaciones(string nickname);
     set<DTCurso> listarCursosActivosDeEstudiante(string nickname);
     void ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo);
@@ -29,7 +30,7 @@ public:
     void ingresarInstituto(string instituto);
     vector<string> obtenerListaDeIdiomas();
     set<DTProfesor> listarProfesores();
-    DTEstadisticasProfesor listarEstadisticasProfesor(DTProfesor profesor);
+    DTEstadisticasProfesor listarEstadisticasProfesor(string profesor);
     set<DTEjercicio> verEjerciciosPendientes(DTCurso curso);
     vector<DTCurso> listarCursos();
     DTProgresoPromedioCurso listarEstadisticasCurso(DTCurso curso);
