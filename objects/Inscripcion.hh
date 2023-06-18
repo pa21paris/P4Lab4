@@ -25,9 +25,9 @@ public:
     DTProgresoCurso getDataProgresoEstudiante();
     DTCurso getDTCurso();
     Ejercicio* obtenerEjercicio(DTEjercicio ejercicio);
-    set<DTEjercicio> getEjerciciosPendientes();
-    void resolverTraduccion(Ejercicio* ejercicio, string traduccion);
-    void resolverCompletar(Ejercicio* ejercicio, vector<string> palabras);
+    vector<DTEjercicio> getEjerciciosPendientes();
+    bool resolverTraduccion(Ejercicio* ejercicio, string traduccion);
+    bool resolverCompletar(Ejercicio* ejercicio, vector<string> palabras);
     Curso* getCurso();
     DTInscripcion getData();
     void setEstudiante(Estudiante* estudiante);

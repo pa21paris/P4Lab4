@@ -17,7 +17,7 @@ public:
     string getPaisRes();
     Date getFechaNacimiento();
     set<DTProgresoCurso> listarEstadisticas();
-    set<DTCurso> getCursosActivos();
+    vector<DTCurso> getCursosActivos();
     Inscripcion* getInscripcion(DTCurso curso);
     DTEstudiante getData();
     set<Curso*> getCursosCompletos();

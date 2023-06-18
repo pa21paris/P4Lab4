@@ -3,6 +3,23 @@
 #include "controllers/Fabrica.hh"
 using namespace std;
 
+vector<string> pedirPalabrasCompletar(){
+    vector<string> palabras;
+    string palabraIngresada;
+    int agregarPalabra;
+    do {
+        cout << "Ingrese palabra faltante: ";
+        getline(cin, palabraIngresada);
+        palabras.push_back(palabraIngresada);
+        cout << "Desea agregar otra palabra?\n";
+        cout << "1-Si\n";
+        cout << "-Pon otro numero si No\n";
+        cin >> agregarPalabra;
+        cin.ignore();
+    } while (agregarPalabra == 1);
+    return palabras;
+}
+
 DTUsuario pedirDatosUsuario(){
     string nickname, contraseña, nombre, descripcion;
     IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
@@ -76,6 +93,29 @@ void printVector(vector<T> setAImprimir){
     for(int i=0; i<setAImprimir.size(); i++){
         cout << setAImprimir[i] << "\n";
     }
+}
+
+set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<DTEjercicio> lista, bool masDeUno){	
+    set<int> selecciones;	
+    cout << nombreSeccion << ":\n";	
+    for(int i=0; i<lista.size(); i++){	
+        cout << i+1 << ". Frase:" << lista[i].getFrase() << ", Descripcion: " << lista[i].getDescripcion() << "\n";	
+    }	
+    if(masDeUno) cout << "0. Salir\n";	
+    int opcion;	
+    do{	
+        cout << "Ingrese su opcion: ";	
+        cin >> opcion;	
+        if(opcion>0 && opcion<=lista.size()){	
+            selecciones.insert(opcion-1);	
+            cout << "Seleccionado\n";	
+        }	
+        else if (opcion != 0) {	
+            cout << "Opcion invalida.\n";	
+        }	
+    } while ((masDeUno && opcion != 0));
+    cin.ignore();
+    return selecciones;	
 }
 
 set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<string> lista, bool masDeUno){
@@ -234,7 +274,7 @@ DTCurso pedirDatosCurso(){
         cin >> dificultad;
     }
     cin.ignore();
-    return DTCurso(nombre, descripcion, (Dificultades)dificultad);
+    return DTCurso(nombre, descripcion, (Dificultades)(dificultad-1));
 }
 
 void addEjercicioToLeccion(
@@ -333,24 +373,11 @@ void altaCurso() {
             string desc;
             cout << "Ingrese la descripcion: ";
             getline(cin, desc);
-            cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+            cc->agregarEjercicio(Frase, (TipoEjercicio)(Tipo-1), desc);
             if (Tipo == 1) {
-                vector<string> palabras;
-                string temp;
-                int agregarPalabra;
-                do {
-                    cout << "Ingrese palabra faltante: ";
-                    getline(cin, temp);
-                    palabras.push_back(temp);
-                    cout << "Desea agregar otra palabra?\n";
-                    cout << "1-Si\n";
-                    cout << "-Pon otro numero si No\n";
-                    cin >> agregarPalabra;
-                    cin.ignore();
-                } while (agregarPalabra == 1);
+                vector<string> palabras=pedirPalabrasCompletar();
                 cc->ejercicioDeCompletar(palabras);
-            }
-            else {
+            }else {
                 string FraseTraducida;
                 cout << "Ingrese la Traduccion: ";
                 getline(cin, FraseTraducida); 
@@ -609,24 +636,11 @@ void agregarLeccion(){
         string desc;
         cout << "Ingrese la descripcion: ";
         getline(cin, desc); 
-        cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+        cc->agregarEjercicio(Frase, (TipoEjercicio)(Tipo-1), desc);
         if (Tipo == 1) {
-            vector<string> palabras;
-            string temp;
-            int agregarPalabra;
-            do {
-                cout << "Ingrese palabra faltante: ";
-                getline(cin, temp);
-                palabras.push_back(temp);
-                cout << "Desea agregar otra palabra?\n";
-                cout << "1-Si\n";
-                cout << "-Pon otro numero si No\n";
-                cin >> agregarPalabra;
-                cin.ignore();
-            } while (agregarPalabra == 1);
+            vector<string> palabras=pedirPalabrasCompletar();
             cc->ejercicioDeCompletar(palabras);
-        }
-        else {
+        }else {
             string FraseTraducida;
             cout << "Ingrese la Traduccion: ";
             getline(cin, FraseTraducida); 
@@ -641,6 +655,7 @@ void agregarLeccion(){
     }
     cc->agregarLeccion();
 }
+
 void agregarEjercicio(){
     IControladorCurso* cc = Fabrica::getIControladorCurso();
     vector<DTCurso> cnh = cc->solicitarCursosNoHabilitados();
@@ -686,24 +701,11 @@ void agregarEjercicio(){
     string desc;
     cout << "Ingrese la descripcion: ";
     getline(cin, desc); 
-    cc->agregarEjercicio(Frase, (TipoEjercicio)Tipo, desc);
+    cc->agregarEjercicio(Frase, (TipoEjercicio)(Tipo-1), desc);
     if (Tipo == 1) {
-        vector<string> palabras;
-        string temp;
-        int agregarPalabra;
-        do {
-            cout << "Ingrese palabra faltante: ";
-            getline(cin, temp);
-            palabras.push_back(temp);
-            cout << "Desea agregar otra palabra?\n";
-            cout << "1-Si\n";
-            cout << "-Pon otro numero si No\n";
-            cin >> agregarPalabra;
-            cin.ignore();
-        } while (agregarPalabra == 1);
+        vector<string> palabras=pedirPalabrasCompletar();
         cc->ejercicioDeCompletar(palabras);
-    }
-    else {
+    }else {
         string FraseTraducida;
         cout << "Ingrese la Traduccion: ";
         getline(cin, FraseTraducida); 
@@ -725,7 +727,31 @@ void habilitarCurso(){
     cc->habilitarCurso(*obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursosNoHabilitados).begin());
     cout << "Curso habilitado\n";
 }
-void realizarEjercicio(){}
+void realizarEjercicio(){	
+	IControladorUsuario* cu=Fabrica::getIControladorUsuario();	
+	string nickname;	
+    cout << "Ingrese el nickname: ";	
+    cin >> nickname;
+    cin.ignore();
+	vector<DTCurso> cursosActivos = cu->listarCursosActivosDeEstudiante(nickname);	
+	set<int> indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos activos", cursosActivos, false);	
+    DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursosActivos).begin();	
+	vector<DTEjercicio> ejerciciosPendientes = cu->verEjerciciosPendientes(cursoSeleccionado);	
+	indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de ejercicios pendientes", ejerciciosPendientes, false);	
+    DTEjercicio ejercicioSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, ejerciciosPendientes).begin();	
+	TipoEjercicio tipo = cu->hacerEjercicio(ejercicioSeleccionado);
+    if(tipo==TRADUCCION){
+        string FraseTraducida;
+        cout << "Ingrese la Traduccion: ";
+        getline(cin, FraseTraducida); 
+        bool correcto = cu->ingresarSolucionTraduccion(FraseTraducida);
+        correcto? cout << "Solucion correcta\n": cout << "Solucion incorrecta\n";
+    }else{
+        vector<string> palabras=pedirPalabrasCompletar();
+        bool correcto = cu->ingresarSolucionCompletar(palabras);
+        correcto? cout << "Solucion correcta\n": cout << "Solucion incorrecta\n";
+    }
+}
 
 void loadIdiomas(){
     string idiomas[3]={"Ingles", "Aleman", "Portugues"};

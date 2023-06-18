@@ -23,11 +23,11 @@ set<DTProgresoCurso> Estudiante::listarEstadisticas() {
     return estadisticas;
 }
 
-set<DTCurso> Estudiante::getCursosActivos() {
-    set<DTCurso> cursosActivos;
+vector<DTCurso> Estudiante::getCursosActivos() {
+    vector<DTCurso> cursosActivos;
     set<Inscripcion*>::iterator it;
     for (it = inscripciones.begin(); it != inscripciones.end(); ++it) {
-        cursosActivos.insert((*it)->getDTCurso());
+        cursosActivos.push_back((*it)->getDTCurso());
     }
     return cursosActivos;
 }

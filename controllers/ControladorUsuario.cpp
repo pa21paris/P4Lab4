@@ -51,7 +51,7 @@ set<DTNotificacion> ControladorUsuario::obtenerNotificaciones(string nickname) {
     return set<DTNotificacion>();
 }
 
-set<DTCurso> ControladorUsuario::listarCursosActivosDeEstudiante(string nickname) {
+vector<DTCurso> ControladorUsuario::listarCursosActivosDeEstudiante(string nickname) {
     set<Estudiante*>::iterator it=this->estudiantes.begin();
     while(it!=this->estudiantes.end() && (*it)->getNickname()!=nickname){
         ++it;
@@ -60,7 +60,7 @@ set<DTCurso> ControladorUsuario::listarCursosActivosDeEstudiante(string nickname
         this->usuarioEnProceso=(*it);
         return (*it)->getCursosActivos();
     }
-    return set<DTCurso>();
+    return vector<DTCurso>();
 }
 
 void ControladorUsuario::ingresarDatosUsuario(string nickname, string contraseña, string nombre, string descripcion, TipoUsuario tipo) {
@@ -118,7 +118,7 @@ DTEstadisticasProfesor ControladorUsuario::listarEstadisticasProfesor(string pro
     return DTEstadisticasProfesor(set<DTProgresoPromedioCurso>());
 }
 
-set<DTEjercicio> ControladorUsuario::verEjerciciosPendientes(DTCurso curso) {
+vector<DTEjercicio> ControladorUsuario::verEjerciciosPendientes(DTCurso curso) {
     this->inscripcionSeleccionada=((Estudiante*) this->usuarioEnProceso)->getInscripcion(curso);
     return this->inscripcionSeleccionada->getEjerciciosPendientes();
 }
@@ -148,12 +148,12 @@ vector<string> ControladorUsuario::getIdiomasProfesor(string nickname) {
     return this->obtenerProfesor(nickname)->getNombresIdiomas();
 }
 
-void ControladorUsuario::ingresarSolucionCompletar(vector<string> palabras) {
-    this->inscripcionSeleccionada->resolverCompletar(this->ejercicioSeleccionado, palabras);
+bool ControladorUsuario::ingresarSolucionCompletar(vector<string> palabras) {
+    return this->inscripcionSeleccionada->resolverCompletar(this->ejercicioSeleccionado, palabras);
 }
 
-void ControladorUsuario::ingresarSolucionTraduccion(string traduccion) {
-    this->inscripcionSeleccionada->resolverTraduccion(this->ejercicioSeleccionado, traduccion);
+bool ControladorUsuario::ingresarSolucionTraduccion(string traduccion) {
+    return this->inscripcionSeleccionada->resolverTraduccion(this->ejercicioSeleccionado, traduccion);
 }
 
 Usuario* ControladorUsuario::getUsuario(string nickname){
@@ -171,10 +171,11 @@ void ControladorUsuario::agregarCursoAProfesor(Profesor* p, Curso* c){
     p->agregarCurso(c);
 }
 
-void ControladorUsuario::hacerEjercicio(DTEjercicio ejercicio){
+TipoEjercicio ControladorUsuario::hacerEjercicio(DTEjercicio ejercicio){
     this->ejercicioSeleccionado=this->inscripcionSeleccionada->obtenerEjercicio(ejercicio);
     ControladorCurso* cc=ControladorCurso::getInstance();
     this->tipoEjercicioSeleccionado=cc->obtenerTipo(this->ejercicioSeleccionado);
+    return this->tipoEjercicioSeleccionado;
 }
 
 void ControladorUsuario::seleccionIdiomas(set<string> idiomas) {

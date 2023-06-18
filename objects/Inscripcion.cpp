@@ -50,29 +50,33 @@ void Inscripcion::avanzarLeccion(){
     if(this->leccionActual!=nullptr) this->ejerciciosPendientes=this->leccionActual->getEjercicios();
 }
 
-void Inscripcion::resolverTraduccion(Ejercicio* ejercicio, string traduccion){
+bool Inscripcion::resolverTraduccion(Ejercicio* ejercicio, string traduccion){
     Traduccion* t=(Traduccion*)ejercicio;
-    if(t->resolver(traduccion)){
+    bool correcto=t->resolver(traduccion);
+    if(correcto){
         this->ejerciciosPendientes.erase(ejercicio);
         this->ejericiosRealizados++;
         if(this->ejerciciosPendientes.empty()) this->avanzarLeccion();
     }
+    return correcto;
 }
 
-void Inscripcion::resolverCompletar(Ejercicio* ejercicio, vector<string> palabras){
+bool Inscripcion::resolverCompletar(Ejercicio* ejercicio, vector<string> palabras){
     Completar* c=(Completar*)ejercicio;
-    if(c->resolver(palabras)){
+    bool correcto=c->resolver(palabras);
+    if(correcto){
         this->ejerciciosPendientes.erase(ejercicio);
         this->ejericiosRealizados++;
         if(this->ejerciciosPendientes.empty()) this->avanzarLeccion();
     }
+    return correcto;
 }
 
-set<DTEjercicio> Inscripcion::getEjerciciosPendientes(){
-    set<DTEjercicio> ejerciciosPendientes;
+vector<DTEjercicio> Inscripcion::getEjerciciosPendientes(){
+    vector<DTEjercicio> ejerciciosPendientes;
     set<Ejercicio*>::iterator it;
     for(it=this->ejerciciosPendientes.begin(); it!=this->ejerciciosPendientes.end(); ++it){
-        ejerciciosPendientes.insert((*it)->getData());
+        ejerciciosPendientes.push_back((*it)->getData());
     }
     return ejerciciosPendientes;
 }
