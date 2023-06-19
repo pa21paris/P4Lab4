@@ -417,6 +417,7 @@ void altaCurso() {
 void createInscription(string nickname, string curso){
     IControladorUsuario* cu=Fabrica::getIControladorUsuario();
     IControladorCurso* cc=Fabrica::getIControladorCurso();
+    cu->listarCursosDisponibles(nickname);
     cu->inscribirseCurso(cc->getCurso(curso));
 }
 
