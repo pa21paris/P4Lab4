@@ -296,7 +296,7 @@ void addEjercicioCompletarToLeccion(string curso, int numeroLeccion, string fras
     cc->SeleccionarLeccion(numeroLeccion);
     cc->agregarEjercicio(frase, COMPLETADO, desc);
     cc->ejercicioDeCompletar(palabras);
-    cc->altaEjercicio();
+    cc->FinalizarAgregarEjercicio();
 }
 
 void addEjercicioTraduccionToLeccion(string curso, int numeroLeccion, string frase, string desc, string traduccion){
@@ -305,7 +305,7 @@ void addEjercicioTraduccionToLeccion(string curso, int numeroLeccion, string fra
     cc->SeleccionarLeccion(numeroLeccion);
     cc->agregarEjercicio(frase, TRADUCCION, desc);
     cc->ejercicioDeTraduccion(traduccion);
-    cc->altaEjercicio();
+    cc->FinalizarAgregarEjercicio();
 }
 
 void addLeccionToCurso(string curso, string tema, string objetivo){
@@ -575,14 +575,30 @@ void consultaEstadisticas(){
 		vector<string> est = cu->getNicksEstudiantes();	
 		indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de estudiantes", est, false);	
 		string estSeleccionado =*(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de estudiantes", est, false), est)).begin();	
-       	DTEstadisticasEstudiante ee=cu->listarEstadisticasEstudiante(estSeleccionado);	
+       	DTEstadisticasEstudiante ee=cu->listarEstadisticasEstudiante(estSeleccionado);
+        set<DTProgresoCurso> a = ee.getProgresoEstudiante();
+        set<DTProgresoCurso>::iterator it;
+        int index = 1;
+        for (it = a.begin(); it != a.end(); ++it) {
+            DTCurso b = (*it).getCurso();
+            cout << index << ". " << b.getNombre() << ", " << b.getDescripcion() << ", " << b.getDificultad() << ", " << (*it).getProgreso() << "\n";
+            index++;
+        }
        	break;	
     }
     case 2:	{
 	    vector<string> pr = cc->obtenerNicksDocentes();	
 		indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de profesores", pr, false);	
 		string prSeleccionado =*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, pr).begin();	
-      	DTEstadisticasProfesor ep = cu->listarEstadisticasProfesor(prSeleccionado);	
+      	DTEstadisticasProfesor ep = cu->listarEstadisticasProfesor(prSeleccionado);
+        set<DTProgresoPromedioCurso> a = ep.getDatosCursosPropuestos();
+        set<DTProgresoPromedioCurso>::iterator it;
+        int index = 1;
+        for (it = a.begin(); it != a.end(); ++it) {
+            DTCurso b = (*it).getCurso();
+            cout << index << ". " << b.getNombre() << ", " << b.getDescripcion() << ", " << b.getDificultad() << ", " << (*it).getProgCurso() << "\n";
+            index++;
+        }
        	break;
     }	
     case 3:	{
@@ -590,6 +606,8 @@ void consultaEstadisticas(){
 		indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de cursos", cursos, false);	
 		DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursos).begin();	
        	DTProgresoPromedioCurso ec= cu->listarEstadisticasCurso(cursoSeleccionado);	
+        DTCurso b = ec.getCurso();
+        cout << b.getNombre() << ", " << b.getDescripcion() << ", " << b.getDificultad() << ", " << ec.getProgCurso() << "\n";
        	break;
     }	
     case 0:	
@@ -903,7 +921,7 @@ void loadCursos(){
     };
     for(int i=0; i<CANTIDAD_CURSOS; i++){
         createCurso(profesorCursos[i], cursos[i], idiomaCursos[i], previasCursos[i]);
-        if(cursoHabilitado[i]) habilitarCurso(cursos[i].getNombre());
+        habilitarCurso(cursos[i].getNombre());
     }
 }
 
@@ -960,7 +978,7 @@ void loadEjercicios(){
         vector<string>{"Habla conmigo"}
     };
     int ordenLeccionEjercicios[CANTIDAD_EJERCICIOS]={
-        1, 1, 2, 2, 1, 1, 1, 1
+        0, 0, 1, 1, 0, 0, 0, 0
     };
     string cursoLeccion[CANTIDAD_LECCIONES]={
         "Ingles para principiantes", "Ingles para principiantes","Curso de ingles basico", "Curso de ingles basico",
