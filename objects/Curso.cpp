@@ -42,8 +42,8 @@ int Curso::getTotalInsc(){
 }
 
 DTProgresoPromedioCurso Curso::getDataProgCurso(){
-    int cantEstudiantes=this->getTotalInsc();
-    int sumaProgresosCurso=0;
+    float cantEstudiantes=this->getTotalInsc();
+    float sumaProgresosCurso=0;
     set<Inscripcion*>::iterator it;
     for(it = this->inscripciones.begin(); it != this->inscripciones.end(); ++it){
         sumaProgresosCurso += (*it)->getProgreso();
