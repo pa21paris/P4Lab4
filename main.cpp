@@ -296,7 +296,7 @@ void addEjercicioCompletarToLeccion(string curso, int numeroLeccion, string fras
     cc->SeleccionarLeccion(numeroLeccion);
     cc->agregarEjercicio(frase, COMPLETADO, desc);
     cc->ejercicioDeCompletar(palabras);
-    cc->FinalizarAgregarEjercicio();
+    cc->altaEjercicio();
 }
 
 void addEjercicioTraduccionToLeccion(string curso, int numeroLeccion, string frase, string desc, string traduccion){
@@ -305,7 +305,7 @@ void addEjercicioTraduccionToLeccion(string curso, int numeroLeccion, string fra
     cc->SeleccionarLeccion(numeroLeccion);
     cc->agregarEjercicio(frase, TRADUCCION, desc);
     cc->ejercicioDeTraduccion(traduccion);
-    cc->FinalizarAgregarEjercicio();
+    cc->altaEjercicio();
 }
 
 void addLeccionToCurso(string curso, string tema, string objetivo){
@@ -903,7 +903,7 @@ void loadCursos(){
     };
     for(int i=0; i<CANTIDAD_CURSOS; i++){
         createCurso(profesorCursos[i], cursos[i], idiomaCursos[i], previasCursos[i]);
-        habilitarCurso(cursos[i].getNombre());
+        if(cursoHabilitado[i]) habilitarCurso(cursos[i].getNombre());
     }
 }
 
