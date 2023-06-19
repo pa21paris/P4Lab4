@@ -921,7 +921,8 @@ void loadCursos(){
     };
     for(int i=0; i<CANTIDAD_CURSOS; i++){
         createCurso(profesorCursos[i], cursos[i], idiomaCursos[i], previasCursos[i]);
-        habilitarCurso(cursos[i].getNombre());
+        if(cursoHabilitado[i])
+            habilitarCurso(cursos[i].getNombre());
     }
 }
 
