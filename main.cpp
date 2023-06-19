@@ -331,6 +331,10 @@ void createCurso(string profesor, DTCurso datosCurso, string idioma, set<string>
 void altaCurso() {
     IControladorCurso* cc = Fabrica::getIControladorCurso();
     vector<string> nicksDocentes = cc->obtenerNicksDocentes();
+    if(nicksDocentes.size()==0){
+        cout << "No hay docentes registrados\n";
+        return;
+    }
     set<string> seleccionado = obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de docentes", nicksDocentes, false), nicksDocentes);
     cc->seleccionUsuario(*seleccionado.begin());
     DTCurso datosCurso=pedirDatosCurso();
