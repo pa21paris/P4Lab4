@@ -581,7 +581,7 @@ void consultaEstadisticas(){
         int index = 1;
         for (it = a.begin(); it != a.end(); ++it) {
             DTCurso b = (*it).getCurso();
-            cout << index << ". " << b.getNombre() << ", " << b.getDescripcion() << ", " << b.getDificultad() << ", " << (*it).getProgreso() << "\n";
+            cout << index << ". Nombre:" << b.getNombre() << ", Descripcion:" << b.getDescripcion() << ", Dificultad:" << b.getDificultad() << ", Progreso:" << (*it).getProgreso() << "\n";
             index++;
         }
        	break;	
@@ -596,7 +596,7 @@ void consultaEstadisticas(){
         int index = 1;
         for (it = a.begin(); it != a.end(); ++it) {
             DTCurso b = (*it).getCurso();
-            cout << index << ". " << b.getNombre() << ", " << b.getDescripcion() << ", " << b.getDificultad() << ", " << (*it).getProgCurso() << "\n";
+            cout << index << ". Nombre:" << b.getNombre() << ", Descripcion:" << b.getDescripcion() << ", Dificultad:" << b.getDificultad() << ", Progreso:" << (*it).getProgCurso() << "\n";
             index++;
         }
        	break;
@@ -607,7 +607,7 @@ void consultaEstadisticas(){
 		DTCurso cursoSeleccionado=*obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, cursos).begin();	
        	DTProgresoPromedioCurso ec= cu->listarEstadisticasCurso(cursoSeleccionado);	
         DTCurso b = ec.getCurso();
-        cout << b.getNombre() << ", " << b.getDescripcion() << ", " << b.getDificultad() << ", " << ec.getProgCurso() << "\n";
+        cout << "Nombre:" << b.getNombre() << ", Descripcion:" << b.getDescripcion() << ", Dificultad:" << b.getDificultad() << ", Progreso:" << ec.getProgCurso() << "\n";
        	break;
     }	
     case 0:	
