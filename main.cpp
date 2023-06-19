@@ -986,17 +986,46 @@ void loadInscripciones(){
       DTEjercicio("I have two brothers and three sisters", "Plurales regulares"), //E3
       DTEjercicio("Can I have — water, please?", "Sustantivos contables en plural"), //E4  
       DTEjercicio("Q: Do you — the time?, A: Yes, it is half — 4", "Consultas de la hora"), //E6
-      DTEjercicio("Mucho gusto en conocerte", "Presentaciones"),
-      DTEjercicio("Please — me to introduce —", "Presentaciones formales"),
-      DTEjercicio("Mucho gusto en conocerte", "Presentaciones"),
-      DTEjercicio("Please — me to introduce —", "Presentaciones formales"),
-      DTEjercicio("Can I have — water, please?", "Sustantivos contables en plural")
+      DTEjercicio("Mucho gusto en conocerte", "Presentaciones"), //E1
+      DTEjercicio("Please — me to introduce —", "Presentaciones formales"), //E2
+      DTEjercicio("Mucho gusto en conocerte", "Presentaciones"), //E1
+      DTEjercicio("Please — me to introduce —", "Presentaciones formales"), //E2
+      DTEjercicio("Can I have — water, please?", "Sustantivos contables en plural") //E4
     };
-    int cantEjerciciosResueltos[CANTIDAD_INSCRIPCIONES]={
-        4, 1, 0, 2, 3
+    vector<string> solucionEjercicios[10]={
+        vector<string>{"Nice to meet you"}, //E1
+        vector<string>{"allow", "myself"}, //E2
+        vector<string>{"Tengo dos hermanos y tres hermanas"}, //E3
+        vector<string>{"some"}, //E4 
+        vector<string>{"have", "past"}, //E6
+        vector<string>{"Nice to meet you"}, //E1
+        vector<string>{"allow", "myself"}, //E2
+        vector<string>{"Nice to meet you"}, //E1
+        vector<string>{"allow", "myself"}, //E2
+        ector<string>{"some"} //E4 
+    };
+    int EstudianteEjerciciosResuelto[10]={
+        0, 0, 0, 0, 1, 3, 3, 4, 4, 4
     };
     for(int i=0; i<CANTIDAD_INSCRIPCIONES; i++){
         createInscription(estudianteInscripciones[i], cursoInscripciones[i]);
+    }
+    for(int i=0; i<10; i++){
+        createEjercicioResuelto(ejercicioResueltos[i], tipoEjercicios[i], solucionEjercicios[i], estudianteInscripciones[EstudianteEjerciciosResuelto[i]], cursoInscripciones[EstudianteEjerciciosResuelto[i]]);
+    }
+}
+
+void createEjercicioResuelto(DTEjercicio ejercicioResuelto, TipoEjercicio tipoEjercicio, vector<string> solucionEjercicios, string nickname, string curso)
+{
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();	
+	cu->listarCursosActivosDeEstudiante(nickname);
+	IControladorCurso* cc=Fabrica::getIControladorCurso();
+	cu->verEjerciciosPendientes(cc->getCurso(curso));	
+	cu->hacerEjercicio(ejercicioResuelto);
+    if(tipoEjercicio==TRADUCCION){
+        cu->ingresarSolucionTraduccion(solucionEjercicios[0]);
+    }else{
+        cu->ingresarSolucionCompletar(solucionEjercicios);
     }
 }
 
