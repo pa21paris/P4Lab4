@@ -574,7 +574,7 @@ void consultaEstadisticas(){
 	case 1:	{
 		vector<string> est = cu->getNicksEstudiantes();	
 		indiceSeleccionado=pedirSeleccionarIndicesDeLista("Lista de estudiantes", est, false);	
-		string estSeleccionado =*(obtenerListaDeSeleccionadosPorIndices(pedirSeleccionarIndicesDeLista("Lista de estudiantes", est, false), est)).begin();	
+		string estSeleccionado =*(obtenerListaDeSeleccionadosPorIndices(indiceSeleccionado, est)).begin();
        	DTEstadisticasEstudiante ee=cu->listarEstadisticasEstudiante(estSeleccionado);
         set<DTProgresoCurso> a = ee.getProgresoEstudiante();
         set<DTProgresoCurso>::iterator it;
