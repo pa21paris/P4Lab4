@@ -1002,7 +1002,7 @@ void loadInscripciones(){
         vector<string>{"allow", "myself"}, //E2
         vector<string>{"Nice to meet you"}, //E1
         vector<string>{"allow", "myself"}, //E2
-        ector<string>{"some"} //E4 
+        vector<string>{"some"} //E4 
     };
     int EstudianteEjerciciosResuelto[10]={
         0, 0, 0, 0, 1, 3, 3, 4, 4, 4
