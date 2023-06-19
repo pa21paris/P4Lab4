@@ -176,6 +176,19 @@ set<int> pedirSeleccionarIndicesDeLista(string nombreSeccion, vector<DTCurso> li
     return selecciones;
 }
 
+void createEjercicioResuelto(DTEjercicio ejercicioResuelto, TipoEjercicio tipoEjercicio, vector<string> solucionEjercicios, string nickname, string curso)
+{
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();	
+	cu->listarCursosActivosDeEstudiante(nickname);
+	IControladorCurso* cc=Fabrica::getIControladorCurso();
+	cu->verEjerciciosPendientes(cc->getCurso(curso));	
+	cu->hacerEjercicio(ejercicioResuelto);
+    if(tipoEjercicio==TRADUCCION){
+        cu->ingresarSolucionTraduccion(solucionEjercicios[0]);
+    }else{
+        cu->ingresarSolucionCompletar(solucionEjercicios);
+    }
+}
 
 void createEstudiante(DTUsuario datosUsuario, string paisRes, Date fechaNacimiento){
     IControladorUsuario* controladorUsuario = Fabrica::getIControladorUsuario();
@@ -1012,20 +1025,6 @@ void loadInscripciones(){
     }
     for(int i=0; i<10; i++){
         createEjercicioResuelto(ejercicioResueltos[i], tipoEjercicios[i], solucionEjercicios[i], estudianteInscripciones[EstudianteEjerciciosResuelto[i]], cursoInscripciones[EstudianteEjerciciosResuelto[i]]);
-    }
-}
-
-void createEjercicioResuelto(DTEjercicio ejercicioResuelto, TipoEjercicio tipoEjercicio, vector<string> solucionEjercicios, string nickname, string curso)
-{
-    IControladorUsuario* cu=Fabrica::getIControladorUsuario();	
-	cu->listarCursosActivosDeEstudiante(nickname);
-	IControladorCurso* cc=Fabrica::getIControladorCurso();
-	cu->verEjerciciosPendientes(cc->getCurso(curso));	
-	cu->hacerEjercicio(ejercicioResuelto);
-    if(tipoEjercicio==TRADUCCION){
-        cu->ingresarSolucionTraduccion(solucionEjercicios[0]);
-    }else{
-        cu->ingresarSolucionCompletar(solucionEjercicios);
     }
 }
 
