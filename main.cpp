@@ -277,18 +277,21 @@ DTCurso pedirDatosCurso(){
     return DTCurso(nombre, descripcion, (Dificultades)(dificultad-1));
 }
 
-void addEjercicioToLeccion(
-    string curso, int numeroLeccion, TipoEjercicio tipoEjercicio, 
-    string frase, string desc, string traduccion="", vector<string> palabras=vector<string>()){
+void addEjercicioCompletarToLeccion(string curso, int numeroLeccion, string frase, string desc, vector<string> palabras){
     IControladorCurso* cc = Fabrica::getIControladorCurso();
     cc->seleccionarCurso(cc->getCurso(curso));
     cc->SeleccionarLeccion(numeroLeccion);
-    cc->agregarEjercicio(frase, tipoEjercicio, desc);
-    if (tipoEjercicio == COMPLETADO){
-        cc->ejercicioDeCompletar(palabras);
-    }else{
-        cc->ejercicioDeTraduccion(traduccion);
-    }
+    cc->agregarEjercicio(frase, COMPLETADO, desc);
+    cc->ejercicioDeCompletar(palabras);
+    cc->FinalizarAgregarEjercicio();
+}
+
+void addEjercicioTraduccionToLeccion(string curso, int numeroLeccion, string frase, string desc, string traduccion){
+    IControladorCurso* cc = Fabrica::getIControladorCurso();
+    cc->seleccionarCurso(cc->getCurso(curso));
+    cc->SeleccionarLeccion(numeroLeccion);
+    cc->agregarEjercicio(frase, TRADUCCION, desc);
+    cc->ejercicioDeTraduccion(traduccion);
     cc->FinalizarAgregarEjercicio();
 }
 
@@ -727,6 +730,47 @@ void habilitarCurso(){
     cc->habilitarCurso(*obtenerListaDeSeleccionadosPorIndices(cursoSeleccionado, cursosNoHabilitados).begin());
     cout << "Curso habilitado\n";
 }
+
+void realizarEjercicioTraduccion(string nickname, string curso, string fraseTraducida, DTEjercicio ejercicio){
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();
+	vector<DTCurso> cursosActivos = cu->listarCursosActivosDeEstudiante(nickname);
+    DTCurso cursoSeleccionado = DTCurso("", "", PRINCIPIANTE);	
+    for(int i=0;i<cursosActivos.size();i++){
+        if(cursosActivos[i].getNombre()==curso){
+            cursoSeleccionado=cursosActivos[i];
+        }
+    }
+	vector<DTEjercicio> ejerciciosPendientes = cu->verEjerciciosPendientes(cursoSeleccionado);
+    DTEjercicio ejercicioSeleccionado=DTEjercicio("", "");	
+    for(int i=0;i<ejerciciosPendientes.size();i++){
+        if(ejerciciosPendientes[i].getDescripcion()==ejercicio.getDescripcion() && ejerciciosPendientes[i].getFrase()==ejercicio.getFrase()){
+            ejercicioSeleccionado=ejerciciosPendientes[i];
+        }    
+    }
+	cu->hacerEjercicio(ejercicioSeleccionado);
+    cu->ingresarSolucionTraduccion(fraseTraducida);
+}
+
+void realizarEjercicioCompletar(string nickname, string curso, vector<string> palabras, DTEjercicio ejercicio){
+    IControladorUsuario* cu=Fabrica::getIControladorUsuario();
+	vector<DTCurso> cursosActivos = cu->listarCursosActivosDeEstudiante(nickname);
+    DTCurso cursoSeleccionado = DTCurso("", "", PRINCIPIANTE);	
+    for(int i=0;i<cursosActivos.size();i++){
+        if(cursosActivos[i].getNombre()==curso){
+            cursoSeleccionado=cursosActivos[i];
+        }
+    }
+	vector<DTEjercicio> ejerciciosPendientes = cu->verEjerciciosPendientes(cursoSeleccionado);
+    DTEjercicio ejercicioSeleccionado=DTEjercicio("", "");	
+    for(int i=0;i<ejerciciosPendientes.size();i++){
+        if(ejerciciosPendientes[i].getDescripcion()==ejercicio.getDescripcion() && ejerciciosPendientes[i].getFrase()==ejercicio.getFrase()){
+            ejercicioSeleccionado=ejerciciosPendientes[i];
+        }    
+    }
+	cu->hacerEjercicio(ejercicioSeleccionado);
+    cu->ingresarSolucionCompletar(palabras);
+}
+
 void realizarEjercicio(){	
 	IControladorUsuario* cu=Fabrica::getIControladorUsuario();	
 	string nickname;	
@@ -841,18 +885,128 @@ void loadCursos(){
         set<string>(), 
         set<string>{cursos[4].getNombre()}
     };
+    bool cursoHabilitado[6]={
+        true, false, true, true, true, false
+    };
     for(int i=0; i<CANTIDAD_CURSOS; i++){
         createCurso(profesorCursos[i], cursos[i], idiomaCursos[i], previasCursos[i]);
+        habilitarCurso(cursos[i].getNombre());
+    }
+}
+
+void loadLecciones(){
+    const int CANTIDAD_LECCIONES=7;
+    string cursoLeccion[CANTIDAD_LECCIONES]={
+        "Ingles para principiantes", "Ingles para principiantes","Curso de ingles basico", "Curso de ingles basico",
+        "Ingles intermedio: mejora tu nivel","Curso avanzado de ingles", "Portugues intermedio"
+    };
+    string temaLecciones[CANTIDAD_LECCIONES]={
+        "Saludos y Presentaciones", "Artículos y Plurales", "Actividades Cotidianas", "Presente Simple",
+        "Conversaciones cotidianas", "Uso de modales avanzados", "Lectura y comprension de textos"
+    };
+    string objetivoLecciones[CANTIDAD_LECCIONES]={
+        "Aprender a saludar y despedirse",
+        "Comprender y utilizar los articulos definidos e indefinidos, Aprender a formar los plurales regulares e irregulares de sustantivos",
+        "Comprender y utilizar los articulos definidos e indefinidos, Aprender a formar los plurales regulares e irregulares de sustantivos",
+        "Aprender el uso del presente simple",
+        "Aprender a hacer preguntas y respuestas en situaciones comunes",
+        "Explorar el uso de los modales complejos",
+        "Analizar el contenido, vocabulario y estructuras gramaticales utilizadas"
+    };
+    for(int i=0; i<CANTIDAD_LECCIONES; i++){
+        addLeccionToCurso(cursoLeccion[i], temaLecciones[i], objetivoLecciones[i]);
+    }
+}
+
+void loadEjercicios(){
+    const int CANTIDAD_LECCIONES=7;
+    const int CANTIDAD_EJERCICIOS=8;
+    int numeroLeccionEjercicio[CANTIDAD_EJERCICIOS]={
+        1, 1, 2, 2, 3, 5, 6, 7
+    };
+    TipoEjercicio tipoEjercicios[CANTIDAD_EJERCICIOS]={
+        TRADUCCION, COMPLETADO, TRADUCCION, COMPLETADO, COMPLETADO, COMPLETADO, TRADUCCION, TRADUCCION
+    };
+    string descripcionEjercicios[CANTIDAD_EJERCICIOS]={
+        "Presentaciones", "Presentaciones formales", "Plurales regulares", "Sustantivos contables en plural",
+        "Actividades diarias", "Consultas de la hora", "Dar consejos o expresar obligacion", "Imperativo"
+    };
+    string problemaEjercicios[CANTIDAD_EJERCICIOS]={
+        "Mucho gusto en conocerte", "Please — me to introduce —", "I have two brothers and three sisters",
+        "Can I have — water, please?", "Wake —", "Q: Do you — the time?, A: Yes, it is half — 4",
+        "You should visit that museum", "Fale comigo"
+    };
+    vector<string> solucionEjercicios[CANTIDAD_EJERCICIOS]={
+        vector<string>{"Nice to meet you"}, 
+        vector<string>{"allow", "myself"}, 
+        vector<string>{"Tengo dos hermanos y tres hermanas"}, 
+        vector<string>{"some"}, 
+        vector<string>{"up"}, 
+        vector<string>{"have", "past"}, 
+        vector<string>{"Deberias visitar ese museo"}, 
+        vector<string>{"Habla conmigo"}
+    };
+    int ordenLeccionEjercicios[CANTIDAD_EJERCICIOS]={
+        0, 0, 1, 1, 0, 0, 0, 0
+    };
+    string cursoLeccion[CANTIDAD_LECCIONES]={
+        "Ingles para principiantes", "Ingles para principiantes","Curso de ingles basico", "Curso de ingles basico",
+        "Ingles intermedio: mejora tu nivel","Curso avanzado de ingles", "Portugues intermedio"
+    };
+    for(int i=0; i<CANTIDAD_EJERCICIOS; i++){
+        if(tipoEjercicios[i]==COMPLETADO){
+            addEjercicioCompletarToLeccion(
+                cursoLeccion[numeroLeccionEjercicio[i]-1], ordenLeccionEjercicios[i], 
+                problemaEjercicios[i], descripcionEjercicios[i], solucionEjercicios[i]);
+        }else{
+            addEjercicioTraduccionToLeccion(
+                cursoLeccion[numeroLeccionEjercicio[i]-1], ordenLeccionEjercicios[i], 
+                problemaEjercicios[i], descripcionEjercicios[i], solucionEjercicios[i][0]);
+        }
+    }
+}
+
+void loadInscripciones(){
+    const int CANTIDAD_INSCRIPCIONES=8;
+    string estudianteInscripciones[8]={
+        "jpidiom", "jpidiom", "jpidiom", "marsilva", "pero12", "laugu", "laugu", "carlo22"
+    };
+    string cursoInscripciones[8]={
+        "Ingles para principiantes", "Ingles intermedio: mejora tu nivel", "Curso avanzado de ingles",
+        "Ingles para principiantes", "Ingles para principiantes", "Ingles para principiantes",
+        "Portugues intermedio", "Portugues intermedio"
+    };
+    TipoEjercicio tipoEjercicios[10]={
+        TRADUCCION, COMPLETADO, TRADUCCION, COMPLETADO, COMPLETADO, 
+        TRADUCCION, COMPLETADO, TRADUCCION, COMPLETADO, COMPLETADO
+    };
+    DTEjercicio ejercicioResueltos[10]={
+      DTEjercicio("Mucho gusto en conocerte", "Presentaciones"), //E1
+      DTEjercicio("Please — me to introduce —", "Presentaciones formales"), //E2
+      DTEjercicio("I have two brothers and three sisters", "Plurales regulares"), //E3
+      DTEjercicio("Can I have — water, please?", "Sustantivos contables en plural"), //E4  
+      DTEjercicio("Q: Do you — the time?, A: Yes, it is half — 4", "Consultas de la hora"), //E6
+      DTEjercicio("Mucho gusto en conocerte", "Presentaciones"),
+      DTEjercicio("Please — me to introduce —", "Presentaciones formales"),
+      DTEjercicio("Mucho gusto en conocerte", "Presentaciones"),
+      DTEjercicio("Please — me to introduce —", "Presentaciones formales"),
+      DTEjercicio("Can I have — water, please?", "Sustantivos contables en plural")
+    };
+    int cantEjerciciosResueltos[CANTIDAD_INSCRIPCIONES]={
+        4, 1, 0, 2, 3
+    };
+    for(int i=0; i<CANTIDAD_INSCRIPCIONES; i++){
+        createInscription(estudianteInscripciones[i], cursoInscripciones[i]);
     }
 }
 
 void cargarDatosDePrueba(){
-    bool cursoHabilitado[6]={
-        true, false, true, true, true, false
-    };
     loadIdiomas();
     loadUsuarios();
     loadCursos();
+    loadLecciones();
+    loadEjercicios();
+    loadInscripciones();
 }
 
 int mostrarMenuYObtenerOpcion(){

@@ -80,7 +80,11 @@ Leccion* Curso::getLeccionSiguiente(Leccion* leccionActual){
         i++;
     }
     if(i==this->lecciones.size()-1) return nullptr;
-    return this->lecciones[i+1];
+    i++;
+    while (i<this->lecciones.size() && this->lecciones[i]->getEjercicios().size()==0){
+        i++;
+    };
+    return this->lecciones[i];
 }
 
 void Curso::setProfesorCurso(Profesor* profesor){
