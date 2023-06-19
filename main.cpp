@@ -979,7 +979,7 @@ void loadEjercicios(){
         vector<string>{"Habla conmigo"}
     };
     int ordenLeccionEjercicios[CANTIDAD_EJERCICIOS]={
-        0, 0, 1, 1, 0, 0, 0, 0
+        1, 1, 2, 2, 1, 1, 1, 1
     };
     string cursoLeccion[CANTIDAD_LECCIONES]={
         "Ingles para principiantes", "Ingles para principiantes","Curso de ingles basico", "Curso de ingles basico",
