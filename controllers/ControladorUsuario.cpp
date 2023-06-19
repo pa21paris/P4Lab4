@@ -258,7 +258,6 @@ TipoUsuario ControladorUsuario::getTipoUsuario() {
 Estudiante* ControladorUsuario::getEstudiante(string nickname){
     set<Estudiante*>::iterator it=this->estudiantes.begin();
     while(it!=this->estudiantes.end() && (*it)->getNickname()!=nickname){
-        cout << (*it)->getDescription();
         ++it;
     }
     if(it!=this->estudiantes.end()) return (*it);
